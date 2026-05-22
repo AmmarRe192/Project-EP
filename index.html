@@ -2315,7 +2315,7 @@ function setLang(lang) {
   });
   document.querySelectorAll('.gallery-caption').forEach(cap => {
     const key = 'caption' + lang.charAt(0).toUpperCase() + lang.slice(1);
-    cap.textContent = cap.dataset[key] || cap.dataset.captionSq || '';
+    cap.textContent = cap.dataset[key] || '';
   });
 }
 
@@ -2466,8 +2466,7 @@ function renderAdminGrid() {
     item.innerHTML = `
       <img src="${photo.url}" alt="${photo.alt || ''}">
       <div class="admin-grid-drag-handle">⠿</div>
-      <div class="admin-grid-caption">${photo['caption_' + (currentLang || 'sq')] || photo.caption_sq || ''}</div>
-    `;
+      <div class="admin-grid-caption">${photo['caption_' + (currentLang || 'sq')] || ''}</div>`;
 
     // click to edit
     item.addEventListener('click', () => openEditPhotoModal(photo));
@@ -2611,7 +2610,7 @@ function renderGalleryItems(photos) {
     caption.dataset.captionEn = photo.caption_en || '';
     caption.dataset.captionTr = photo.caption_tr || '';
     const lang = localStorage.getItem('elixir-lang') || 'sq';
-    caption.textContent = photo['caption_' + lang] || photo.caption_sq || '';
+      caption.textContent = photo['caption_' + lang] || '';
 
     slide.appendChild(img);
     slide.appendChild(caption);
