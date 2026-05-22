@@ -2755,9 +2755,9 @@ async function renderGallery() {
 }
 
 async function addGalleryPhotos(input) {
-  const files = Array.from(input.files);
+  const files = input.files ? Array.from(input.files) : input;
   if (!files.length) return;
-  input.value = '';
+  if (input.value !== undefined) input.value = '';
 
   // show uploading indicator
   const bar = document.getElementById('gallery-admin-bar');
