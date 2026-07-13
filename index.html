@@ -82,7 +82,7 @@
       if (t === 'light') document.documentElement.classList.add('light');
     })();
   </script>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/x-icon" href="images/green-plus-11975.png">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 </head>
@@ -600,9 +600,806 @@
   </a>
 </div>
 
-<script src="js/site-i18n.js"></script>
-<script src="js/theme-lang.js"></script>
-<script src="js/site.js"></script>
+<script>
+// ── TRANSLATIONS ──────────────────────────────────────────
+const T = {
+  sq: {
+    hero_sub:           "Farmacia Elixir – vlerësuar me 4.8 ⭐ nga 16 klientë të kënaqur. Ekspertizë, shpejtësi dhe kujdes në një vend.",
+    cta_call:           "Na Telefononi",
+    nav_about:    "Rreth Nesh",
+    nav_services: "Shërbime",
+    nav_reviews:  "Vlerësime",
+    nav_contact:  "Kontakt",
+    cta_services:       "Shërbimet Tona",
+    about_title:        "Rreth Nesh",
+    about_text:         "Farmacia Elixir është një farmaci e besuar në zemër të Tetovës, e njohur për qasjen e ngrohtë dhe shërbimin e shkëlqyer farmaceutik. Me një vlerësim mbresëlënës 4.8 ⭐ bazuar në 16 recensione, klientët tanë kthehen për shkak të cilësisë dhe vëmendjes që marrin. Tek ne do të gjeni gjithçka – nga ilaçe me recetë deri te kozmetika dhe këshilla të personalizuara shëndetësore.",
+    services_title:     "Shërbimet Tona",
+    svc1_title:         "Ilaçe me recetë",
+    svc1_desc:          "Lëshim i shpejtë dhe i saktë i ilaçeve me recetë me mbështetje të plotë profesionale.",
+    svc2_title:         "Ilaçe pa recetë",
+    svc2_desc:          "Gamë e gjerë ilaçesh OTC për nevojat e përditshme shëndetësore, disponibël menjëherë.",
+    svc3_title:         "Këshilla farmaceutike",
+    svc3_desc:          "Merrni këshilla profesionale për përdorimin e duhur të terapisë dhe dozimin.",
+    svc4_title:         "Kozmetikë dhe kujdes personal",
+    svc4_desc:          "Produkte cilësore për kujdesin e lëkurës dhe bukurisë të zgjedhura me kujdes për ju.",
+    svc5_title:         "Matje e presionit të gjakut",
+    svc5_desc:          "Matje falas e presionit të gjakut dhe monitorim i shëndetit tuaj në vend.",
+    svc6_title:         "Produkte diabetike dhe speciale",
+    svc6_desc:          "Ofertë e specializuar për pacientët me gjendje kronike dhe nevoja të veçanta.",
+    gallery_title:      "Galeria",
+    gallery_upload:     "Shto Foto",
+    gallery_empty:      "Nuk ka foto ende. Kliko butonin për të ngarkuar.",
+    admin_login:        "Hyrja e Adminit",
+    admin_logout:       "Dil nga Admin",
+    admin_modal_title:  "Zona e Adminit",
+    admin_modal_sub:    "Fut fjalëkalimin për të menaxhuar galerinë.",
+    admin_modal_placeholder: "Fjalëkalimi",
+    admin_modal_error:  "Fjalëkalim i gabuar. Provo përsëri.",
+    admin_modal_submit: "Hyr",
+    admin_modal_cancel: "Anulo",
+    whyus_title:        "Pse Ne",
+    stat1_label:        "Vlerësim Google",
+    stat2_label:        "Klientë të Kënaqur",
+    stat3_label:        "Vjet Eksperience",
+    stat4_label:        "E Hënë – E Shtunë",
+    stat4_hint:         "Klikoni për oraret e plota",
+    hours_modal_title:  "Orari i Punës",
+    day_mon: "E Hënë",
+    day_tue: "E Martë",
+    day_wed: "E Mërkurë",
+    day_thu: "E Enjte",
+    day_fri: "E Premte",
+    day_sat: "E Shtunë",
+    day_sun: "E Diel",
+    reviews_title:      "Vlerësimet",
+    reviews_count:      "bazuar në 16 vlerësime në Google",
+    contact_title:      "Na Kontaktoni",
+    contact_call_label: "Na Telefononi",
+    contact_directions: "Udhëzime",
+    contact_hours_label:"Orari i Punës",
+    contact_hours_value:"E Hënë – E Shtunë: 08:00 – 24:00 · E Diel: 14:00 – 24:00",
+    form_title:         "Dërgoni një Mesazh",
+    form_name:          "Emri Juaj",
+    form_email:         "E-mail",
+    form_phone:         "Telefon",
+    form_message:       "Mesazhi Juaj",
+    form_submit:        "Dërgo",
+    form_success:       "Mesazhi u dërgua! Do t'ju kontaktojmë së shpejti.",
+    form_error:         "Diçka shkoi keq. Provoni përsëri ose na telefononi.",
+    map_title:          "Vendndodhja",
+    footer_rights:      "Të gjitha të drejtat të rezervuara.",
+    footer_privacy:     "Politika e Privatësisë",
+  },
+  mk: {
+    hero_sub:           "Аптека Еликсир – оценета со 4.8 ⭐ од 16 задоволни клиенти. Стручност, брзина и грижа на едно место.",
+    cta_call:           "Закажете Термин",
+    nav_about:    "За Нас",
+    nav_services: "Услуги",
+    nav_reviews:  "Оцени",
+    nav_contact:  "Контакт",
+    cta_services:       "Наши Услуги",
+    about_title:        "За Нас",
+    about_text:         "Аптека Еликсир е доверлива аптека во срцето на Тетово, позната по топлиот пристап и стручната фармацевтска услуга. Со импресивна оценка од 4.8 ⭐ врз основа на 16 рецензии, нашите клиенти се враќаат поради квалитетот и вниманието кое го добиваат. Кај нас ќе најдеш сè – од лекови на рецепт до козметика и персонализирани здравствени совети.",
+    services_title:     "Наши Услуги",
+    svc1_title:         "Лекови на рецепт",
+    svc1_desc:          "Брзо и точно издавање на рецептурни лекови со целосна стручна поддршка.",
+    svc2_title:         "Безрецептурни производи",
+    svc2_desc:          "Широк избор на ОТЦ лекови за секојдневни здравствени потреби достапни веднаш.",
+    svc3_title:         "Фармацевтски совети",
+    svc3_desc:          "Добиј стручен совет за правилна употреба на терапија и дозирање.",
+    svc4_title:         "Козметика и лична нега",
+    svc4_desc:          "Квалитетни производи за нега на кожа и убавина избрани со грижа за тебе.",
+    svc5_title:         "Мерење крвен притисок",
+    svc5_desc:          "Бесплатно мерење на крвен притисок и следење на твоето здравје на лице место.",
+    svc6_title:         "Дијабетски и специјални производи",
+    svc6_desc:          "Специјализирана понуда за пациенти со хронични состојби и посебни потреби.",
+    gallery_title:      "Галерија",
+    gallery_upload:     "Додај Фото",
+    gallery_empty:      "Нема фотографии. Кликни за да додадеш.",
+    admin_login:        "Админ Пристап",
+    admin_logout:       "Одјави се",
+    admin_modal_title:  "Админ Зона",
+    admin_modal_sub:    "Внеси лозинка за да управуваш со галеријата.",
+    admin_modal_placeholder: "Лозинка",
+    admin_modal_error:  "Погрешна лозинка. Обиди се повторно.",
+    admin_modal_submit: "Влез",
+    admin_modal_cancel: "Откажи",
+    whyus_title:        "Зошто Ние",
+    stat1_label:        "Google Оценка",
+    stat2_label:        "Задоволни Гости",
+    stat3_label:        "Години Искуство",
+    stat4_label:        "Пон – Саб",
+    stat4_hint:         "Кликни за целосно работно време",
+    hours_modal_title:  "Работно Време",
+    day_mon: "Понеделник",
+    day_tue: "Вторник",
+    day_wed: "Среда",
+    day_thu: "Четврток",
+    day_fri: "Петок",
+    day_sat: "Сабота",
+    day_sun: "Недела",
+    reviews_title:      "Оцени",
+    reviews_count:      "врз основа на 16 рецензии на Google",
+    contact_title:      "Контакт",
+    contact_call_label: "Јавете Ни Се",
+    contact_directions: "Насоки",
+    contact_hours_label:"Работно Време",
+    contact_hours_value:"Пон – Саб: 08:00 – 24:00 · Нед: 14:00 – 24:00",
+    form_title:         "Испратете Порака",
+    form_name:          "Вашето Име",
+    form_email:         "Е-пошта",
+    form_phone:         "Телефон",
+    form_message:       "Вашата Порака",
+    form_submit:        "Испрати",
+    form_success:       "Пораката е испратена! Ќе ве контактираме наскоро.",
+    form_error:         "Нешто тргна наопаку. Обидете се повторно или јавете ни се.",
+    map_title:          "Локација",
+    footer_rights:      "Сите права задржани.",
+    footer_privacy:     "Политика за приватност",
+  },
+  en: {
+    hero_sub:           "Elixir Pharmacy – rated 4.8 ⭐ by 16 satisfied customers. Expertise, speed and care all in one place.",
+    cta_call:           "Call Us Now",
+    nav_about:    "About",
+    nav_services: "Services",
+    nav_reviews:  "Reviews",
+    nav_contact:  "Contact",
+    cta_services:       "Our Services",
+    about_title:        "About Us",
+    about_text:         "Elixir Pharmacy is a trusted pharmacy in the heart of Tetovo, known for its warm approach and expert pharmaceutical service. With an impressive rating of 4.8 ⭐ based on 16 reviews, our clients return because of the quality and attention they receive. With us you'll find everything – from prescription medicines to cosmetics and personalised health advice.",
+    services_title:     "Our Services",
+    svc1_title:         "Prescription Medicines",
+    svc1_desc:          "Fast and accurate dispensing of prescription medicines with full professional support.",
+    svc2_title:         "Over-the-counter Products",
+    svc2_desc:          "Wide range of OTC medicines for everyday health needs, available immediately.",
+    svc3_title:         "Pharmaceutical Advice",
+    svc3_desc:          "Get expert advice on the correct use of therapy and dosage.",
+    svc4_title:         "Cosmetics & Personal Care",
+    svc4_desc:          "Quality skincare and beauty products carefully selected for you.",
+    svc5_title:         "Blood Pressure Measurement",
+    svc5_desc:          "Free blood pressure measurement and on-the-spot health monitoring.",
+    svc6_title:         "Diabetic & Special Products",
+    svc6_desc:          "Specialised offer for patients with chronic conditions and special needs.",
+    gallery_title:      "Gallery",
+    gallery_upload:     "Add Photos",
+    gallery_empty:      "No photos yet. Click to upload.",
+    admin_login:        "Admin Access",
+    admin_logout:       "Log Out",
+    admin_modal_title:  "Admin Zone",
+    admin_modal_sub:    "Enter the password to manage the gallery.",
+    admin_modal_placeholder: "Password",
+    admin_modal_error:  "Incorrect password. Please try again.",
+    admin_modal_submit: "Log In",
+    admin_modal_cancel: "Cancel",
+    whyus_title:        "Why Choose Us",
+    stat1_label:        "Google Rating",
+    stat2_label:        "Satisfied Clients",
+    stat3_label:        "Years of Experience",
+    stat4_label:        "Mon – Sat",
+    stat4_hint:         "Click for full schedule",
+    hours_modal_title:  "Opening Hours",
+    day_mon: "Monday",
+    day_tue: "Tuesday",
+    day_wed: "Wednesday",
+    day_thu: "Thursday",
+    day_fri: "Friday",
+    day_sat: "Saturday",
+    day_sun: "Sunday",
+    reviews_title:      "Reviews",
+    reviews_count:      "based on 16 Google reviews",
+    contact_title:      "Contact Us",
+    contact_call_label: "Call Us",
+    contact_directions: "Get Directions",
+    contact_hours_label:"Opening Hours",
+    contact_hours_value:"Mon – Sat: 08:00 – 24:00 · Sun: 14:00 – 24:00",
+    form_title:         "Send a Message",
+    form_name:          "Your Name",
+    form_email:         "Email",
+    form_phone:         "Phone",
+    form_message:       "Your Message",
+    form_submit:        "Send",
+    form_success:       "Message sent! We'll get back to you shortly.",
+    form_error:         "Something went wrong. Please try again or call us.",
+    map_title:          "Location",
+    footer_rights:      "All rights reserved.",
+    footer_privacy:     "Privacy Policy",
+  },
+  tr: {
+    hero_sub:           "Elixir Eczanesi – 16 memnun müşteri tarafından 4.8 ⭐ ile değerlendirildi. Uzmanlık, hız ve özen tek bir yerde.",
+    cta_call:           "Bizi Arayın",
+    nav_about:    "Hakkımızda",
+    nav_services: "Hizmetler",
+    nav_reviews:  "Yorumlar",
+    nav_contact:  "İletişim",
+    cta_services:       "Hizmetlerimiz",
+    about_title:        "Hakkımızda",
+    about_text:         "Elixir Eczanesi, Tetova'nın kalbinde güvenilir bir eczane olup sıcak yaklaşımı ve uzman eczacılık hizmetiyle bilinmektedir. 16 değerlendirmeye dayanan etkileyici 4.8 ⭐ puanıyla müşterilerimiz, aldıkları kalite ve özen nedeniyle geri dönmektedir. Bizde reçeteli ilaçlardan kozmetiğe ve kişiselleştirilmiş sağlık tavsiyelerine kadar her şeyi bulacaksınız.",
+    services_title:     "Hizmetlerimiz",
+    svc1_title:         "Reçeteli İlaçlar",
+    svc1_desc:          "Tam profesyonel destekle reçeteli ilaçların hızlı ve doğru şekilde verilmesi.",
+    svc2_title:         "Reçetesiz Ürünler",
+    svc2_desc:          "Günlük sağlık ihtiyaçları için geniş OTC ilaç yelpazesi, hemen temin edilebilir.",
+    svc3_title:         "Eczacılık Tavsiyeleri",
+    svc3_desc:          "Tedavinin doğru kullanımı ve dozaj hakkında uzman tavsiyesi alın.",
+    svc4_title:         "Kozmetik ve Kişisel Bakım",
+    svc4_desc:          "Sizin için özenle seçilmiş kaliteli cilt bakımı ve güzellik ürünleri.",
+    svc5_title:         "Tansiyon Ölçümü",
+    svc5_desc:          "Ücretsiz tansiyon ölçümü ve yerinde sağlık takibi.",
+    svc6_title:         "Diyabetik ve Özel Ürünler",
+    svc6_desc:          "Kronik rahatsızlıkları ve özel ihtiyaçları olan hastalar için uzmanlaşmış teklif.",
+    gallery_title:      "Galeri",
+    gallery_upload:     "Fotoğraf Ekle",
+    gallery_empty:      "Henüz fotoğraf yok. Yüklemek için tıklayın.",
+    admin_login:        "Yönetici Girişi",
+    admin_logout:       "Çıkış Yap",
+    admin_modal_title:  "Yönetici Alanı",
+    admin_modal_sub:    "Galeriyi yönetmek için şifreyi girin.",
+    admin_modal_placeholder: "Şifre",
+    admin_modal_error:  "Hatalı şifre. Tekrar deneyin.",
+    admin_modal_submit: "Giriş",
+    admin_modal_cancel: "İptal",
+    whyus_title:        "Neden Biz",
+    stat1_label:        "Google Puanı",
+    stat2_label:        "Memnun Müşteri",
+    stat3_label:        "Yıllık Deneyim",
+    stat4_label:        "Pzt – Cmt",
+    stat4_hint:         "Tam saatler için tıklayın",
+    hours_modal_title:  "Çalışma Saatleri",
+    day_mon: "Pazartesi",
+    day_tue: "Salı",
+    day_wed: "Çarşamba",
+    day_thu: "Perşembe",
+    day_fri: "Cuma",
+    day_sat: "Cumartesi",
+    day_sun: "Pazar",
+    reviews_title:      "Değerlendirmeler",
+    reviews_count:      "16 Google değerlendirmesine dayanarak",
+    contact_title:      "Bize Ulaşın",
+    contact_call_label: "Bizi Arayın",
+    contact_directions: "Yol Tarifi",
+    contact_hours_label:"Çalışma Saatleri",
+    contact_hours_value:"Pzt – Cmt: 08:00 – 24:00 · Paz: 14:00 – 24:00",
+    form_title:         "Mesaj Gönderin",
+    form_name:          "Adınız",
+    form_email:         "E-posta",
+    form_phone:         "Telefon",
+    form_message:       "Mesajınız",
+    form_submit:        "Gönder",
+    form_success:       "Mesaj gönderildi! En kısa sürede size döneceğiz.",
+    form_error:         "Bir şeyler ters gitti. Tekrar deneyin veya bizi arayın.",
+    map_title:          "Konum",
+    footer_rights:      "Tüm hakları saklıdır.",
+    footer_privacy:     "Gizlilik Politikası",
+  }
+};
+</script>
+<script src="script.js"></script>
+<script>
+
+// ── CONTACT FORM ──────────────────────────────────────────
+// Replace with your Formspree endpoint after signing up at formspree.io
+const FORMSPREE_URL = 'https://formspree.io/f/xlgpykon';
+
+async function submitContactForm(e) {
+  e.preventDefault();
+  const form    = document.getElementById('contact-form');
+  const btn     = document.getElementById('form-submit-btn');
+  const success = document.getElementById('form-success');
+  const error   = document.getElementById('form-error');
+
+  // reset feedback
+  success.style.display = 'none';
+  error.style.display   = 'none';
+
+  // loading state
+  btn.disabled = true;
+  const originalHTML = btn.innerHTML;
+  btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 0.8s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>`;
+
+  try {
+    const res = await fetch(FORMSPREE_URL, {
+      method:  'POST',
+      headers: { 'Accept': 'application/json' },
+      body:    new FormData(form)
+    });
+
+    if (res.ok) {
+      form.reset();
+      success.style.display = 'flex';
+    } else {
+      error.style.display = 'flex';
+    }
+  } catch {
+    error.style.display = 'flex';
+  }
+
+  btn.disabled  = false;
+  btn.innerHTML = originalHTML;
+  // re-apply translations to the button span
+  const dict = T[currentLang];
+  btn.querySelector('[data-i18n="form_submit"]') &&
+    (btn.querySelector('[data-i18n="form_submit"]').textContent = dict.form_submit);
+}
+
+// ── HOURS MODAL ───────────────────────────────────────────
+function openHoursModal() {
+  // highlight today's row
+  const dayMap = ['hours-sun','hours-mon','hours-tue','hours-wed','hours-thu','hours-fri','hours-sat'];
+  const today  = new Date().getDay(); // 0=Sun
+  document.querySelectorAll('.hours-row').forEach(r => r.classList.remove('hours-row-today'));
+  const todayRow = document.getElementById(dayMap[today]);
+  if (todayRow) todayRow.classList.add('hours-row-today');
+
+  document.getElementById('hours-modal').classList.add('open');
+}
+function closeHoursModal() {
+  document.getElementById('hours-modal').classList.remove('open');
+}
+function closeHoursModalOutside(e) {
+  if (e.target === document.getElementById('hours-modal')) closeHoursModal();
+}
+// close with Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeHoursModal();
+    closeAdminModal();
+  }
+});
+
+const ADMIN_PASSWORD = 'elixir2024';
+const ADMIN_SESSION_KEY = 'elixir-admin';
+
+function isAdminLoggedIn() {
+  return sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true';
+}
+
+function applyAdminState() {
+  const loggedIn = isAdminLoggedIn();
+  document.getElementById('gallery-admin-bar').style.display = loggedIn ? 'block' : 'none';
+  document.getElementById('gallery-login-bar').style.display = loggedIn ? 'none' : 'block';
+  document.getElementById('gallery-admin-grid').style.display = loggedIn ? 'grid' : 'none';
+  document.getElementById('gallery-slideshow').style.display = loggedIn ? 'none' : (slidePhotos.length ? '' : 'none');
+  document.querySelectorAll('.gallery-slide .gallery-remove').forEach(btn => {
+    btn.style.display = loggedIn ? 'flex' : 'none';
+  });
+  if (loggedIn) renderAdminGrid();
+}
+function openAdminModal() {
+  document.getElementById('admin-password-input').value = '';
+  document.getElementById('admin-error').classList.remove('visible');
+  document.getElementById('admin-modal').classList.add('open');
+  setTimeout(() => document.getElementById('admin-password-input').focus(), 80);
+}
+
+function closeAdminModal() {
+  document.getElementById('admin-modal').classList.remove('open');
+}
+
+function closeAdminModalOutside(e) {
+  if (e.target === document.getElementById('admin-modal')) closeAdminModal();
+}
+
+function submitAdminLogin() {
+  const val = document.getElementById('admin-password-input').value;
+  if (val === ADMIN_PASSWORD) {
+    sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+    closeAdminModal();
+    applyAdminState();
+  } else {
+    document.getElementById('admin-error').classList.add('visible');
+    document.getElementById('admin-password-input').value = '';
+    document.getElementById('admin-password-input').focus();
+  }
+}
+
+function adminLogout() {
+  sessionStorage.removeItem(ADMIN_SESSION_KEY);
+  applyAdminState();
+}
+
+// ── SUPABASE SETUP ────────────────────────────────────────
+// !! FILL THESE IN with your Supabase project details !!
+const SUPABASE_URL      = 'https://jxizbmdujdwnyzfzxspv.supabase.co';       // e.g. https://xxxx.supabase.co
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp4aXpibWR1amR3bnl6Znp4c3B2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxODY1NjgsImV4cCI6MjA4OTc2MjU2OH0.WGrZ1iRxOLOc8Mvq5N5tpZuctlVS8ipBm6XIj9sD1Pg';  // long string starting with "eyJ..."
+
+const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ── GALLERY ──────────────────────────────────────────────
+// ── SLIDESHOW STATE ───────────────────────────────────────
+let slidePhotos = [];
+let editingPhoto = null;
+let dragSrcIndex = null;
+
+function renderAdminGrid() {
+  const grid = document.getElementById('gallery-admin-grid');
+  grid.innerHTML = '';
+
+  slidePhotos.forEach((photo, i) => {
+    const item = document.createElement('div');
+    item.className = 'admin-grid-item';
+    item.draggable = true;
+    item.dataset.index = i;
+
+    item.innerHTML = `
+      <img src="${photo.url}" alt="${photo.alt || ''}">
+      <div class="admin-grid-drag-handle">⠿</div>
+      <div class="admin-grid-caption">${photo['caption_' + (currentLang || 'sq')] || ''}</div>`;
+
+    // click to edit
+    item.addEventListener('click', () => openEditPhotoModal(photo));
+
+    // drag to reorder
+    item.addEventListener('dragstart', () => {
+      dragSrcIndex = i;
+      setTimeout(() => item.classList.add('dragging'), 0);
+    });
+    item.addEventListener('dragend', () => item.classList.remove('dragging'));
+    item.addEventListener('dragover', e => { e.preventDefault(); item.classList.add('drag-over'); });
+    item.addEventListener('dragleave', () => item.classList.remove('drag-over'));
+    item.addEventListener('drop', async e => {
+      e.preventDefault();
+      item.classList.remove('drag-over');
+      if (dragSrcIndex === null || dragSrcIndex === i) return;
+      const reordered = [...slidePhotos];
+      const [moved] = reordered.splice(dragSrcIndex, 1);
+      reordered.splice(i, 0, moved);
+      slidePhotos = reordered;
+      // save new order to supabase
+      await Promise.all(reordered.map((p, idx) =>
+        _supabase.from('gallery_photos').update({ sort_order: idx }).eq('id', p.id)
+      ));
+      renderAdminGrid();
+      dragSrcIndex = null;
+    });
+
+    grid.appendChild(item);
+  });
+}
+
+function openEditPhotoModal(photo) {
+  editingPhoto = photo;
+  document.getElementById('edit-photo-preview').src = photo.url;
+  document.getElementById('edit-cap-sq').value = photo.caption_sq || '';
+  document.getElementById('edit-cap-mk').value = photo.caption_mk || '';
+  document.getElementById('edit-cap-en').value = photo.caption_en || '';
+  document.getElementById('edit-cap-tr').value = photo.caption_tr || '';
+  document.getElementById('edit-photo-modal').classList.add('open');
+}
+
+function closeEditPhotoModal() {
+  editingPhoto = null;
+  document.getElementById('edit-photo-modal').classList.remove('open');
+}
+
+async function saveEditPhoto() {
+  if (!editingPhoto) return;
+  await _supabase.from('gallery_photos').update({
+    caption_sq: document.getElementById('edit-cap-sq').value.trim() || null,
+    caption_mk: document.getElementById('edit-cap-mk').value.trim() || null,
+    caption_en: document.getElementById('edit-cap-en').value.trim() || null,
+    caption_tr: document.getElementById('edit-cap-tr').value.trim() || null,
+  }).eq('id', editingPhoto.id);
+  closeEditPhotoModal();
+  renderGallery();
+}
+
+async function confirmDeletePhoto() {
+  if (!editingPhoto) return;
+  if (!confirm('Delete this photo?')) return;
+  await removeGalleryPhoto(editingPhoto.id, editingPhoto.storage_path);
+  closeEditPhotoModal();
+}
+
+async function replaceGalleryImage(input) {
+  if (!editingPhoto || !input.files[0]) return;
+  const file = input.files[0];
+  input.value = '';
+  const ext  = file.name.split('.').pop();
+  const path = `photo-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+  const { error: storageErr } = await _supabase.storage.from('gallery').upload(path, file, { contentType: file.type });
+  if (storageErr) { console.error(storageErr); return; }
+
+  const { data: { publicUrl } } = _supabase.storage.from('gallery').getPublicUrl(path);
+
+  // delete old file from storage
+  if (editingPhoto.storage_path) await _supabase.storage.from('gallery').remove([editingPhoto.storage_path]);
+
+  await _supabase.from('gallery_photos').update({ url: publicUrl, storage_path: path }).eq('id', editingPhoto.id);
+
+  document.getElementById('edit-photo-preview').src = publicUrl;
+  editingPhoto.url = publicUrl;
+  editingPhoto.storage_path = path;
+  renderGallery();
+}
+let slideIndex  = 0;
+let slideTimer  = null;
+
+function renderGalleryItems(photos) {
+  slidePhotos = photos || [];
+  slideIndex  = 0;
+
+  const empty      = document.getElementById('gallery-empty');
+  const slideshow  = document.getElementById('gallery-slideshow');
+  const track      = document.getElementById('gallery-track');
+  const dotsEl     = document.getElementById('gallery-dots');
+  const counterEl  = document.getElementById('gallery-counter');
+
+  track.innerHTML  = '';
+  dotsEl.innerHTML = '';
+  clearInterval(slideTimer);
+
+  if (slidePhotos.length === 0) {
+    empty.style.display     = isAdminLoggedIn() ? 'none' : '';
+    slideshow.style.display = 'none';
+    dotsEl.style.display    = 'none';
+    counterEl.textContent   = '';
+    if (isAdminLoggedIn()) renderAdminGrid();
+    return;
+  }
+
+  empty.style.display    = 'none';
+  slideshow.style.display = isAdminLoggedIn() ? 'none' : '';
+  dotsEl.style.display   = isAdminLoggedIn() ? 'none' : 'flex';
+
+  // build slides
+  slidePhotos.forEach((photo, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'gallery-slide' + (i === 0 ? ' active' : '');
+    slide.dataset.id = photo.id;
+
+    const img = document.createElement('img');
+    img.src     = photo.url;
+    img.alt     = photo.alt || 'Elixir Pharmacy';
+    img.loading = i === 0 ? 'eager' : 'lazy';
+
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'gallery-remove';
+    removeBtn.title     = 'Remove photo';
+    removeBtn.innerHTML = '✕';
+    removeBtn.style.display = isAdminLoggedIn() ? 'flex' : 'none';
+    removeBtn.onclick = (e) => { e.stopPropagation(); removeGalleryPhoto(photo.id, photo.storage_path); };
+
+    const caption = document.createElement('div');
+    caption.className = 'gallery-caption';
+    caption.dataset.captionSq = photo.caption_sq || '';
+    caption.dataset.captionMk = photo.caption_mk || '';
+    caption.dataset.captionEn = photo.caption_en || '';
+    caption.dataset.captionTr = photo.caption_tr || '';
+    const lang = localStorage.getItem('elixir-lang') || 'sq';
+      caption.textContent = photo['caption_' + lang] || '';
+
+    slide.appendChild(img);
+    slide.appendChild(caption);
+    slide.appendChild(removeBtn);
+    track.appendChild(slide);
+
+    // dot
+    const dot = document.createElement('button');
+    dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Photo ${i + 1}`);
+    dot.onclick = () => goToSlide(i);
+    dotsEl.appendChild(dot);
+  });
+
+  updateCounter();
+  updateArrows();
+
+  // attach swipe on the freshly built track
+  attachSwipe(track);
+
+  // auto-advance every 5s
+  slideTimer = setInterval(() => slideGallery(1), 5000);
+  if (isAdminLoggedIn()) renderAdminGrid();
+}
+
+function goToSlide(next, direction) {
+  if (slidePhotos.length === 0) return;
+  const slides = document.querySelectorAll('.gallery-slide');
+  const dots   = document.querySelectorAll('.gallery-dot');
+  if (!slides.length) return;
+
+  if (direction === undefined) direction = next > slideIndex ? 1 : -1;
+
+  const current = slideIndex;
+  slideIndex = (next + slidePhotos.length) % slidePhotos.length;
+
+  if (current === slideIndex) return;
+
+  // position incoming slide off-screen instantly (no transition)
+  slides[slideIndex].style.transition = 'none';
+  slides[slideIndex].style.transform  = direction > 0 ? 'translateX(100%)' : 'translateX(-100%)';
+  slides[slideIndex].style.opacity    = '0';
+
+  // double rAF: first frame paints the starting position,
+  // second frame kicks off the transition — reliable on iOS Safari
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      slides[slideIndex].style.transition = '';
+      slides[slideIndex].style.transform  = '';
+      slides[slideIndex].style.opacity    = '';
+      slides[slideIndex].classList.add('active');
+
+      slides[current].classList.remove('active');
+      slides[current].classList.add(direction > 0 ? 'exit-left' : 'exit-right');
+
+      setTimeout(() => {
+        slides[current].classList.remove('exit-left', 'exit-right');
+        slides[current].style.transform = '';
+      }, 480);
+    });
+  });
+
+  dots.forEach((d, i) => d.classList.toggle('active', i === slideIndex));
+  updateCounter();
+  updateArrows();
+
+  clearInterval(slideTimer);
+  slideTimer = setInterval(() => slideGallery(1), 5000);
+}
+
+function slideGallery(dir) {
+  goToSlide(slideIndex + dir, dir);
+}
+
+function updateCounter() {
+  const el = document.getElementById('gallery-counter');
+  if (slidePhotos.length > 1) {
+    el.textContent = `${slideIndex + 1} / ${slidePhotos.length}`;
+  } else {
+    el.textContent = '';
+  }
+}
+
+function updateArrows() {
+  // arrows always wrap around, so they're never disabled — but hide if only 1 photo
+  const hide = slidePhotos.length <= 1;
+  document.getElementById('gallery-prev').style.display = hide ? 'none' : '';
+  document.getElementById('gallery-next').style.display = hide ? 'none' : '';
+  document.getElementById('gallery-dots').style.display = hide ? 'none' : 'flex';
+}
+
+// keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (slidePhotos.length < 2) return;
+  if (e.key === 'ArrowLeft')  slideGallery(-1);
+  if (e.key === 'ArrowRight') slideGallery(1);
+});
+
+// touch swipe — reattached in renderGalleryItems after track is rebuilt
+function attachSwipe(track) {
+  let startX = 0, startY = 0, swiping = false, cancelled = false;
+
+  track.addEventListener('touchstart', (e) => {
+    startX    = e.touches[0].clientX;
+    startY    = e.touches[0].clientY;
+    swiping   = true;
+    cancelled = false;
+  }, { passive: true });
+
+  track.addEventListener('touchmove', (e) => {
+    if (!swiping || cancelled) return;
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
+    // if more vertical than horizontal, cancel the swipe so page can scroll
+    if (Math.abs(dy) > Math.abs(dx) + 5) {
+      cancelled = true;
+      return;
+    }
+    // prevent page scroll only when clearly horizontal
+    if (Math.abs(dx) > 8) e.preventDefault();
+  }, { passive: false });
+
+  track.addEventListener('touchend', (e) => {
+    if (!swiping || cancelled) { swiping = false; return; }
+    swiping = false;
+    const dx = startX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 30) slideGallery(dx > 0 ? 1 : -1);
+  }, { passive: true });
+
+  track.addEventListener('touchcancel', () => { swiping = false; cancelled = false; }, { passive: true });
+}
+
+async function renderGallery() {
+  const { data, error } = await _supabase
+    .from('gallery_photos')
+    .select('*')
+    .order('sort_order', { ascending: true });
+
+  if (error) { console.error('Gallery load error:', error); return; }
+  renderGalleryItems(data);
+}
+
+async function addGalleryPhotos(input) {
+  const files = input.files ? Array.from(input.files) : input;
+  if (!files.length) return;
+  if (input.value !== undefined) input.value = '';
+
+  // show uploading indicator
+  const bar = document.getElementById('gallery-admin-bar');
+  const uploadingEl = document.createElement('div');
+  uploadingEl.className = 'gallery-uploading';
+  uploadingEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Uploading...`;
+  bar.appendChild(uploadingEl);
+
+  for (const file of files) {
+    const ext  = file.name.split('.').pop();
+    const path = `photo-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+    // 1. Upload file to Supabase Storage
+    const { error: storageErr } = await _supabase.storage
+      .from('gallery')
+      .upload(path, file, { contentType: file.type, upsert: false });
+
+    if (storageErr) { console.error('Upload error:', storageErr); continue; }
+
+    // 2. Get the public URL
+    const { data: { publicUrl } } = _supabase.storage.from('gallery').getPublicUrl(path);
+
+    // 3. Save URL to database table
+    const { error: dbErr } = await _supabase
+      .from('gallery_photos')
+      .insert({ url: publicUrl, alt: file.name.replace(/\.[^.]+$/, ''), storage_path: path });
+
+    if (dbErr) { console.error('DB insert error:', dbErr); }
+  }
+
+  uploadingEl.remove();
+  renderGallery();
+}
+
+async function removeGalleryPhoto(id, storagePath) {
+  // 1. Delete from database
+  await _supabase.from('gallery_photos').delete().eq('id', id);
+  // 2. Delete from storage
+  if (storagePath) await _supabase.storage.from('gallery').remove([storagePath]);
+  // 3. Re-fetch and re-render
+  renderGallery();
+}
+// Apply saved language (script.js already restored theme + scroll animations)
+setLang(localStorage.getItem('elixir-lang') || 'sq');
+
+// Render gallery photos from Supabase
+renderGallery();
+
+// Apply admin state (show/hide controls)
+applyAdminState();
+
+// ── ADMIN URL TRIGGER ─────────────────────────────────────
+function checkAdminHash() {
+  if (window.location.hash === '#admin') {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+    if (isAdminLoggedIn()) {
+      applyAdminState();
+    } else {
+      openAdminModal();
+    }
+  }
+}
+
+// Runs on initial page load
+checkAdminHash();
+
+// Runs if already on page and user adds #admin to URL
+window.addEventListener('hashchange', checkAdminHash);
+
+// show floating CTA after scroll
+window.addEventListener('scroll', () => {
+  const cta = document.getElementById('floating-cta');
+  if (window.scrollY > 400) {
+    cta.style.opacity = '1';
+    cta.style.transform = 'translateY(0)';
+    cta.style.pointerEvents = 'auto';
+  } else {
+    cta.style.opacity = '0';
+    cta.style.transform = 'translateY(16px)';
+    cta.style.pointerEvents = 'none';
+  }
+}, { passive: true });
+
+// init floating CTA hidden
+document.getElementById('floating-cta').style.cssText = 'opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity 0.4s,transform 0.4s;';
+</script>
 <noscript>
   <div lang="mk">
     <h1>Аптека Еликсир Тетово</h1>
