@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Politika e Privatësisë | Elixir Pharmacy</title>
+  <meta name="description" content="Politika e privatësisë e Elixir Pharmacy - Tetovë." />
+  <link rel="canonical" href="https://elixirpharmacy.mk/privacy-policy" />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="icon" type="image/png" href="/images/logo-light.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+
+  <!-- Apply saved theme immediately to avoid flash -->
+  <script>
+    (function() {
+      const t = localStorage.getItem('elixir-theme') || 'light';
+      if (t === 'light') document.documentElement.classList.add('light');
+    })();
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Privacy page specific styles */
+    main.privacy-main {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 80px 24px 100px;
+    }
+    .page-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    .page-updated { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 40px; }
+    section.policy-block { margin-bottom: 36px; }
+    section.policy-block h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    section.policy-block p, section.policy-block li { color: var(--text-muted); font-size: 0.98rem; }
+    section.policy-block ul { padding-left: 20px; margin-top: 8px; }
+    section.policy-block li { margin-bottom: 6px; }
+    section.policy-block a { color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold-tint-20); }
+    section.policy-block a:hover { border-color: var(--gold); }
+    .privacy-contact-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 10px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 30px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold); }
+    @media (max-width: 600px) {
+      .page-title { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img class="logo-dark" src="images/logo-dark.png" alt="Elixir Pharmacy logo" />
+      <img class="logo-light" src="images/logo-light.png" alt="Elixir Pharmacy logo" />
+      <span>Elixir Pharmacy</span>
+    </a>
+    <div class="nav-controls">
+      <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <svg class="sun-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+        </svg>
+        <svg class="moon-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <span class="theme-label" id="theme-label">Dark</span>
+      </button>
+      <div id="lang-dropdown">
+        <button id="lang-btn" onclick="toggleLangMenu()" aria-haspopup="true" aria-expanded="false">
+          <span class="flag" id="lang-flag">🇦🇱</span>
+          <span class="lang-label" id="lang-current">Shqip</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div id="lang-menu" role="menu">
+          <button onclick="setLang('sq')" class="active" data-lang="sq"><span>🇦🇱</span> Shqip — SQ</button>
+          <div class="lang-divider"></div>
+          <button onclick="setLang('mk')" data-lang="mk"><span>🇲🇰</span> Македонски — MK</button>
+          <div class="lang-divider"></div>
+          <button onclick="setLang('en')" data-lang="en"><span>🇬🇧</span> English — EN</button>
+          <div class="lang-divider"></div>
+          <button onclick="setLang('tr')" data-lang="tr"><span>🇹🇷</span> Türkçe — TR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="privacy-main">
+  <a href="/" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+    <span data-i18n="back_text"></span>
+  </a>
+
+  <h1 class="page-title font-display" data-i18n="title"></h1>
+  <p class="page-updated"><span data-i18n="updated"></span> 13.07.2026</p>
+
+  <section class="policy-block">
+    <h2 data-i18n="s1_title"></h2>
+    <p data-i18n="s1_body"></p>
+  </section>
+
+  <section class="policy-block">
+    <h2 data-i18n="s2_title"></h2>
+    <p data-i18n="s2_intro"></p>
+    <ul>
+      <li data-i18n="s2_li1"></li>
+      <li data-i18n="s2_li2"></li>
+      <li data-i18n="s2_li3"></li>
+    </ul>
+  </section>
+
+  <section class="policy-block">
+    <h2 data-i18n="s3_title"></h2>
+    <p data-i18n="s3_body"></p>
+    <ul>
+      <li data-i18n="s3_li1"></li>
+      <li data-i18n="s3_li2"></li>
+      <li data-i18n="s3_li3"></li>
+    </ul>
+  </section>
+
+  <section class="policy-block">
+    <h2 data-i18n="s4_title"></h2>
+    <p data-i18n="s4_body"></p>
+  </section>
+
+  <section class="policy-block">
+    <h2 data-i18n="s5_title"></h2>
+    <p data-i18n="s5_body"></p>
+  </section>
+
+  <section class="policy-block">
+    <h2 data-i18n="s6_title"></h2>
+    <p data-i18n="s6_body"></p>
+  </section>
+
+  <section class="policy-block">
+    <h2 data-i18n="s7_title"></h2>
+    <p data-i18n="s7_body"></p>
+    <div class="privacy-contact-card">
+      <p><strong>Elixir Pharmacy</strong></p>
+      <p>Strasho Pindjur Rd 121, Tetovo 1200, North Macedonia</p>
+      <p><a href="tel:+38970887393">+389 70 887 393</a></p>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="retro-grid"></div>
+  <div class="top-line"></div>
+  <div class="container">
+    <div class="inner">
+      <p class="footer-copy">© 2026 Elixir Pharmacy · <a href="/"><span data-i18n="footer_home"></span></a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+// ── PRIVACY-PAGE TRANSLATIONS ──────────────────────────
+const T = {
+  sq: {
+    back_text: "Kthehu në faqen kryesore",
+    title: "Politika e Privatësisë",
+    updated: "Përditësuar më:",
+    s1_title: "1. Hyrje",
+    s1_body: "Elixir Pharmacy (\"ne\", \"na\"), me seli në Tetovë, Maqedoninë e Veriut, respekton privatësinë tuaj. Kjo politikë shpjegon çfarë të dhënash mbledhim përmes faqes elixirpharmacy.mk, si i përdorim ato dhe cilat janë të drejtat tuaja.",
+    s2_title: "2. Të dhënat që mbledhim",
+    s2_intro: "Mbledhim vetëm të dhëna që na jepni vullnetarisht ose që gjenerohen automatikisht nga përdorimi i faqes:",
+    s2_li1: "Të dhëna kontakti (emër, email, telefon, mesazh) kur plotësoni formularin e kontaktit.",
+    s2_li2: "Të dhëna anonime përdorimi (statistika vizitash, faqe të vizituara) përmes shërbimit të analitikës.",
+    s2_li3: "Preferenca lokale (tema e ndritshme/e errët, gjuha e zgjedhur) të ruajtura vetëm në shfletuesin tuaj.",
+    s3_title: "3. Si i përdorim të dhënat",
+    s3_body: "Të dhënat e kontaktit përdoren ekskluzivisht për t'ju përgjigjur pyetjeve ose kërkesave tuaja. Nuk i shesim, shkëmbejmë apo transferojmë të dhënat tuaja tek palë të treta për qëllime marketingu.",
+    s3_li1: "Formulari i kontaktit dërgohet përmes shërbimit të palës së tretë Formspree, i cili përpunon dhe na dërgon mesazhin.",
+    s3_li2: "Galeria e faqes menaxhohet përmes Supabase, një shërbim databaze; kjo nuk përfshin të dhëna personale të vizitorëve.",
+    s3_li3: "Statistikat e trafikut mblidhen në mënyrë anonime përmes Vercel Analytics/Speed Insights, pa identifikuar individë.",
+    s4_title: "4. Cookies dhe ruajtje lokale",
+    s4_body: "Faqja jonë nuk përdor cookies gjurmuese për reklama. Përdorim vetëm \"local storage\" të shfletuesit tuaj për të kujtuar preferencën e temës dhe gjuhës — kjo informacion mbetet vetëm në pajisjen tuaj dhe nuk transmetohet askund.",
+    s5_title: "5. Ruajtja dhe siguria e të dhënave",
+    s5_body: "Mesazhet e kontaktit ruhen te ofruesit tanë të shërbimit (Formspree) sipas politikave të tyre të sigurisë. Marrim masa të arsyeshme për të mbrojtur të dhënat tuaja nga qasje, ndryshim apo zbulim i paautorizuar.",
+    s6_title: "6. Të drejtat tuaja",
+    s6_body: "Keni të drejtë të kërkoni informacion se çfarë të dhënash kemi për ju, të kërkoni korrigjimin ose fshirjen e tyre, si dhe të kundërshtoni përpunimin. Për çdo kërkesë të tillë, na kontaktoni në detajet më poshtë.",
+    s7_title: "7. Na kontaktoni",
+    s7_body: "Për pyetje rreth kësaj politike të privatësisë, na kontaktoni:",
+    footer_home: "Kthehu në faqen kryesore",
+  },
+  mk: {
+    back_text: "Назад на почетна",
+    title: "Политика за приватност",
+    updated: "Последно ажурирано:",
+    s1_title: "1. Вовед",
+    s1_body: "Elixir Pharmacy (\"ние\"), со седиште во Тетово, Северна Македонија, ја почитува вашата приватност. Оваа политика објаснува кои податоци ги собираме преку elixirpharmacy.mk, како ги користиме и кои се вашите права.",
+    s2_title: "2. Податоци што ги собираме",
+    s2_intro: "Собираме само податоци што доброволно ни ги давате или кои автоматски се генерираат при користење на сајтот:",
+    s2_li1: "Контакт податоци (име, е-пошта, телефон, порака) кога го пополнувате контакт формуларот.",
+    s2_li2: "Анонимни податоци за користење (посети, прегледани страници) преку услуга за аналитика.",
+    s2_li3: "Локални преференци (светла/темна тема, избран јазик) зачувани само во вашиот прелистувач.",
+    s3_title: "3. Како ги користиме податоците",
+    s3_body: "Контакт податоците се користат исклучиво за да одговориме на вашите прашања или барања. Не ги продаваме, разменуваме или пренесуваме вашите податоци на трети страни за маркетинг цели.",
+    s3_li1: "Контакт формуларот се испраќа преку услугата на трета страна Formspree, која го обработува и ни го доставува пораката.",
+    s3_li2: "Галеријата на сајтот се управува преку Supabase, услуга за база на податоци; ова не вклучува лични податоци на посетители.",
+    s3_li3: "Статистики за сообраќај се собираат анонимно преку Vercel Analytics/Speed Insights, без идентификување поединци.",
+    s4_title: "4. Колачиња и локално складирање",
+    s4_body: "Нашиот сајт не користи колачиња за следење заради реклами. Користиме само „local storage“ на вашиот прелистувач за да ја запомниме преференцата за тема и јазик — овие информации остануваат само на вашиот уред.",
+    s5_title: "5. Складирање и безбедност на податоците",
+    s5_body: "Контакт пораките се чуваат кај нашите даватели на услуги (Formspree) согласно нивните безбедносни политики. Преземаме разумни мерки за да ги заштитиме вашите податоци од неовластен пристап, измена или обелоденување.",
+    s6_title: "6. Вашите права",
+    s6_body: "Имате право да побарате информации за тоа кои податоци ги имаме за вас, да побарате корекција или бришење, како и да се спротивставите на обработката. За вакво барање, контактирајте нè на деталите подолу.",
+    s7_title: "7. Контактирајте нè",
+    s7_body: "За прашања во врска со оваа политика за приватност, контактирајте нè:",
+    footer_home: "Назад на почетна",
+  },
+  en: {
+    back_text: "Back to homepage",
+    title: "Privacy Policy",
+    updated: "Last updated:",
+    s1_title: "1. Introduction",
+    s1_body: "Elixir Pharmacy (\"we\", \"us\"), based in Tetovo, North Macedonia, respects your privacy. This policy explains what data we collect through elixirpharmacy.mk, how we use it, and what your rights are.",
+    s2_title: "2. Data we collect",
+    s2_intro: "We only collect data you voluntarily provide, or that is generated automatically through normal use of the site:",
+    s2_li1: "Contact details (name, email, phone, message) when you fill out the contact form.",
+    s2_li2: "Anonymous usage data (visit counts, pages viewed) via an analytics service.",
+    s2_li3: "Local preferences (light/dark theme, chosen language) stored only in your browser.",
+    s3_title: "3. How we use your data",
+    s3_body: "Contact data is used exclusively to respond to your questions or requests. We do not sell, trade, or transfer your data to third parties for marketing purposes.",
+    s3_li1: "The contact form is submitted through the third-party service Formspree, which processes and delivers the message to us.",
+    s3_li2: "The site's gallery is managed via Supabase, a database service; this does not involve visitors' personal data.",
+    s3_li3: "Traffic statistics are collected anonymously via Vercel Analytics/Speed Insights, without identifying individuals.",
+    s4_title: "4. Cookies and local storage",
+    s4_body: "Our site does not use tracking cookies for advertising. We only use your browser's local storage to remember your theme and language preference — this information stays on your device and is never transmitted anywhere.",
+    s5_title: "5. Data storage and security",
+    s5_body: "Contact messages are stored with our service providers (Formspree) according to their own security policies. We take reasonable measures to protect your data from unauthorized access, alteration, or disclosure.",
+    s6_title: "6. Your rights",
+    s6_body: "You have the right to ask what data we hold about you, request its correction or deletion, and object to its processing. For any such request, contact us using the details below.",
+    s7_title: "7. Contact us",
+    s7_body: "For questions about this privacy policy, contact us:",
+    footer_home: "Back to homepage",
+  },
+  tr: {
+    back_text: "Ana sayfaya dön",
+    title: "Gizlilik Politikası",
+    updated: "Son güncelleme:",
+    s1_title: "1. Giriş",
+    s1_body: "Kuzey Makedonya, Tetova merkezli Elixir Pharmacy (\"biz\"), gizliliğinize saygı duyar. Bu politika, elixirpharmacy.mk üzerinden hangi verileri topladığımızı, bunları nasıl kullandığımızı ve haklarınızı açıklar.",
+    s2_title: "2. Topladığımız veriler",
+    s2_intro: "Yalnızca gönüllü olarak sağladığınız veya sitenin normal kullanımı sırasında otomatik olarak oluşturulan verileri toplarız:",
+    s2_li1: "İletişim formunu doldurduğunuzda iletişim bilgileri (ad, e-posta, telefon, mesaj).",
+    s2_li2: "Bir analitik hizmeti aracılığıyla anonim kullanım verileri (ziyaret sayıları, görüntülenen sayfalar).",
+    s2_li3: "Yalnızca tarayıcınızda saklanan yerel tercihler (açık/koyu tema, seçilen dil).",
+    s3_title: "3. Verilerinizi nasıl kullanıyoruz",
+    s3_body: "İletişim verileri yalnızca sorularınıza veya taleplerinize yanıt vermek için kullanılır. Verilerinizi pazarlama amacıyla üçüncü taraflara satmıyor, takas etmiyor veya aktarmıyoruz.",
+    s3_li1: "İletişim formu, mesajı işleyip bize ileten üçüncü taraf hizmeti Formspree aracılığıyla gönderilir.",
+    s3_li2: "Sitenin galerisi, bir veritabanı hizmeti olan Supabase üzerinden yönetilir; bu, ziyaretçilerin kişisel verilerini içermez.",
+    s3_li3: "Trafik istatistikleri, bireyleri tanımlamadan Vercel Analytics/Speed Insights aracılığıyla anonim olarak toplanır.",
+    s4_title: "4. Çerezler ve yerel depolama",
+    s4_body: "Sitemiz reklam amaçlı izleme çerezleri kullanmaz. Tema ve dil tercihinizi hatırlamak için yalnızca tarayıcınızın yerel depolamasını kullanırız — bu bilgi yalnızca cihazınızda kalır ve hiçbir yere iletilmez.",
+    s5_title: "5. Veri saklama ve güvenlik",
+    s5_body: "İletişim mesajları, kendi güvenlik politikalarına göre hizmet sağlayıcılarımızda (Formspree) saklanır. Verilerinizi yetkisiz erişim, değişiklik veya ifşadan korumak için makul önlemler alıyoruz.",
+    s6_title: "6. Haklarınız",
+    s6_body: "Sizinle ilgili hangi verileri tuttuğumuzu sorma, düzeltilmesini veya silinmesini talep etme ve işlenmesine itiraz etme hakkına sahipsiniz. Bu tür bir talep için aşağıdaki bilgilerden bize ulaşın.",
+    s7_title: "7. Bize ulaşın",
+    s7_body: "Bu gizlilik politikası hakkında sorularınız için bize ulaşın:",
+    footer_home: "Ana sayfaya dön",
+  },
+};
+
+// Initialize language from saved preference (falls back to Albanian)
+const savedLang = localStorage.getItem('elixir-lang') || 'sq';
+setLang(savedLang);
+</script>
+
+</body>
+</html>
