@@ -1395,6 +1395,8 @@ main.privacy-main {
   margin-bottom: 40px;
 }
 section.policy-block {
+  padding: 0;
+  overflow: visible;
   margin-bottom: 36px;
 }
 section.policy-block h2 {
