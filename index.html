@@ -592,6 +592,9 @@
 
 <!-- FLOATING CTA -->
 <div id="floating-cta">
+  <a href="https://porosit.mk/products?vendor_id=44" target="_blank" rel="noopener noreferrer" class="float-btn float-cart" aria-label="Online Shop" onclick="trackPorositClick()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+  </a>
   <a href="https://wa.me/38970887393" target="_blank" rel="noopener noreferrer" class="float-btn float-wa" aria-label="WhatsApp">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
   </a>
@@ -1003,6 +1006,21 @@ const SUPABASE_URL      = 'https://jxizbmdujdwnyzfzxspv.supabase.co';       // e
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp4aXpibWR1amR3bnl6Znp4c3B2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxODY1NjgsImV4cCI6MjA4OTc2MjU2OH0.WGrZ1iRxOLOc8Mvq5N5tpZuctlVS8ipBm6XIj9sD1Pg';  // long string starting with "eyJ..."
 
 const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ── CLICK TRACKING (porosit.mk redirect button) ──────────
+// Fires a fire-and-forget ping to our own backend (/api/track-click),
+// which uses a secret Supabase service-role key server-side to
+// increment a counter. Never blocks the link from opening.
+function trackPorositClick() {
+  try {
+    const payload = JSON.stringify({ key: 'porosit_redirect' });
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/track-click', new Blob([payload], { type: 'application/json' }));
+    } else {
+      fetch('/api/track-click', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }).catch(() => {});
+    }
+  } catch (e) { /* never let tracking break the button */ }
+}
 
 // ── GALLERY ──────────────────────────────────────────────
 // ── SLIDESHOW STATE ───────────────────────────────────────

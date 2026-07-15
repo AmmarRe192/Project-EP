@@ -1222,6 +1222,7 @@ footer h2 {
 }
 .float-btn:hover { transform: scale(1.1); }
 .float-wa { background: #25d366; color: white; }
+.float-cart { background: #22c55e; color: white; }
 .float-phone {
   background: var(--gold);
   color: var(--bg);
