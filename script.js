@@ -162,3 +162,120 @@ function raf(time) {
   requestAnimationFrame(raf);
 }
 requestAnimationFrame(raf);   
+/* =========================================================
+   PAGE LOADER
+   ========================================================= */
+
+(function initPageLoader() {
+    const loader = document.getElementById('site-loader');
+    const percent = document.getElementById('loader-percent');
+    const progress = document.getElementById('loader-progress');
+
+    if (!loader || !percent || !progress) return;
+
+    // Don't replay the loader when navigating back/forward.
+    if (sessionStorage.getItem('elixir-loader-seen')) {
+        loader.remove();
+        return;
+    }
+
+    let current = 0;
+    const target = 100;
+
+    function updateLoader() {
+        current += Math.max(1, (target - current) * 0.08);
+
+        if (current >= 99.5) {
+            current = 100;
+        }
+
+        const value = Math.round(current);
+
+        percent.textContent = `${value}%`;
+        progress.style.width = `${value}%`;
+
+        if (value < 100) {
+            requestAnimationFrame(updateLoader);
+        } else {
+            setTimeout(() => {
+                loader.classList.add('is-loaded');
+
+                sessionStorage.setItem(
+                    'elixir-loader-seen',
+                    'true'
+                );
+
+                setTimeout(() => {
+                    loader.remove();
+                }, 1100);
+            }, 250);
+        }
+    }
+
+    // Wait for the actual page assets to finish loading.
+    if (document.readyState === 'complete') {
+        updateLoader();
+    } else {
+        window.addEventListener('load', updateLoader, { once: true });
+    }
+})();
+/* =========================================
+   SERVICES — CURSOR FOLLOW GLOW
+   ========================================= */
+
+document.querySelectorAll('.service-card').forEach(card => {
+
+    card.addEventListener('mousemove', (event) => {
+
+        const rect = card.getBoundingClientRect();
+
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+
+    });
+
+});
+/* =========================================================
+   SERVICES — CURSOR FOLLOWING GLOW
+   ========================================================= */
+
+document.querySelectorAll('.service-card').forEach((card) => {
+
+    card.addEventListener('mousemove', (event) => {
+
+        const rect = card.getBoundingClientRect();
+
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        card.style.setProperty(
+            '--mouse-x',
+            `${x}px`
+        );
+
+        card.style.setProperty(
+            '--mouse-y',
+            `${y}px`
+        );
+
+    });
+
+
+    card.addEventListener('mouseleave', () => {
+
+        card.style.setProperty(
+            '--mouse-x',
+            '50%'
+        );
+
+        card.style.setProperty(
+            '--mouse-y',
+            '50%'
+        );
+
+    });
+
+});
