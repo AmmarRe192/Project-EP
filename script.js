@@ -79,31 +79,27 @@ function setLang(lang) {
     if (dict[key] !== undefined) el.placeholder = dict[key];
   });
 
-  document.querySelectorAll('.gallery-caption').forEach(cap => {
-    const key = 'caption' + lang.charAt(0).toUpperCase() + lang.slice(1);
-    if (cap.dataset[key] !== undefined) cap.textContent = cap.dataset[key] || '';
-  });
-
   // page-specific hook
   if (typeof onLangChanged === 'function') {
     onLangChanged(lang);
   }
 }
 
-// ── SCROLL REVEAL (one restrained pass, section-level) ───
-const revealObserver = new IntersectionObserver((entries) => {
+// ── SCROLL ANIMATIONS ────────────────────────────────────
+const observer = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.12 });
+}, { threshold: 0.1 }) : null;
 
-document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+if (observer) document.querySelectorAll('.animate-in').forEach((el) => observer.observe(el));
+else document.querySelectorAll('.animate-in').forEach((el) => el.classList.add('visible'));
 
 // ── INIT ─────────────────────────────────────────────────
 (function initShared() {
+  // Restore theme \u2014 default is light
   const savedTheme = localStorage.getItem('elixir-theme') || 'light';
   if (savedTheme === 'light') {
     isDark = false;
@@ -113,19 +109,44 @@ document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el))
     document.documentElement.classList.remove('light');
   }
 
+  // Restore language (default: 'sq')
   const savedLang = localStorage.getItem('elixir-lang') || 'sq';
   currentLang = savedLang;
 
+  // Update theme label if element exists
   const themeLabel = document.getElementById('theme-label');
   if (themeLabel) themeLabel.textContent = isDark ? 'Light' : 'Dark';
 
+  // Update lang dropdown display
   const meta = LANG_META[currentLang];
   const flagEl = document.getElementById('lang-flag');
   const currentEl = document.getElementById('lang-current');
   if (flagEl) flagEl.textContent = meta.flag;
   if (currentEl) currentEl.textContent = meta.label;
 
+  // Mark active lang button
   document.querySelectorAll('#lang-menu button[data-lang]').forEach((b) => {
     b.classList.toggle('active', b.dataset.lang === currentLang);
   });
 })();
+
+
+// Keyboard affordances for overlays and menus.
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+
+  const dd = document.getElementById('lang-dropdown');
+  const langBtn = document.getElementById('lang-btn');
+  if (dd?.classList.contains('open')) {
+    dd.classList.remove('open');
+    langBtn?.setAttribute('aria-expanded', 'false');
+    langBtn?.focus();
+  }
+
+  const panel = document.getElementById('fullscreen-menu');
+  const menuBtn = document.getElementById('mobile-nav-toggle');
+  if (panel?.classList.contains('open') && typeof toggleMenu === 'function') {
+    toggleMenu();
+    menuBtn?.focus();
+  }
+});
