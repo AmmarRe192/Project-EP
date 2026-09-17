@@ -73,7 +73,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Apply saved theme immediately to avoid flash -->
   <script>
@@ -87,39 +87,31 @@
   <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
 
 <!-- NAVBAR -->
 <nav id="navbar">
   <div class="nav-inner">
-    <!-- Logo -->
     <a href="#hero" class="nav-logo">
       <img class="logo-dark" src="images/logo-dark.png" alt="Elixir Pharmacy logo" />
       <img class="logo-light" src="images/logo-light.png" alt="Elixir Pharmacy logo" />
       <span>Elixir Pharmacy</span>
     </a>
-    <!-- Nav links (hidden on small screens) -->
-    <div class="nav-links" id="nav-links">
-      <a href="#about"   data-i18n="nav_about"></a>
-      <a href="#services" data-i18n="nav_services"></a>
-      <a href="#reviews" data-i18n="nav_reviews"></a>
-      <a href="#contact" data-i18n="nav_contact"></a>
-    </div>
-    <!-- Controls -->
-    <div class="nav-controls">
-      <!-- Theme toggle -->
-      <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-        <!-- Sun icon (shown in dark mode) -->
+
+    <div class="nav-right">
+      <a href="tel:+38970887393" class="nav-phone">+389 70 887 393</a>
+
+      <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle colour theme" title="Toggle colour theme">
         <svg class="sun-icon" id="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="4"/>
           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
         </svg>
-        <!-- Moon icon (shown in light mode) -->
         <svg class="moon-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
         <span class="theme-label" id="theme-label">Dark</span>
       </button>
-      <!-- Language dropdown -->
+
       <div id="lang-dropdown">
         <button id="lang-btn" onclick="toggleLangMenu()" aria-haspopup="true" aria-expanded="false">
           <span class="flag" id="lang-flag">🇦🇱</span>
@@ -129,135 +121,229 @@
           </svg>
         </button>
         <div id="lang-menu" role="menu">
-          <button onclick="setLang('sq')" class="active" data-lang="sq">
-            <span class="flag">🇦🇱</span> Shqip — SQ
-          </button>
+          <button onclick="setLang('sq')" class="active" data-lang="sq"><span class="flag">🇦🇱</span> Shqip — SQ</button>
           <div class="lang-divider"></div>
-          <button onclick="setLang('mk')" data-lang="mk">
-            <span class="flag">🇲🇰</span> Македонски — MK
-          </button>
+          <button onclick="setLang('mk')" data-lang="mk"><span class="flag">🇲🇰</span> Македонски — MK</button>
           <div class="lang-divider"></div>
-          <button onclick="setLang('en')" data-lang="en">
-            <span class="flag">🇬🇧</span> English — EN
-          </button>
+          <button onclick="setLang('en')" data-lang="en"><span class="flag">🇬🇧</span> English — EN</button>
           <div class="lang-divider"></div>
-          <button onclick="setLang('tr')" data-lang="tr">
-            <span class="flag">🇹🇷</span> Türkçe — TR
-          </button>
+          <button onclick="setLang('tr')" data-lang="tr"><span class="flag">🇹🇷</span> Türkçe — TR</button>
         </div>
       </div>
+
+      <button id="mobile-nav-toggle" onclick="toggleMenu()" aria-label="Open navigation menu" aria-expanded="false">
+        <span id="menu-toggle-label">Menu</span>
+      </button>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <img class="bg" src="images/elixir1.jpeg" alt="Elixir Pharmacy" />
-  <div class="overlay"></div>
-  <div class="fade-bottom"></div>
-  <div class="content">
-    <div style="max-width:800px">
-      <div class="rating-badge">
-        <div class="stars">
-          <svg viewBox="0 0 24 24" class="star-icon"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="star-icon"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="star-icon"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="star-icon"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="star-icon"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-        </div>
-        <span class="rating-num">4.8</span>
-        <span class="rating-count">(16)</span>
+<!-- FULLSCREEN MENU -->
+<div id="fullscreen-menu" role="dialog" aria-modal="true" aria-label="Site navigation">
+  <div class="fs-menu-inner">
+    <div class="fs-menu-links">
+      <a href="#about" onclick="toggleMenu()" class="fs-link">
+        <span class="fs-num">01</span>
+        <span class="fs-stack"><span data-i18n="nav_about"></span><span data-i18n="nav_about"></span></span>
+      </a>
+      <a href="#services" onclick="toggleMenu()" class="fs-link">
+        <span class="fs-num">02</span>
+        <span class="fs-stack"><span data-i18n="nav_services"></span><span data-i18n="nav_services"></span></span>
+      </a>
+      <a href="#reviews" onclick="toggleMenu()" class="fs-link">
+        <span class="fs-num">03</span>
+        <span class="fs-stack"><span data-i18n="nav_reviews"></span><span data-i18n="nav_reviews"></span></span>
+      </a>
+      <a href="#contact" onclick="toggleMenu()" class="fs-link">
+        <span class="fs-num">04</span>
+        <span class="fs-stack"><span data-i18n="nav_contact"></span><span data-i18n="nav_contact"></span></span>
+      </a>
+    </div>
+    <div class="fs-menu-foot">
+      <a href="tel:+38970887393" class="fs-email">+389 70 887 393</a>
+      <div class="fs-loc">TETOVO, MK</div>
+      <div class="fs-social">
+        <a href="https://www.instagram.com/elixirpharmacytetovo/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.facebook.com/p/Pharmacy-Elixir-100064105089040/" target="_blank" rel="noopener noreferrer">Facebook</a>
       </div>
-      <h1 class="hero-title">Elixir<br><span>Pharmacy</span></h1>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div id="main-content" tabindex="-1">
+<section id="hero">
+  <div class="hero-media">
+    <img class="bg" src="images/elixir2.jpg" alt="Elixir Pharmacy storefront" />
+    <div class="hero-scrim"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-top-row">
+      <div class="hero-tags">
+        <span>FARMACI</span><span class="sep">/</span><span>TETOVO</span><span class="sep">/</span><span>1200</span>
+      </div>
+      <div class="hero-badge" aria-hidden="true">
+        <svg viewBox="0 0 120 120" class="hero-badge-ring">
+          <defs><path id="badgeCircle" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"></path></defs>
+          <text font-size="10.3" letter-spacing="1.5" fill="currentColor">
+            <textPath href="#badgeCircle" startOffset="0%">ELIXIR PHARMACY • ELIXIR PHARMACY • </textPath>
+          </text>
+        </svg>
+        <svg class="hero-badge-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 17 7M17 7H9M17 7v8"/></svg>
+      </div>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="hero-title-line">Elixir</span>
+      <span class="hero-title-line hero-title-accent">Pharmacy<span class="hero-dot">.</span></span>
+    </h1>
+
+    <div class="hero-bottom-row">
       <p class="hero-sub" data-i18n="hero_sub"></p>
       <div class="hero-btns">
         <a href="tel:+38970887393" class="btn-primary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           <span data-i18n="cta_call"></span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <a href="#services" class="btn-secondary">
           <span data-i18n="cta_services"></span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M17 7H9M17 7v8"/></svg>
         </a>
       </div>
+    </div>
+
+    <div class="hero-rating">
+      <div class="stars">
+        <svg viewBox="0 0 24 24" class="star-icon"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
+        <svg viewBox="0 0 24 24" class="star-icon"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
+        <svg viewBox="0 0 24 24" class="star-icon"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
+        <svg viewBox="0 0 24 24" class="star-icon"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
+        <svg viewBox="0 0 24 24" class="star-icon"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
+      </div>
+      <span class="rating-num">4.8</span>
+      <span class="rating-count">(16)</span>
     </div>
   </div>
 </section>
 
 <!-- ABOUT -->
-<section id="about" class="section-bg-1">
-  <div class="container">
-    <div class="section-header animate-in" data-num="01">
-      <h2 class="font-display" data-i18n="about_title"></h2>
-      <div class="divider"></div>
+<section id="about">
+  <div class="container about-grid">
+    <div class="about-left animate-in">
+      <span class="eyebrow">N&#176;01 — <span data-i18n="about_title"></span></span>
+      <h2 class="about-mark">Elixir<span class="about-mark-dim">_</span></h2>
     </div>
-    <div class="about-text animate-in" style="transition-delay:200ms">
-      <p data-i18n="about_text"></p>
-      <div class="about-line"></div>
+    <div class="about-right animate-in" style="transition-delay:120ms">
+      <p class="about-statement" data-i18n="about_text"></p>
+      <div class="about-meta">
+        <div class="about-meta-item">
+          <div class="about-meta-num">4.8</div>
+          <div class="about-meta-label" data-i18n="stat1_label"></div>
+        </div>
+        <div class="about-meta-item">
+          <div class="about-meta-num">10+</div>
+          <div class="about-meta-label" data-i18n="stat3_label"></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- SERVICES -->
-<section id="services" class="section-bg-2">
-  <div class="container" style="position:relative;z-index:10;">
-    <div class="section-header animate-in" data-num="02">
-      <h2 class="font-display" data-i18n="services_title"></h2>
-      <div class="divider"></div>
+<section id="services">
+  <div class="container">
+    <div class="section-head animate-in">
+      <span class="eyebrow" data-marquee>N&#176;02 — <span data-i18n="services_title"></span></span>
+      <h2 class="section-title" data-i18n="services_title"></h2>
     </div>
-    <div class="services-grid">
-      <div class="service-card animate-in">
-        <div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg></div>
-        <h3 data-i18n="svc1_title"></h3>
-        <p data-i18n="svc1_desc"></p>
-        <div class="service-bar"></div>
+  </div>
+
+  <div class="services-list">
+    <div class="service-block animate-in">
+      <div class="container service-block-inner">
+        <span class="service-index">01</span>
+        <div class="service-visual">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg>
+        </div>
+        <div class="service-text">
+          <h3 data-i18n="svc1_title"></h3>
+          <p data-i18n="svc1_desc"></p>
+        </div>
       </div>
-      <div class="service-card animate-in" style="transition-delay:100ms">
-        <div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div>
-        <h3 data-i18n="svc2_title"></h3>
-        <p data-i18n="svc2_desc"></p>
-        <div class="service-bar"></div>
+    </div>
+    <div class="service-block service-block-alt animate-in" style="transition-delay:60ms">
+      <div class="container service-block-inner">
+        <span class="service-index">02</span>
+        <div class="service-visual">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        </div>
+        <div class="service-text">
+          <h3 data-i18n="svc2_title"></h3>
+          <p data-i18n="svc2_desc"></p>
+        </div>
       </div>
-      <div class="service-card animate-in" style="transition-delay:200ms">
-        <div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"/><path d="M12 3v6"/></svg></div>
-        <h3 data-i18n="svc3_title"></h3>
-        <p data-i18n="svc3_desc"></p>
-        <div class="service-bar"></div>
+    </div>
+    <div class="service-block animate-in" style="transition-delay:120ms">
+      <div class="container service-block-inner">
+        <span class="service-index">03</span>
+        <div class="service-visual">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"/><path d="M12 3v6"/></svg>
+        </div>
+        <div class="service-text">
+          <h3 data-i18n="svc3_title"></h3>
+          <p data-i18n="svc3_desc"></p>
+        </div>
       </div>
-      <div class="service-card animate-in" style="transition-delay:300ms">
-        <div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 13a6 6 0 1 0 12 0 4 4 0 1 0-8 0 2 2 0 0 0 4 0"/><circle cx="22" cy="15" r="2"/><path d="M22 13v-2c0-5-7-7-11-2.9"/></svg></div>
-        <h3 data-i18n="svc4_title"></h3>
-        <p data-i18n="svc4_desc"></p>
-        <div class="service-bar"></div>
+    </div>
+    <div class="service-block service-block-alt animate-in" style="transition-delay:180ms">
+      <div class="container service-block-inner">
+        <span class="service-index">04</span>
+        <div class="service-visual">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 13a6 6 0 1 0 12 0 4 4 0 1 0-8 0 2 2 0 0 0 4 0"/><circle cx="22" cy="15" r="2"/><path d="M22 13v-2c0-5-7-7-11-2.9"/></svg>
+        </div>
+        <div class="service-text">
+          <h3 data-i18n="svc4_title"></h3>
+          <p data-i18n="svc4_desc"></p>
+        </div>
       </div>
-      <div class="service-card animate-in" style="transition-delay:400ms">
-        <div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
-        <h3 data-i18n="svc5_title"></h3>
-        <p data-i18n="svc5_desc"></p>
-        <div class="service-bar"></div>
+    </div>
+    <div class="service-block animate-in" style="transition-delay:240ms">
+      <div class="container service-block-inner">
+        <span class="service-index">05</span>
+        <div class="service-visual">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div class="service-text">
+          <h3 data-i18n="svc5_title"></h3>
+          <p data-i18n="svc5_desc"></p>
+        </div>
       </div>
-      <div class="service-card animate-in" style="transition-delay:500ms">
-        <div class="service-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
-        <h3 data-i18n="svc6_title"></h3>
-        <p data-i18n="svc6_desc"></p>
-        <div class="service-bar"></div>
+    </div>
+    <div class="service-block service-block-alt animate-in" style="transition-delay:300ms">
+      <div class="container service-block-inner">
+        <span class="service-index">06</span>
+        <div class="service-visual">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div class="service-text">
+          <h3 data-i18n="svc6_title"></h3>
+          <p data-i18n="svc6_desc"></p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- GALLERY -->
-<section id="gallery" class="section-bg-1">
+<section id="gallery">
   <div class="container">
-    <div class="section-header animate-in" data-num="03">
-      <h2 class="font-display" data-i18n="gallery_title"></h2>
-      <div class="divider"></div>
+    <div class="section-head animate-in">
+      <span class="eyebrow">N&#176;03 — <span data-i18n="gallery_title"></span></span>
+      <h2 class="section-title" data-i18n="gallery_title"></h2>
     </div>
-    <!-- Admin controls: only visible when logged in -->
     <div id="gallery-admin-bar" style="text-align:center;display:none;">
       <label class="gallery-upload-btn animate-in" style="transition-delay:100ms">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="17 8 12 3 7 8"/>
           <line x1="12" y1="3" x2="12" y2="15"/>
@@ -270,26 +356,21 @@
         <span data-i18n="admin_logout"></span>
       </button>
     </div>
-    <!-- Admin login bar: hidden from DOM, triggered via URL hash -->
     <div id="gallery-login-bar" style="display:none;"></div>
-    <!-- Grid -->
-    <div class="animate-in" id="gallery-wrapper" style="transition-delay:200ms">
+    <div class="animate-in gallery-frame" id="gallery-wrapper" style="transition-delay:200ms">
       <div id="gallery-admin-grid" style="display:none"></div>
       <div class="gallery-empty" id="gallery-empty" data-i18n="gallery_empty"></div>
       <div class="gallery-slideshow" id="gallery-slideshow" style="display:none">
         <div class="gallery-slide-track" id="gallery-track"></div>
         <button class="gallery-arrow gallery-arrow-left" id="gallery-prev" onclick="slideGallery(-1)" aria-label="Previous">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
         </button>
         <button class="gallery-arrow gallery-arrow-right" id="gallery-next" onclick="slideGallery(1)" aria-label="Next">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
         </button>
       </div>
       <div class="gallery-dots" id="gallery-dots"></div>
       <div class="gallery-counter" id="gallery-counter"></div>
-  </div><!-- close admin grid wrapper -->
-    </div>
-
     </div>
   </div>
 </section>
@@ -302,12 +383,8 @@
     <input id="admin-password-input" class="form-field" type="password" data-placeholder-i18n="admin_modal_placeholder" onkeydown="if(event.key==='Enter')submitAdminLogin()" />
     <p id="admin-error" class="admin-error" data-i18n="admin_modal_error"></p>
     <div class="admin-modal-btns">
-      <button class="btn-submit" onclick="submitAdminLogin()">
-        <span data-i18n="admin_modal_submit"></span>
-      </button>
-      <button class="admin-cancel-btn" onclick="closeAdminModal()">
-        <span data-i18n="admin_modal_cancel"></span>
-      </button>
+      <button class="btn-submit" onclick="submitAdminLogin()"><span data-i18n="admin_modal_submit"></span></button>
+      <button class="admin-cancel-btn" onclick="closeAdminModal()"><span data-i18n="admin_modal_cancel"></span></button>
     </div>
   </div>
 </div>
@@ -332,32 +409,31 @@
     </div>
   </div>
 </div>
-<section id="why-us" class="section-bg-2">
-  <div class="container" style="position:relative;z-index:10;">
-    <div class="section-header animate-in" data-num="04">
-      <h2 class="font-display" data-i18n="whyus_title"></h2>
-      <div class="divider"></div>
+
+<!-- WHY US / STATS -->
+<section id="why-us">
+  <div class="stats-bg" aria-hidden="true"></div>
+  <div class="container">
+    <div class="section-head animate-in">
+      <span class="eyebrow">N&#176;04 — <span data-i18n="whyus_title"></span></span>
+      <h2 class="section-title" data-i18n="whyus_title"></h2>
     </div>
-    <div class="stats-grid">
-      <div class="stat-card animate-in">
-        <div class="stat-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg></div>
-        <div class="stat-num">4.8</div>
-        <div class="stat-label" data-i18n="stat1_label"></div>
+    <div class="stats-row">
+      <div class="stat-item animate-in">
+        <span class="stat-tag">// <span data-i18n="stat1_label"></span></span>
+        <div class="stat-big">4.8</div>
       </div>
-      <div class="stat-card animate-in" style="transition-delay:100ms">
-        <div class="stat-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <div class="stat-num">16+</div>
-        <div class="stat-label" data-i18n="stat2_label"></div>
+      <div class="stat-item animate-in" style="transition-delay:80ms">
+        <span class="stat-tag">// <span data-i18n="stat2_label"></span></span>
+        <div class="stat-big">16+</div>
       </div>
-      <div class="stat-card animate-in" style="transition-delay:200ms">
-        <div class="stat-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-        <div class="stat-num">10+</div>
-        <div class="stat-label" data-i18n="stat3_label"></div>
+      <div class="stat-item animate-in" style="transition-delay:160ms">
+        <span class="stat-tag">// <span data-i18n="stat3_label"></span></span>
+        <div class="stat-big">10+</div>
       </div>
-      <div class="stat-card stat-card-clickable animate-in" style="transition-delay:300ms" onclick="openHoursModal()">
-        <div class="stat-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"/><path d="M12 3v6"/></svg></div>
-        <div class="stat-num">08–24</div>
-        <div class="stat-label" data-i18n="stat4_label"></div>
+      <div class="stat-item stat-item-clickable animate-in" style="transition-delay:240ms" onclick="openHoursModal()">
+        <span class="stat-tag">// <span data-i18n="stat4_label"></span></span>
+        <div class="stat-big">08–24</div>
         <div class="stat-hint" data-i18n="stat4_hint"></div>
       </div>
     </div>
@@ -365,82 +441,51 @@
 </section>
 
 <!-- REVIEWS -->
-<section id="reviews" class="section-bg-1">
+<section id="reviews">
   <div class="container">
-    <div class="section-header animate-in" data-num="05">
-      <h2 class="font-display" data-i18n="reviews_title"></h2>
-      <div class="divider"></div>
-    </div>
-    <div class="reviews-hero animate-in" style="transition-delay:100ms">
-      <div class="big-rating">4.8</div>
-      <div class="big-stars" style="margin-top:48px">
-        <svg viewBox="0 0 24 24" class="big-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-        <svg viewBox="0 0 24 24" class="big-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-        <svg viewBox="0 0 24 24" class="big-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-        <svg viewBox="0 0 24 24" class="big-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-        <svg viewBox="0 0 24 24" class="big-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-      </div>
-      <p style="margin-top:12px;color:var(--text-muted);font-size:0.875rem;" data-i18n="reviews_count"></p>
-    </div>
-    <div class="reviews-grid">
-      <div class="review-card animate-in">
-        <svg viewBox="0 0 24 24" class="review-quote-icon" fill="currentColor"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/></svg>
-        <div class="review-stars">
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
+    <div class="section-head animate-in">
+      <span class="eyebrow">N&#176;05 — <span data-i18n="reviews_title"></span></span>
+      <h2 class="section-title" data-i18n="reviews_title"></h2>
+      <div class="reviews-rating-line">
+        <span class="big-rating">4.8</span>
+        <div class="big-stars">
+          <svg viewBox="0 0 24 24" class="big-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
+          <svg viewBox="0 0 24 24" class="big-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
+          <svg viewBox="0 0 24 24" class="big-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
+          <svg viewBox="0 0 24 24" class="big-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
+          <svg viewBox="0 0 24 24" class="big-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
         </div>
-        <p class="review-text">"Excellent communication, service and price. I highly recommend this pharmacy."</p>
-        <div class="reviewer">
+        <span class="reviews-count-label" data-i18n="reviews_count"></span>
+      </div>
+    </div>
+
+    <div class="reviews-editorial">
+      <div class="review-entry animate-in">
+        <p class="review-quote">"Excellent communication, service and price. I highly recommend this pharmacy."</p>
+        <div class="review-by">
           <img src="https://lh3.googleusercontent.com/a-/ALV-UjXZ-pd1N5LiBObo7BZMzXftQ17yK300GPsq_d4FFhv5FOgC_aM=s120-c-rp-mo-ba5-br100" alt="Mocha" />
-          <span class="reviewer-name">Mocha</span>
+          <span>Mocha</span>
         </div>
       </div>
-      <div class="review-card animate-in" style="transition-delay:100ms">
-        <svg viewBox="0 0 24 24" class="review-quote-icon" fill="currentColor"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/></svg>
-        <div class="review-stars">
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-        </div>
-        <p class="review-text">"It is the best pharmacy in Macedonia...ELIXIR"</p>
-        <div class="reviewer">
+      <div class="review-entry animate-in" style="transition-delay:80ms">
+        <p class="review-quote">"It is the best pharmacy in Macedonia...ELIXIR"</p>
+        <div class="review-by">
           <img src="https://lh3.googleusercontent.com/a-/ALV-UjXyh5r0vIb5I1gVd4eBeMZg1_gxgslpZjaFuxKK6mmAaMohKoxS=s120-c-rp-mo-br100" alt="Ahmed Rexhepi" />
-          <span class="reviewer-name">Ahmed Rexhepi</span>
+          <span>Ahmed Rexhepi</span>
         </div>
       </div>
-      <div class="review-card animate-in" style="transition-delay:200ms">
-        <svg viewBox="0 0 24 24" class="review-quote-icon" fill="currentColor"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/></svg>
-        <div class="review-stars">
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-        </div>
-        <p class="review-text">"Fantastic pharmacy, the best in Macedonia"</p>
-        <div class="reviewer">
+      <div class="review-entry animate-in" style="transition-delay:160ms">
+        <p class="review-quote">"Fantastic pharmacy, the best in Macedonia"</p>
+        <div class="review-by">
           <img src="https://lh3.googleusercontent.com/a/ACg8ocIsDGlrPHDOk26x7UyBmdsNffid-mmdn4-pCBehmNgDYhsloA=s120-c-rp-mo-br100" alt="Diti A." />
-          <span class="reviewer-name">Diti A.</span>
+          <span>Diti A.</span>
         </div>
       </div>
-      <div class="review-card animate-in" style="transition-delay:300ms">
-        <svg viewBox="0 0 24 24" class="review-quote-icon" fill="currentColor"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/></svg>
-        <div class="review-stars">
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-          <svg viewBox="0 0 24 24" class="rev-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-        </div>
-        <p class="review-text">"Professional and 5 star service."</p>
-        <div class="reviewer">
+      <div class="review-entry animate-in" style="transition-delay:240ms">
+        <p class="review-quote">"Professional and 5 star service."</p>
+        <div class="review-by">
           <img src="https://lh3.googleusercontent.com/a-/ALV-UjV1U_fhMBRW-5SfrpZa3QWsg_-f4fmBZU0g8A_PIlXr6Uae6qGi=s120-c-rp-mo-ba3-br100" alt="Haris Memeti" />
-          <span class="reviewer-name">Haris Memeti</span>
+          <span>Haris Memeti</span>
         </div>
       </div>
     </div>
@@ -448,72 +493,60 @@
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="section-bg-2">
-  <div class="container" style="position:relative;z-index:10;">
-    <div class="section-header animate-in" data-num="06">
-      <h2 class="font-display" data-i18n="contact_title"></h2>
-      <div class="divider"></div>
+<section id="contact">
+  <div class="container">
+    <div class="contact-top animate-in">
+      <span class="eyebrow">N&#176;06 — <span data-i18n="contact_title"></span></span>
+      <h2 class="section-title contact-title-big" data-i18n="contact_title"></h2>
     </div>
+
     <div class="contact-grid">
-      <div class="contact-info-stack animate-in">
-        <div class="contact-card">
-          <div class="contact-card-row">
-            <div class="contact-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            </div>
-            <div>
-              <p class="contact-label" data-i18n="contact_call_label"></p>
-              <div class="contact-value"><a href="tel:+38970887393">+389 70 887 393</a></div>
-            </div>
-          </div>
+      <div class="contact-info-col animate-in">
+        <div class="contact-line">
+          <span class="contact-line-label" data-i18n="contact_call_label"></span>
+          <a href="tel:+38970887393" class="contact-line-value">+389 70 887 393</a>
         </div>
-        <div class="contact-card">
-          <div class="contact-card-row">
-            <div class="contact-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
-            </div>
-            <div>
-              <p class="contact-address">Strasho Pindjur Rd 121</p>
-              <p class="contact-address-sub">Tetovo 1200, North Macedonia</p>
-              <a href="https://www.google.com/maps?cid=4704702768397722847&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAEYASAB&hl=en-GB&source=embed" target="_blank" rel="noopener noreferrer" class="directions-link">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-                <span data-i18n="contact_directions"></span>
-              </a>
-            </div>
-          </div>
+        <div class="contact-line">
+          <span class="contact-line-label" data-i18n="contact_hours_label"></span>
+          <span class="contact-line-value contact-line-value-sm" data-i18n="contact_hours_value"></span>
         </div>
-        <div class="contact-card">
-          <div class="contact-card-row">
-            <div class="contact-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            </div>
-            <div>
-              <p class="contact-label" data-i18n="contact_hours_label"></p>
-              <p class="contact-address" data-i18n="contact_hours_value"></p>
-            </div>
+        <div class="contact-line">
+          <span class="contact-line-label">MAP</span>
+          <div class="contact-line-value contact-line-value-sm">
+            Strasho Pindjur Rd 121<br>Tetovo 1200, North Macedonia
+            <a href="https://www.google.com/maps?cid=4704702768397722847&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAEYASAB&hl=en-GB&source=embed" target="_blank" rel="noopener noreferrer" class="directions-link">
+              <span data-i18n="contact_directions"></span> →
+            </a>
           </div>
         </div>
       </div>
-      <div class="contact-form-card animate-in" style="transition-delay:150ms">
+
+      <div class="contact-form-col animate-in" style="transition-delay:120ms">
         <h3 data-i18n="form_title"></h3>
         <form id="contact-form" onsubmit="submitContactForm(event)">
-          <input class="form-field" type="text" name="name" data-placeholder-i18n="form_name" required />
-          <input class="form-field" type="email" name="email" data-placeholder-i18n="form_email" required />
-          <input class="form-field" type="tel" name="phone" data-placeholder-i18n="form_phone" />
-          <textarea class="form-field" name="message" rows="4" data-placeholder-i18n="form_message" required></textarea>
+          <div class="field-line">
+            <input class="form-field" type="text" name="name" data-placeholder-i18n="form_name" required />
+          </div>
+          <div class="field-line">
+            <input class="form-field" type="email" name="email" data-placeholder-i18n="form_email" required />
+          </div>
+          <div class="field-line">
+            <input class="form-field" type="tel" name="phone" data-placeholder-i18n="form_phone" />
+          </div>
+          <div class="field-line">
+            <textarea class="form-field" name="message" rows="3" data-placeholder-i18n="form_message" required></textarea>
+          </div>
           <button class="btn-submit" type="submit" id="form-submit-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg>
             <span data-i18n="form_submit"></span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M17 7H9M17 7v8"/></svg>
           </button>
         </form>
-        <!-- Success message -->
-        <div id="form-success" style="display:none;" class="form-feedback form-feedback-success">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <div id="form-success" style="display:none;" class="form-feedback form-feedback-success" role="status" aria-live="polite">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           <span data-i18n="form_success"></span>
         </div>
-        <!-- Error message -->
-        <div id="form-error" style="display:none;" class="form-feedback form-feedback-error">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div id="form-error" style="display:none;" class="form-feedback form-feedback-error" role="alert">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           <span data-i18n="form_error"></span>
         </div>
       </div>
@@ -522,78 +555,67 @@
 </section>
 
 <!-- MAP -->
-<section id="map" class="section-bg-1">
+<section id="map">
   <div class="container">
-    <div class="section-header animate-in" data-num="07">
-      <h2 class="font-display" data-i18n="map_title"></h2>
-      <div class="divider"></div>
+    <div class="section-head animate-in">
+      <span class="eyebrow">N&#176;07 — <span data-i18n="map_title"></span></span>
+      <h2 class="section-title" data-i18n="map_title"></h2>
     </div>
-    <div class="animate-in" style="transition-delay:150ms;max-width:900px;margin:0 auto;">
+    <div class="animate-in map-frame" style="transition-delay:120ms">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2966.3!2d20.9711378!3d42.0132422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1353f0e8f9b76983%3A0x414a763dc424a4df!2sElixir+Pharmacy!5e0!3m2!1sen!2smk!4v1"
-        width="100%"
-        height="384"
-        style="border:0;border-radius:20px;border:1px solid var(--border);"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
+        width="100%" height="420" style="border:0;display:block;"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
       </iframe>
     </div>
   </div>
 </section>
 
+</div>
+
 <!-- FOOTER -->
 <footer>
-  <div class="top-line"></div>
   <div class="container">
-    <div class="inner">
-      <h2>Elixir Pharmacy</h2>
-      <div class="footer-links">
-        <a href="tel:+38970887393">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          +389 70 887 393
-        </a>
-        <span style="color:var(--border)">|</span>
-        <span style="display:flex;align-items:center;gap:8px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
-          Tetovo
-        </span>
+    <div class="footer-top">
+      <a href="#hero" class="footer-brand">Elixir Pharmacy</a>
+      <a href="#hero" class="footer-top-btn">
+        <span>TOP</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="footer-rule"></div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <a href="#about" data-i18n="nav_about"></a>
+        <a href="#services" data-i18n="nav_services"></a>
+        <a href="#reviews" data-i18n="nav_reviews"></a>
+        <a href="#contact" data-i18n="nav_contact"></a>
       </div>
-      <div class="footer-divider"></div>
-      <div class="footer-social">
-        <a href="https://www.instagram.com/elixirpharmacytetovo/" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Instagram">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-          </svg>
-          Instagram
-        </a>
-        <a href="https://www.facebook.com/p/Pharmacy-Elixir-100064105089040/" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Facebook">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-          </svg>
-          Facebook
-        </a>
+      <div class="footer-col">
+        <a href="tel:+38970887393">+389 70 887 393</a>
+        <a href="https://www.instagram.com/elixirpharmacytetovo/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.facebook.com/p/Pharmacy-Elixir-100064105089040/" target="_blank" rel="noopener noreferrer">Facebook</a>
       </div>
-      <div class="footer-divider"></div>
+      <div class="footer-col footer-col-loc">
+        <span>TETOVO →</span>
+        <span class="footer-copy">© 2026 Elixir Pharmacy. <span data-i18n="footer_rights"></span></span>
+      </div>
+    </div>
+    <div class="footer-bottom">
       <p class="footer-copy"><a href="/privacy-policy" class="footer-credit-link" data-i18n="footer_privacy"></a></p>
-      <div class="footer-divider"></div>
-      <p class="footer-copy">© 2026 Elixir Pharmacy. <span data-i18n="footer_rights"></span> · Powered by <a href="https://www.instagram.com/ammar_rexhepi_/" target="_blank" rel="noopener noreferrer" class="footer-credit-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;margin-bottom:1px"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Ammar Rexhepi</a></p>
+      <p class="footer-copy">Powered by <a href="https://www.instagram.com/ammar_rexhepi_/" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Ammar Rexhepi</a></p>
     </div>
   </div>
 </footer>
 
 <!-- FLOATING CTA -->
 <div id="floating-cta">
-  <a href="https://porosit.mk/products?vendor_id=44" target="_blank" rel="noopener noreferrer" class="float-btn float-cart" aria-label="Online Shop" onclick="trackPorositClick()">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-  </a>
+  
   <a href="https://wa.me/38970887393" target="_blank" rel="noopener noreferrer" class="float-btn float-wa" aria-label="WhatsApp">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
   </a>
   <a href="tel:+38970887393" class="float-btn float-phone" aria-label="Call">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
   </a>
 </div>
 
@@ -1411,6 +1433,23 @@ window.addEventListener('scroll', () => {
 
 // init floating CTA hidden
 document.getElementById('floating-cta').style.cssText = 'opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity 0.4s,transform 0.4s;';
+
+// ── FULLSCREEN MENU ─────────────────────────────────────
+function toggleMenu() {
+  const panel = document.getElementById('fullscreen-menu');
+  const btn = document.getElementById('mobile-nav-toggle');
+  const label = document.getElementById('menu-toggle-label');
+  const isOpen = panel.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+  btn.setAttribute('aria-expanded', isOpen);
+  label.textContent = isOpen ? 'Close' : 'Menu';
+  document.body.classList.toggle('nav-lock', isOpen);
+}
+
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
 </script>
 <noscript>
   <div lang="mk">
@@ -1469,4 +1508,3 @@ document.getElementById('floating-cta').style.cssText = 'opacity:0;transform:tra
   </div>
 </div>
 </body>
-</html>

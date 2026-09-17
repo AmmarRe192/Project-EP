@@ -79,26 +79,31 @@ function setLang(lang) {
     if (dict[key] !== undefined) el.placeholder = dict[key];
   });
 
+  document.querySelectorAll('.gallery-caption').forEach(cap => {
+    const key = 'caption' + lang.charAt(0).toUpperCase() + lang.slice(1);
+    if (cap.dataset[key] !== undefined) cap.textContent = cap.dataset[key] || '';
+  });
+
   // page-specific hook
   if (typeof onLangChanged === 'function') {
     onLangChanged(lang);
   }
 }
 
-// ── SCROLL ANIMATIONS ────────────────────────────────────
-const observer = new IntersectionObserver((entries) => {
+// ── SCROLL REVEAL (one restrained pass, section-level) ───
+const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0.12 });
 
-document.querySelectorAll('.animate-in').forEach((el) => observer.observe(el));
+document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 
 // ── INIT ─────────────────────────────────────────────────
 (function initShared() {
-  // Restore theme \u2014 default is light
   const savedTheme = localStorage.getItem('elixir-theme') || 'light';
   if (savedTheme === 'light') {
     isDark = false;
@@ -108,22 +113,18 @@ document.querySelectorAll('.animate-in').forEach((el) => observer.observe(el));
     document.documentElement.classList.remove('light');
   }
 
-  // Restore language (default: 'sq')
   const savedLang = localStorage.getItem('elixir-lang') || 'sq';
   currentLang = savedLang;
 
-  // Update theme label if element exists
   const themeLabel = document.getElementById('theme-label');
   if (themeLabel) themeLabel.textContent = isDark ? 'Light' : 'Dark';
 
-  // Update lang dropdown display
   const meta = LANG_META[currentLang];
   const flagEl = document.getElementById('lang-flag');
   const currentEl = document.getElementById('lang-current');
   if (flagEl) flagEl.textContent = meta.flag;
   if (currentEl) currentEl.textContent = meta.label;
 
-  // Mark active lang button
   document.querySelectorAll('#lang-menu button[data-lang]').forEach((b) => {
     b.classList.toggle('active', b.dataset.lang === currentLang);
   });
