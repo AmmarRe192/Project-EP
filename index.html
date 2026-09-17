@@ -85,8 +85,26 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/x-icon" href="images/green-plus-11975.png">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+  <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>   
 </head>
 <body>
+  <div id="site-loader" aria-hidden="true">
+    <div class="loader-inner">
+        <div class="loader-brand">
+            <span>ELIXIR</span>
+            <span>PHARMACY</span>
+        </div>
+
+        <div class="loader-bottom">
+            <span class="loader-label">LOADING EXPERIENCE</span>
+            <span id="loader-percent">0%</span>
+        </div>
+
+        <div class="loader-line">
+            <span id="loader-progress"></span>
+        </div>
+    </div>
+</div>
 <a class="skip-link" href="#main-content">Skip to content</a>
 
 <!-- NAVBAR -->
@@ -196,7 +214,7 @@
 
     <h1 class="hero-title">
       <span class="hero-title-line">Elixir</span>
-      <span class="hero-title-line hero-title-accent">Pharmacy<span class="hero-dot">.</span></span>
+      <span class="hero-title-line hero-title-accent">Pharmacy</span>
     </h1>
 
     <div class="hero-bottom-row">
@@ -250,88 +268,162 @@
 </section>
 
 <!-- SERVICES -->
-<section id="services">
-  <div class="container">
-    <div class="section-head animate-in">
-      <span class="eyebrow" data-marquee>N&#176;02 — <span data-i18n="services_title"></span></span>
-      <h2 class="section-title" data-i18n="services_title"></h2>
-    </div>
-  </div>
+<section class="services" id="services">
 
-  <div class="services-list">
-    <div class="service-block animate-in">
-      <div class="container service-block-inner">
-        <span class="service-index">01</span>
-        <div class="service-visual">
-          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg>
-        </div>
-        <div class="service-text">
-          <h3 data-i18n="svc1_title"></h3>
-          <p data-i18n="svc1_desc"></p>
-        </div>
-      </div>
+    <div class="services-title">
+        <span>03 — SERVICES</span>
+        <h2>Our Services</h2>
     </div>
-    <div class="service-block service-block-alt animate-in" style="transition-delay:60ms">
-      <div class="container service-block-inner">
-        <span class="service-index">02</span>
-        <div class="service-visual">
-          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+
+    <div class="services-grid">
+
+    <!-- SERVICE 01 -->
+    <div class="service-card service-1">
+
+        <div class="service-glow"></div>
+
+        <div class="service-card-content">
+
+            <span class="service-number">01</span>
+
+            <h3>Prescription Services</h3>
+
+            <p>
+                Convenient and reliable prescription support
+                from our pharmacy team.
+            </p>
+
+            <div class="service-icon">
+                <!-- Your prescription SVG -->
+            </div>
+
         </div>
-        <div class="service-text">
-          <h3 data-i18n="svc2_title"></h3>
-          <p data-i18n="svc2_desc"></p>
-        </div>
-      </div>
+
     </div>
-    <div class="service-block animate-in" style="transition-delay:120ms">
-      <div class="container service-block-inner">
-        <span class="service-index">03</span>
-        <div class="service-visual">
-          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"/><path d="M12 3v6"/></svg>
+
+
+    <!-- SERVICE 02 -->
+    <div class="service-card service-2">
+
+        <div class="service-glow"></div>
+
+        <div class="service-card-content">
+
+            <span class="service-number">02</span>
+
+            <h3>Health Consultation</h3>
+
+            <p>
+                Professional guidance and support
+                for your everyday health needs.
+            </p>
+
+            <div class="service-icon">
+                <!-- Your consultation SVG -->
+            </div>
+
         </div>
-        <div class="service-text">
-          <h3 data-i18n="svc3_title"></h3>
-          <p data-i18n="svc3_desc"></p>
-        </div>
-      </div>
+
     </div>
-    <div class="service-block service-block-alt animate-in" style="transition-delay:180ms">
-      <div class="container service-block-inner">
-        <span class="service-index">04</span>
-        <div class="service-visual">
-          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 13a6 6 0 1 0 12 0 4 4 0 1 0-8 0 2 2 0 0 0 4 0"/><circle cx="22" cy="15" r="2"/><path d="M22 13v-2c0-5-7-7-11-2.9"/></svg>
+
+
+    <!-- SERVICE 03 -->
+    <div class="service-card service-3">
+
+        <div class="service-glow"></div>
+
+        <div class="service-card-content">
+
+            <span class="service-number">03</span>
+
+            <h3>Vitamins &amp; Wellness</h3>
+
+            <p>
+                Quality vitamins and wellness products
+                to support a healthier lifestyle.
+            </p>
+
+            <div class="service-icon">
+                <!-- Your vitamins SVG -->
+            </div>
+
         </div>
-        <div class="service-text">
-          <h3 data-i18n="svc4_title"></h3>
-          <p data-i18n="svc4_desc"></p>
-        </div>
-      </div>
+
     </div>
-    <div class="service-block animate-in" style="transition-delay:240ms">
-      <div class="container service-block-inner">
-        <span class="service-index">05</span>
-        <div class="service-visual">
-          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+
+
+    <!-- SERVICE 04 -->
+    <div class="service-card service-4">
+
+        <div class="service-glow"></div>
+
+        <div class="service-card-content">
+
+            <span class="service-number">04</span>
+
+            <h3>Personal Care</h3>
+
+            <p>
+                Everyday personal care products
+                selected with your wellbeing in mind.
+            </p>
+
+            <div class="service-icon">
+                <!-- Your personal care SVG -->
+            </div>
+
         </div>
-        <div class="service-text">
-          <h3 data-i18n="svc5_title"></h3>
-          <p data-i18n="svc5_desc"></p>
-        </div>
-      </div>
+
     </div>
-    <div class="service-block service-block-alt animate-in" style="transition-delay:300ms">
-      <div class="container service-block-inner">
-        <span class="service-index">06</span>
-        <div class="service-visual">
-          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+
+
+    <!-- SERVICE 05 -->
+    <div class="service-card service-5">
+
+        <div class="service-glow"></div>
+
+        <div class="service-card-content">
+
+            <span class="service-number">05</span>
+
+            <h3>Blood Pressure Measurement</h3>
+
+            <p>
+                Free blood pressure measurement and
+                on-the-spot health monitoring.
+            </p>
+
+           
+
         </div>
-        <div class="service-text">
-          <h3 data-i18n="svc6_title"></h3>
-          <p data-i18n="svc6_desc"></p>
-        </div>
-      </div>
+
     </div>
-  </div>
+
+
+    <!-- SERVICE 06 -->
+    <div class="service-card service-6">
+
+        <div class="service-glow"></div>
+
+        <div class="service-card-content">
+
+            <span class="service-number">06</span>
+
+            <h3>Diabetic &amp; Special Products</h3>
+
+            <p>
+                Specialised products for patients with
+                chronic conditions and special needs.
+            </p>
+
+            
+
+        </div>
+
+    </div>
+
+</div>
+
 </section>
 
 <!-- GALLERY -->
@@ -965,15 +1057,15 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-const ADMIN_PASSWORD = 'elixir2024';
-const ADMIN_SESSION_KEY = 'elixir-admin';
+const ADMIN_EMAIL = 'rexhepiammar4@gmail.com';
 
-function isAdminLoggedIn() {
-  return sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true';
+async function isAdminLoggedIn() {
+  const { data: { session } } = await _supabase.auth.getSession();
+  return !!session;
 }
 
-function applyAdminState() {
-  const loggedIn = isAdminLoggedIn();
+async function applyAdminState() {
+  const loggedIn = await isAdminLoggedIn();
   document.getElementById('gallery-admin-bar').style.display = loggedIn ? 'block' : 'none';
   document.getElementById('gallery-login-bar').style.display = loggedIn ? 'none' : 'block';
   document.getElementById('gallery-admin-grid').style.display = loggedIn ? 'grid' : 'none';
@@ -998,12 +1090,15 @@ function closeAdminModalOutside(e) {
   if (e.target === document.getElementById('admin-modal')) closeAdminModal();
 }
 
-function submitAdminLogin() {
-  const val = document.getElementById('admin-password-input').value;
-  if (val === ADMIN_PASSWORD) {
-    sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+async function submitAdminLogin() {
+  const pass = document.getElementById('admin-password-input').value;
+  const { error } = await _supabase.auth.signInWithPassword({
+    email: ADMIN_EMAIL,
+    password: pass
+  });
+  if (!error) {
     closeAdminModal();
-    applyAdminState();
+    await applyAdminState();
   } else {
     document.getElementById('admin-error').classList.add('visible');
     document.getElementById('admin-password-input').value = '';
@@ -1011,9 +1106,9 @@ function submitAdminLogin() {
   }
 }
 
-function adminLogout() {
-  sessionStorage.removeItem(ADMIN_SESSION_KEY);
-  applyAdminState();
+async function adminLogout() {
+  await _supabase.auth.signOut();
+  await applyAdminState();
 }
 
 // ── SUPABASE SETUP ────────────────────────────────────────
@@ -1149,66 +1244,105 @@ async function replaceGalleryImage(input) {
 let slideIndex  = 0;
 let slideTimer  = null;
 
-function renderGalleryItems(photos) {
+async function renderGalleryItems(photos) {
   slidePhotos = photos || [];
-  slideIndex  = 0;
+  slideIndex = 0;
 
-  const empty      = document.getElementById('gallery-empty');
-  const slideshow  = document.getElementById('gallery-slideshow');
-  const track      = document.getElementById('gallery-track');
-  const dotsEl     = document.getElementById('gallery-dots');
-  const counterEl  = document.getElementById('gallery-counter');
+  const empty     = document.getElementById('gallery-empty');
+  const slideshow = document.getElementById('gallery-slideshow');
+  const track     = document.getElementById('gallery-track');
+  const dotsEl    = document.getElementById('gallery-dots');
+  const counterEl = document.getElementById('gallery-counter');
+  const loggedIn  = await isAdminLoggedIn();
 
-  track.innerHTML  = '';
+  track.innerHTML = '';
   dotsEl.innerHTML = '';
   clearInterval(slideTimer);
 
   if (slidePhotos.length === 0) {
-    empty.style.display     = isAdminLoggedIn() ? 'none' : '';
+    empty.style.display = loggedIn ? 'none' : '';
     slideshow.style.display = 'none';
-    dotsEl.style.display    = 'none';
-    counterEl.textContent   = '';
-    if (isAdminLoggedIn()) renderAdminGrid();
+    dotsEl.style.display = 'none';
+    counterEl.textContent = '';
+    if (loggedIn) renderAdminGrid();
     return;
   }
 
-  empty.style.display    = 'none';
-  slideshow.style.display = isAdminLoggedIn() ? 'none' : '';
-  dotsEl.style.display   = isAdminLoggedIn() ? 'none' : 'flex';
+  empty.style.display = 'none';
+  slideshow.style.display = loggedIn ? 'none' : '';
+  dotsEl.style.display = 'none';
 
-  // build slides
-  slidePhotos.forEach((photo, i) => {
-    const slide = document.createElement('div');
-    slide.className = 'gallery-slide' + (i === 0 ? ' active' : '');
+  const lang = localStorage.getItem('elixir-lang') || 'sq';
+  const displayPhotos = slidePhotos.length > 1
+    ? [...slidePhotos.slice(-Math.min(3, slidePhotos.length)), ...slidePhotos, ...slidePhotos.slice(0, Math.min(3, slidePhotos.length))]
+    : slidePhotos;
+
+  displayPhotos.forEach((photo, displayIndex) => {
+    const logicalIndex = slidePhotos.length > 1
+      ? (displayIndex - Math.min(3, slidePhotos.length) + slidePhotos.length) % slidePhotos.length
+      : 0;
+
+    const slide = document.createElement('article');
+    slide.className = 'gallery-slide' + (logicalIndex === 0 ? ' active' : '');
     slide.dataset.id = photo.id;
+    slide.dataset.logicalIndex = logicalIndex;
+
+    const media = document.createElement('div');
+    media.className = 'gallery-slide-media';
 
     const img = document.createElement('img');
-    img.src     = photo.url;
-    img.alt     = photo.alt || 'Elixir Pharmacy';
-    img.loading = i === 0 ? 'eager' : 'lazy';
+    img.src = photo.url;
+    img.alt = photo.alt || 'Elixir Pharmacy';
+    img.loading = displayIndex < 6 ? 'eager' : 'lazy';
+    img.decoding = 'async';
+    img.onerror = () => {
+      console.error('Gallery image failed to load:', { id: photo.id, url: photo.url, storage_path: photo.storage_path });
+      media.classList.add('gallery-image-error');
+    };
 
-    const removeBtn = document.createElement('button');
-    removeBtn.className = 'gallery-remove';
-    removeBtn.title     = 'Remove photo';
-    removeBtn.innerHTML = '✕';
-    removeBtn.style.display = isAdminLoggedIn() ? 'flex' : 'none';
-    removeBtn.onclick = (e) => { e.stopPropagation(); removeGalleryPhoto(photo.id, photo.storage_path); };
+    const shade = document.createElement('div');
+    shade.className = 'gallery-slide-overlay';
 
-    const caption = document.createElement('div');
-    caption.className = 'gallery-caption';
+    const quoteMark = document.createElement('div');
+    quoteMark.className = 'gallery-quote-mark';
+    quoteMark.setAttribute('aria-hidden', 'true');
+    quoteMark.innerHTML = '&ldquo;&ldquo;';
+
+    const content = document.createElement('div');
+    content.className = 'gallery-card-content';
+
+    const caption = document.createElement('p');
+    caption.className = 'gallery-slide-caption gallery-caption';
     caption.dataset.captionSq = photo.caption_sq || '';
     caption.dataset.captionMk = photo.caption_mk || '';
     caption.dataset.captionEn = photo.caption_en || '';
     caption.dataset.captionTr = photo.caption_tr || '';
-    const lang = localStorage.getItem('elixir-lang') || 'sq';
-      caption.textContent = photo['caption_' + lang] || '';
+    // No placeholder/fallback text: photos without captions stay blank.
+    caption.textContent = photo['caption_' + lang] || '';
+    if (!caption.textContent.trim()) caption.style.display = 'none';
+    content.appendChild(caption);
 
-    slide.appendChild(img);
-    slide.appendChild(caption);
-    slide.appendChild(removeBtn);
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'gallery-remove';
+    removeBtn.title = 'Remove photo';
+    removeBtn.innerHTML = '&times;';
+    removeBtn.style.display = loggedIn ? 'flex' : 'none';
+    removeBtn.onclick = (e) => {
+      e.stopPropagation();
+      removeGalleryPhoto(photo.id, photo.storage_path);
+    };
+
+    media.appendChild(img);
+    media.appendChild(shade);
+    media.appendChild(quoteMark);
+    media.appendChild(content);
+    media.appendChild(removeBtn);
+    slide.appendChild(media);
     track.appendChild(slide);
+  });
 
-    // dot
+  // Keep dots in the DOM for existing functionality, but the reference design hides them.
+  slidePhotos.forEach((photo, i) => {
     const dot = document.createElement('button');
     dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
     dot.setAttribute('aria-label', `Photo ${i + 1}`);
@@ -1218,63 +1352,81 @@ function renderGalleryItems(photos) {
 
   updateCounter();
   updateArrows();
-
-  // attach swipe on the freshly built track
   attachSwipe(track);
+  updateGalleryTrackPosition(false);
 
-  // auto-advance every 5s
   slideTimer = setInterval(() => slideGallery(1), 5000);
-  if (isAdminLoggedIn()) renderAdminGrid();
+  if (loggedIn) renderAdminGrid();
+}
+
+function getGalleryStep() {
+  const slide = document.querySelector('.gallery-slide');
+  if (!slide) return 0;
+  const styles = getComputedStyle(document.getElementById('gallery-track'));
+  const gap = parseFloat(styles.columnGap || styles.gap || '16') || 16;
+  return slide.getBoundingClientRect().width + gap;
+}
+
+function getGalleryCloneCount() {
+  return slidePhotos.length > 1 ? Math.min(3, slidePhotos.length) : 0;
+}
+
+function getTrackIndex() {
+  return slidePhotos.length > 1 ? getGalleryCloneCount() + slideIndex : slideIndex;
+}
+
+function updateGalleryTrackPosition(animate = true, trackIndex = getTrackIndex()) {
+  const track = document.getElementById('gallery-track');
+  if (!track) return;
+  track.style.transition = animate ? 'transform .55s cubic-bezier(.22,.61,.36,1)' : 'none';
+  track.style.transform = `translate3d(${-trackIndex * getGalleryStep()}px,0,0)`;
+}
+
+function refreshGalleryState() {
+  document.querySelectorAll('.gallery-slide').forEach((slide) => {
+    slide.classList.toggle('active', Number(slide.dataset.logicalIndex) === slideIndex);
+  });
+  document.querySelectorAll('.gallery-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === slideIndex);
+  });
+  updateCounter();
+  updateArrows();
 }
 
 function goToSlide(next, direction) {
-  if (slidePhotos.length === 0) return;
-  const slides = document.querySelectorAll('.gallery-slide');
-  const dots   = document.querySelectorAll('.gallery-dot');
-  if (!slides.length) return;
+  if (!slidePhotos.length) return;
 
-  if (direction === undefined) direction = next > slideIndex ? 1 : -1;
+  const total = slidePhotos.length;
+  const cloneCount = getGalleryCloneCount();
+  const normalized = ((next % total) + total) % total;
+  const wrappedForward = next >= total;
+  const wrappedBackward = next < 0;
 
-  const current = slideIndex;
-  slideIndex = (next + slidePhotos.length) % slidePhotos.length;
+  slideIndex = normalized;
+  const targetTrackIndex = cloneCount + slideIndex;
 
-  if (current === slideIndex) return;
+  refreshGalleryState();
+  updateGalleryTrackPosition(true, targetTrackIndex);
 
-  // position incoming slide off-screen instantly (no transition)
-  slides[slideIndex].style.transition = 'none';
-  slides[slideIndex].style.transform  = direction > 0 ? 'translateX(100%)' : 'translateX(-100%)';
-  slides[slideIndex].style.opacity    = '0';
-
-  // double rAF: first frame paints the starting position,
-  // second frame kicks off the transition — reliable on iOS Safari
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      slides[slideIndex].style.transition = '';
-      slides[slideIndex].style.transform  = '';
-      slides[slideIndex].style.opacity    = '';
-      slides[slideIndex].classList.add('active');
-
-      slides[current].classList.remove('active');
-      slides[current].classList.add(direction > 0 ? 'exit-left' : 'exit-right');
-
-      setTimeout(() => {
-        slides[current].classList.remove('exit-left', 'exit-right');
-        slides[current].style.transform = '';
-      }, 480);
-    });
-  });
-
-  dots.forEach((d, i) => d.classList.toggle('active', i === slideIndex));
-  updateCounter();
-  updateArrows();
-
+  // Manual arrows/swipes reset the autoplay clock. This gives the user a full
+  // 5 seconds on the newly selected photo before the next automatic transition.
   clearInterval(slideTimer);
   slideTimer = setInterval(() => slideGallery(1), 5000);
+
+  // Seamlessly jump from a cloned edge back to the real slide after the animation.
+  if (total > 1 && (wrappedForward || wrappedBackward)) {
+    window.setTimeout(() => {
+      updateGalleryTrackPosition(false, targetTrackIndex);
+    }, 570);
+  }
 }
 
 function slideGallery(dir) {
+  if (!slidePhotos.length) return;
   goToSlide(slideIndex + dir, dir);
 }
+
+window.addEventListener('resize', () => updateGalleryTrackPosition(false));
 
 function updateCounter() {
   const el = document.getElementById('gallery-counter');
@@ -1286,11 +1438,10 @@ function updateCounter() {
 }
 
 function updateArrows() {
-  // arrows always wrap around, so they're never disabled — but hide if only 1 photo
   const hide = slidePhotos.length <= 1;
   document.getElementById('gallery-prev').style.display = hide ? 'none' : '';
   document.getElementById('gallery-next').style.display = hide ? 'none' : '';
-  document.getElementById('gallery-dots').style.display = hide ? 'none' : 'flex';
+  document.getElementById('gallery-dots').style.display = 'none';
 }
 
 // keyboard navigation
@@ -1335,13 +1486,35 @@ function attachSwipe(track) {
 }
 
 async function renderGallery() {
+  const empty = document.getElementById('gallery-empty');
+
   const { data, error } = await _supabase
     .from('gallery_photos')
     .select('*')
     .order('sort_order', { ascending: true });
 
-  if (error) { console.error('Gallery load error:', error); return; }
-  renderGalleryItems(data);
+  if (error) {
+    console.error('Gallery load error:', error);
+    if (empty) {
+      empty.textContent = 'Gallery could not be loaded. Check the browser console for the Supabase error.';
+      empty.style.display = '';
+    }
+    return;
+  }
+
+  const photos = (data || []).map(photo => {
+    // Old rows may have storage_path but an empty/broken url.
+    // Rebuild the public Storage URL from the current bucket.
+    if ((!photo.url || photo.url === 'null') && photo.storage_path) {
+      const { data: publicData } = _supabase.storage
+        .from('gallery')
+        .getPublicUrl(photo.storage_path);
+      return { ...photo, url: publicData?.publicUrl || '' };
+    }
+    return photo;
+  }).filter(photo => photo.url);
+
+  await renderGalleryItems(photos);
 }
 
 async function addGalleryPhotos(input) {
@@ -1400,10 +1573,10 @@ renderGallery();
 applyAdminState();
 
 // ── ADMIN URL TRIGGER ─────────────────────────────────────
-function checkAdminHash() {
+async function checkAdminHash() {
   if (window.location.hash === '#admin') {
     history.replaceState(null, '', window.location.pathname + window.location.search);
-    if (isAdminLoggedIn()) {
+    if (await isAdminLoggedIn()) {
       applyAdminState();
     } else {
       openAdminModal();
