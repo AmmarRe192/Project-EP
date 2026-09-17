@@ -173,3 +173,13 @@ window.addEventListener('wheel', (e) => {
     animateScroll();
   }
 }, { passive: false });
+const MAX_VELOCITY = 50; // pixels per frame
+
+window.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  velocity = Math.max(-MAX_VELOCITY, Math.min(MAX_VELOCITY, e.deltaY));
+  if (!isScrolling) {
+    isScrolling = true;
+    animateScroll();
+  }
+}, { passive: false });
