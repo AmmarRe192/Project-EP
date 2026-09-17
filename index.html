@@ -1244,109 +1244,105 @@ async function replaceGalleryImage(input) {
 let slideIndex  = 0;
 let slideTimer  = null;
 
- function renderGalleryItems(photos) {
+async function renderGalleryItems(photos) {
   slidePhotos = photos || [];
-  slideIndex  = 0;
+  slideIndex = 0;
 
   const empty     = document.getElementById('gallery-empty');
   const slideshow = document.getElementById('gallery-slideshow');
   const track     = document.getElementById('gallery-track');
   const dotsEl    = document.getElementById('gallery-dots');
   const counterEl = document.getElementById('gallery-counter');
+  const loggedIn  = await isAdminLoggedIn();
 
-  track.innerHTML  = '';
+  track.innerHTML = '';
   dotsEl.innerHTML = '';
   clearInterval(slideTimer);
 
   if (slidePhotos.length === 0) {
-    empty.style.display     = isAdminLoggedIn() ? 'none' : '';
+    empty.style.display = loggedIn ? 'none' : '';
     slideshow.style.display = 'none';
-    dotsEl.style.display    = 'none';
-    counterEl.textContent   = '';
-    if (isAdminLoggedIn()) renderAdminGrid();
+    dotsEl.style.display = 'none';
+    counterEl.textContent = '';
+    if (loggedIn) renderAdminGrid();
     return;
   }
 
-  empty.style.display     = 'none';
-  slideshow.style.display = isAdminLoggedIn() ? 'none' : '';
-  dotsEl.style.display    = isAdminLoggedIn() ? 'none' : 'flex';
+  empty.style.display = 'none';
+  slideshow.style.display = loggedIn ? 'none' : '';
+  dotsEl.style.display = 'none';
 
   const lang = localStorage.getItem('elixir-lang') || 'sq';
-  const dict = (typeof T !== 'undefined' && T[lang]) || {};
-  const fallbackCaption = dict.gallery_title || '';
+  const displayPhotos = slidePhotos.length > 1
+    ? [...slidePhotos.slice(-Math.min(3, slidePhotos.length)), ...slidePhotos, ...slidePhotos.slice(0, Math.min(3, slidePhotos.length))]
+    : slidePhotos;
 
-  slidePhotos.forEach((photo, i) => {
-    const slide = document.createElement('div');
-    slide.className = 'gallery-slide' + (i === 0 ? ' active' : '');
+  displayPhotos.forEach((photo, displayIndex) => {
+    const logicalIndex = slidePhotos.length > 1
+      ? (displayIndex - Math.min(3, slidePhotos.length) + slidePhotos.length) % slidePhotos.length
+      : 0;
+
+    const slide = document.createElement('article');
+    slide.className = 'gallery-slide' + (logicalIndex === 0 ? ' active' : '');
     slide.dataset.id = photo.id;
+    slide.dataset.logicalIndex = logicalIndex;
 
-    // ── text column ──
-    const textCol = document.createElement('div');
-    textCol.className = 'gallery-slide-text';
+    const media = document.createElement('div');
+    media.className = 'gallery-slide-media';
 
-    const num = document.createElement('span');
-    num.className = 'gallery-slide-num';
-    num.textContent = String(i + 1).padStart(2, '0');
+    const img = document.createElement('img');
+    img.src = photo.url;
+    img.alt = photo.alt || 'Elixir Pharmacy';
+    img.loading = displayIndex < 6 ? 'eager' : 'lazy';
+    img.decoding = 'async';
+    img.onerror = () => {
+      console.error('Gallery image failed to load:', { id: photo.id, url: photo.url, storage_path: photo.storage_path });
+      media.classList.add('gallery-image-error');
+    };
 
-    const eyebrow = document.createElement('span');
-    eyebrow.className = 'gallery-slide-eyebrow';
-    eyebrow.textContent = dict.gallery_title || 'Gallery';
+    const shade = document.createElement('div');
+    shade.className = 'gallery-slide-overlay';
 
-    // keep .gallery-caption + data attributes so the language
-    // switcher keeps updating captions exactly as before
+    const quoteMark = document.createElement('div');
+    quoteMark.className = 'gallery-quote-mark';
+    quoteMark.setAttribute('aria-hidden', 'true');
+    quoteMark.innerHTML = '&ldquo;&ldquo;';
+
+    const content = document.createElement('div');
+    content.className = 'gallery-card-content';
+
     const caption = document.createElement('p');
     caption.className = 'gallery-slide-caption gallery-caption';
     caption.dataset.captionSq = photo.caption_sq || '';
     caption.dataset.captionMk = photo.caption_mk || '';
     caption.dataset.captionEn = photo.caption_en || '';
     caption.dataset.captionTr = photo.caption_tr || '';
-    caption.textContent = photo['caption_' + lang] || fallbackCaption;
-
-    const divider = document.createElement('div');
-    divider.className = 'gallery-slide-divider';
-
-    const meta = document.createElement('div');
-    meta.className = 'gallery-slide-meta';
-    meta.innerHTML = `
-      <div class="gallery-slide-info">
-        <p class="gallery-slide-name">${photo.alt || 'Elixir'}</p>
-        <p class="gallery-slide-role">${i + 1} / ${slidePhotos.length}</p>
-      </div>`;
-
-    textCol.appendChild(num);
-    textCol.appendChild(eyebrow);
-    textCol.appendChild(caption);
-    textCol.appendChild(divider);
-    textCol.appendChild(meta);
-
-    // ── image column ──
-    const media = document.createElement('div');
-    media.className = 'gallery-slide-media';
-
-    const img = document.createElement('img');
-    img.src     = photo.url;
-    img.alt     = photo.alt || 'Elixir Pharmacy';
-    img.loading = i === 0 ? 'eager' : 'lazy';
-
-    const overlay = document.createElement('div');
-    overlay.className = 'gallery-slide-overlay';
+    // No placeholder/fallback text: photos without captions stay blank.
+    caption.textContent = photo['caption_' + lang] || '';
+    if (!caption.textContent.trim()) caption.style.display = 'none';
+    content.appendChild(caption);
 
     const removeBtn = document.createElement('button');
     removeBtn.className = 'gallery-remove';
-    removeBtn.title     = 'Remove photo';
-    removeBtn.innerHTML = '✕';
-    removeBtn.style.display = isAdminLoggedIn() ? 'flex' : 'none';
-    removeBtn.onclick = (e) => { e.stopPropagation(); removeGalleryPhoto(photo.id, photo.storage_path); };
+    removeBtn.title = 'Remove photo';
+    removeBtn.innerHTML = '&times;';
+    removeBtn.style.display = loggedIn ? 'flex' : 'none';
+    removeBtn.onclick = (e) => {
+      e.stopPropagation();
+      removeGalleryPhoto(photo.id, photo.storage_path);
+    };
 
     media.appendChild(img);
-    media.appendChild(overlay);
+    media.appendChild(shade);
+    media.appendChild(quoteMark);
+    media.appendChild(content);
     media.appendChild(removeBtn);
-
-    slide.appendChild(textCol);
     slide.appendChild(media);
     track.appendChild(slide);
+  });
 
-    // indicator
+  // Keep dots in the DOM for existing functionality, but the reference design hides them.
+  slidePhotos.forEach((photo, i) => {
     const dot = document.createElement('button');
     dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
     dot.setAttribute('aria-label', `Photo ${i + 1}`);
@@ -1356,60 +1352,81 @@ let slideTimer  = null;
 
   updateCounter();
   updateArrows();
-
   attachSwipe(track);
+  updateGalleryTrackPosition(false);
 
   slideTimer = setInterval(() => slideGallery(1), 5000);
-  if (isAdminLoggedIn()) renderAdminGrid();
+  if (loggedIn) renderAdminGrid();
 }
-function goToSlide(next, direction) {
-  if (slidePhotos.length === 0) return;
-  const slides = document.querySelectorAll('.gallery-slide');
-  const dots   = document.querySelectorAll('.gallery-dot');
-  if (!slides.length) return;
 
-  if (direction === undefined) direction = next > slideIndex ? 1 : -1;
+function getGalleryStep() {
+  const slide = document.querySelector('.gallery-slide');
+  if (!slide) return 0;
+  const styles = getComputedStyle(document.getElementById('gallery-track'));
+  const gap = parseFloat(styles.columnGap || styles.gap || '16') || 16;
+  return slide.getBoundingClientRect().width + gap;
+}
 
-  const current = slideIndex;
-  slideIndex = (next + slidePhotos.length) % slidePhotos.length;
+function getGalleryCloneCount() {
+  return slidePhotos.length > 1 ? Math.min(3, slidePhotos.length) : 0;
+}
 
-  if (current === slideIndex) return;
+function getTrackIndex() {
+  return slidePhotos.length > 1 ? getGalleryCloneCount() + slideIndex : slideIndex;
+}
 
-  // position incoming slide off-screen instantly (no transition)
-  slides[slideIndex].style.transition = 'none';
-  slides[slideIndex].style.transform  = direction > 0 ? 'translateX(100%)' : 'translateX(-100%)';
-  slides[slideIndex].style.opacity    = '0';
+function updateGalleryTrackPosition(animate = true, trackIndex = getTrackIndex()) {
+  const track = document.getElementById('gallery-track');
+  if (!track) return;
+  track.style.transition = animate ? 'transform .55s cubic-bezier(.22,.61,.36,1)' : 'none';
+  track.style.transform = `translate3d(${-trackIndex * getGalleryStep()}px,0,0)`;
+}
 
-  // double rAF: first frame paints the starting position,
-  // second frame kicks off the transition — reliable on iOS Safari
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      slides[slideIndex].style.transition = '';
-      slides[slideIndex].style.transform  = '';
-      slides[slideIndex].style.opacity    = '';
-      slides[slideIndex].classList.add('active');
-
-      slides[current].classList.remove('active');
-      slides[current].classList.add(direction > 0 ? 'exit-left' : 'exit-right');
-
-      setTimeout(() => {
-        slides[current].classList.remove('exit-left', 'exit-right');
-        slides[current].style.transform = '';
-      }, 480);
-    });
+function refreshGalleryState() {
+  document.querySelectorAll('.gallery-slide').forEach((slide) => {
+    slide.classList.toggle('active', Number(slide.dataset.logicalIndex) === slideIndex);
   });
-
-  dots.forEach((d, i) => d.classList.toggle('active', i === slideIndex));
+  document.querySelectorAll('.gallery-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === slideIndex);
+  });
   updateCounter();
   updateArrows();
+}
 
+function goToSlide(next, direction) {
+  if (!slidePhotos.length) return;
+
+  const total = slidePhotos.length;
+  const cloneCount = getGalleryCloneCount();
+  const normalized = ((next % total) + total) % total;
+  const wrappedForward = next >= total;
+  const wrappedBackward = next < 0;
+
+  slideIndex = normalized;
+  const targetTrackIndex = cloneCount + slideIndex;
+
+  refreshGalleryState();
+  updateGalleryTrackPosition(true, targetTrackIndex);
+
+  // Manual arrows/swipes reset the autoplay clock. This gives the user a full
+  // 5 seconds on the newly selected photo before the next automatic transition.
   clearInterval(slideTimer);
   slideTimer = setInterval(() => slideGallery(1), 5000);
+
+  // Seamlessly jump from a cloned edge back to the real slide after the animation.
+  if (total > 1 && (wrappedForward || wrappedBackward)) {
+    window.setTimeout(() => {
+      updateGalleryTrackPosition(false, targetTrackIndex);
+    }, 570);
+  }
 }
 
 function slideGallery(dir) {
+  if (!slidePhotos.length) return;
   goToSlide(slideIndex + dir, dir);
 }
+
+window.addEventListener('resize', () => updateGalleryTrackPosition(false));
 
 function updateCounter() {
   const el = document.getElementById('gallery-counter');
@@ -1421,11 +1438,10 @@ function updateCounter() {
 }
 
 function updateArrows() {
-  // arrows always wrap around, so they're never disabled — but hide if only 1 photo
   const hide = slidePhotos.length <= 1;
   document.getElementById('gallery-prev').style.display = hide ? 'none' : '';
   document.getElementById('gallery-next').style.display = hide ? 'none' : '';
-  document.getElementById('gallery-dots').style.display = hide ? 'none' : 'flex';
+  document.getElementById('gallery-dots').style.display = 'none';
 }
 
 // keyboard navigation
@@ -1470,13 +1486,35 @@ function attachSwipe(track) {
 }
 
 async function renderGallery() {
+  const empty = document.getElementById('gallery-empty');
+
   const { data, error } = await _supabase
     .from('gallery_photos')
     .select('*')
     .order('sort_order', { ascending: true });
 
-  if (error) { console.error('Gallery load error:', error); return; }
-  renderGalleryItems(data);
+  if (error) {
+    console.error('Gallery load error:', error);
+    if (empty) {
+      empty.textContent = 'Gallery could not be loaded. Check the browser console for the Supabase error.';
+      empty.style.display = '';
+    }
+    return;
+  }
+
+  const photos = (data || []).map(photo => {
+    // Old rows may have storage_path but an empty/broken url.
+    // Rebuild the public Storage URL from the current bucket.
+    if ((!photo.url || photo.url === 'null') && photo.storage_path) {
+      const { data: publicData } = _supabase.storage
+        .from('gallery')
+        .getPublicUrl(photo.storage_path);
+      return { ...photo, url: publicData?.publicUrl || '' };
+    }
+    return photo;
+  }).filter(photo => photo.url);
+
+  await renderGalleryItems(photos);
 }
 
 async function addGalleryPhotos(input) {

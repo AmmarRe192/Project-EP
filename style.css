@@ -336,6 +336,18 @@ body.nav-lock { overflow: hidden; }
 
 /* image column */
 .gallery-slide-media { position: relative; overflow: hidden; min-height: 420px; }
+.gallery-image-error::after {
+  content: 'Image unavailable';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+  background: var(--surface);
+  font-size: .8rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
 .gallery-slide-media img {
   width: 100%; height: 100%; object-fit: cover; display: block;
   filter: grayscale(65%);
@@ -1815,3 +1827,489 @@ html.lenis body {
     }
 }
 .gallery-lead { max-width: 46ch; margin-top: 16px; font-size: clamp(1.05rem, 1.6vw, 1.3rem); line-height: 1.5; color: var(--text-dim); }
+/* ============================================================
+   GALLERY — Padelthon “What people say” closer match
+   Keep the existing Gallery functionality; only reshape the presentation.
+   ============================================================ */
+#gallery .gallery-frame {
+  margin-top: 64px;
+  border-top: 1px solid var(--border);
+  border-bottom: 0;
+  overflow: hidden;
+}
+
+#gallery .gallery-slideshow {
+  aspect-ratio: auto;
+  background: transparent;
+  overflow: hidden;
+}
+
+#gallery .gallery-slide {
+  grid-template-columns: minmax(0, 1fr) 190px;
+  column-gap: clamp(40px, 7vw, 110px);
+  min-height: 0;
+  padding: 58px 0 64px;
+  background: transparent;
+  align-items: center;
+}
+
+#gallery .gallery-slide-text {
+  min-width: 0;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 0;
+}
+
+#gallery .gallery-slide-num {
+  position: static;
+  display: block;
+  margin-bottom: 24px;
+  font-size: .68rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: .16em;
+  color: var(--text-muted);
+  -webkit-text-stroke: 0;
+}
+
+#gallery .gallery-slide-eyebrow {
+  display: none;
+}
+
+#gallery .gallery-slide-caption {
+  max-width: 760px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  font-size: clamp(1.65rem, 3vw, 2.75rem);
+  line-height: 1.18;
+  font-weight: 500;
+  letter-spacing: -.035em;
+  color: var(--text);
+}
+
+#gallery .gallery-slide-divider {
+  width: 100%;
+  margin: 42px 0 22px;
+  background: var(--border);
+}
+
+#gallery .gallery-slide-meta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+#gallery .gallery-slide-name {
+  font-size: .78rem;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--text);
+}
+
+#gallery .gallery-slide-role {
+  margin-top: 6px;
+  font-size: .62rem;
+  line-height: 1.2;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+#gallery .gallery-slide-media {
+  width: 190px;
+  height: 190px;
+  min-height: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  justify-self: end;
+  background: var(--surface);
+}
+
+#gallery .gallery-slide-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transform: none;
+  transition: filter .35s ease, transform .5s ease;
+}
+
+#gallery .gallery-slide.active .gallery-slide-media img:hover {
+  filter: grayscale(70%);
+  transform: scale(1.035);
+}
+
+#gallery .gallery-slide-overlay {
+  display: none;
+}
+
+#gallery .gallery-remove {
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+}
+
+/* Arrows sit in the lower-right control row, rather than floating over the photo. */
+#gallery .gallery-arrow {
+  top: auto;
+  bottom: 24px;
+  transform: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+#gallery .gallery-arrow:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
+}
+
+#gallery .gallery-arrow-left { left: auto; right: 56px; }
+#gallery .gallery-arrow-right { right: 0; }
+
+#gallery .gallery-dots {
+  justify-content: flex-start;
+  gap: 5px;
+  padding: 0 0 24px;
+}
+
+#gallery .gallery-dot {
+  width: 18px;
+  height: 2px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--border);
+}
+
+#gallery .gallery-dot.active {
+  width: 30px;
+  background: var(--text);
+}
+
+#gallery .gallery-counter {
+  position: absolute;
+  right: 112px;
+  bottom: 39px;
+  padding: 0;
+  text-align: right;
+  font-size: .6rem;
+  letter-spacing: .13em;
+  color: var(--text-muted);
+}
+
+@media (max-width: 900px) {
+  #gallery .gallery-frame { margin-top: 48px; }
+  #gallery .gallery-slide {
+    grid-template-columns: minmax(0, 1fr) 140px;
+    column-gap: 36px;
+    padding: 48px 0 62px;
+  }
+  #gallery .gallery-slide-media {
+    width: 140px;
+    height: 140px;
+  }
+  #gallery .gallery-slide-caption {
+    font-size: clamp(1.45rem, 4vw, 2.15rem);
+  }
+}
+
+@media (max-width: 640px) {
+  #gallery .gallery-frame { margin-top: 38px; }
+  #gallery .gallery-slide {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 34px 0 78px;
+  }
+  #gallery .gallery-slide-text { order: 1; }
+  #gallery .gallery-slide-media {
+    order: 0;
+    width: 92px;
+    height: 92px;
+    margin: 0 0 28px;
+    align-self: flex-start;
+  }
+  #gallery .gallery-slide-num { margin-bottom: 18px; }
+  #gallery .gallery-slide-caption {
+    max-width: none;
+    font-size: clamp(1.55rem, 7vw, 2.05rem);
+    line-height: 1.2;
+    letter-spacing: -.025em;
+  }
+  #gallery .gallery-slide-divider { margin: 30px 0 18px; }
+  #gallery .gallery-slide-name { font-size: .76rem; }
+  #gallery .gallery-slide-role { font-size: .58rem; }
+
+  #gallery .gallery-arrow {
+    bottom: 18px;
+    width: 42px;
+    height: 42px;
+  }
+  #gallery .gallery-arrow-left { right: 50px; }
+  #gallery .gallery-arrow-right { right: 0; }
+  #gallery .gallery-counter {
+    right: 104px;
+    bottom: 32px;
+    font-size: .56rem;
+  }
+  #gallery .gallery-dots { padding-bottom: 18px; }
+}
+
+/* ============================================================
+   GALLERY — reference-card layout
+   Three image cards visible on desktop, quote over image,
+   no author/name block. Gallery controls remain functional.
+   ============================================================ */
+#gallery .gallery-frame {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-top: 52px;
+  border: 0;
+  overflow: visible;
+}
+
+#gallery .gallery-slideshow {
+  position: relative;
+  width: 100%;
+  height: 640px;
+  overflow: visible;
+  background: transparent;
+}
+
+#gallery .gallery-slide-track {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 16px;
+  width: max-content;
+  height: 100%;
+  padding-left: 27px;
+  position: relative;
+  will-change: transform;
+}
+
+#gallery .gallery-slide {
+  position: relative;
+  flex: 0 0 min(608px, 34vw);
+  width: min(608px, 34vw);
+  height: 640px;
+  min-height: 0;
+  padding: 0;
+  display: block;
+  overflow: hidden;
+  border-radius: 15px;
+  background: #777;
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+#gallery .gallery-slide-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  background: #777;
+}
+
+#gallery .gallery-slide-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: none;
+  transform: scale(1.001);
+  transition: transform .7s cubic-bezier(.2,.7,.2,1);
+}
+
+#gallery .gallery-slide.active .gallery-slide-media img:hover {
+  filter: none;
+  transform: scale(1.025);
+}
+
+#gallery .gallery-slide-overlay {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.02) 30%, rgba(0,0,0,.18) 48%, rgba(0,0,0,.78) 100%);
+}
+
+#gallery .gallery-quote-mark {
+  position: absolute;
+  top: 37px;
+  left: 31px;
+  z-index: 2;
+  color: #c7ff32;
+  font-size: 43px;
+  line-height: .72;
+  font-weight: 900;
+  letter-spacing: -13px;
+  font-family: Arial, Helvetica, sans-serif;
+  transform: scaleX(.82);
+  transform-origin: left top;
+  pointer-events: none;
+}
+
+#gallery .gallery-card-content {
+  position: absolute;
+  z-index: 2;
+  left: 30px;
+  right: 30px;
+  bottom: 31px;
+}
+
+#gallery .gallery-slide-caption {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: #fff;
+  font-size: clamp(1.55rem, 2vw, 2rem);
+  line-height: 1.14;
+  font-weight: 600;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+/* Hide the old editorial elements; captions themselves remain. */
+#gallery .gallery-slide-text,
+#gallery .gallery-slide-num,
+#gallery .gallery-slide-eyebrow,
+#gallery .gallery-slide-divider,
+#gallery .gallery-slide-meta {
+  display: none !important;
+}
+
+#gallery .gallery-remove {
+  top: 18px;
+  right: 18px;
+  z-index: 8;
+  width: 34px;
+  height: 34px;
+}
+
+/* Reference-style top-right navigation. */
+#gallery .gallery-arrow {
+  top: -91px;
+  bottom: auto;
+  transform: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(20,20,18,.11);
+  color: var(--text);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  z-index: 30;
+  pointer-events: auto;
+}
+
+#gallery .gallery-arrow:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
+}
+
+
+#gallery .gallery-arrow:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* Manual controls remain available while the automatic carousel runs.
+   Clicking either arrow restarts the 5-second timer, so the next automatic
+   transition waits after the user's manual move. */
+#gallery .gallery-arrow {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+#gallery .gallery-arrow-left { left: auto; right: 108px; }
+#gallery .gallery-arrow-right { right: 48px; }
+
+/* Dots/counter stay in the DOM for existing functionality but are visually hidden
+   to match the supplied reference, which uses only the two circular arrows. */
+#gallery .gallery-dots,
+#gallery .gallery-counter {
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  #gallery .gallery-slideshow { height: 560px; }
+  #gallery .gallery-slide {
+    flex-basis: 46vw;
+    width: 46vw;
+    height: 560px;
+  }
+  #gallery .gallery-slide-caption { font-size: clamp(1.4rem, 2.8vw, 1.85rem); }
+  #gallery .gallery-arrow { top: -78px; }
+  #gallery .gallery-arrow-left { right: 100px; }
+  #gallery .gallery-arrow-right { right: 40px; }
+}
+
+@media (max-width: 640px) {
+  #gallery .gallery-frame {
+    margin-top: 36px;
+  }
+
+  #gallery .gallery-slideshow {
+    height: 540px;
+  }
+
+  #gallery .gallery-slide-track {
+    gap: 12px;
+    padding-left: 18px;
+  }
+
+  #gallery .gallery-slide {
+    flex-basis: calc(100vw - 54px);
+    width: calc(100vw - 54px);
+    height: 540px;
+    border-radius: 14px;
+  }
+
+  #gallery .gallery-quote-mark {
+    top: 27px;
+    left: 23px;
+    font-size: 36px;
+  }
+
+  #gallery .gallery-card-content {
+    left: 23px;
+    right: 23px;
+    bottom: 25px;
+  }
+
+  #gallery .gallery-slide-caption {
+    font-size: clamp(1.45rem, 7vw, 1.9rem);
+    line-height: 1.16;
+  }
+
+  #gallery .gallery-arrow {
+    top: -61px;
+    width: 48px;
+    height: 48px;
+  }
+  #gallery .gallery-arrow-left { right: 76px; }
+  #gallery .gallery-arrow-right { right: 18px; }
+}
