@@ -86,15 +86,16 @@ function setLang(lang) {
 }
 
 // ── SCROLL ANIMATIONS ────────────────────────────────────
-const observer = new IntersectionObserver((entries) => {
+const observer = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
     }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0.1 }) : null;
 
-document.querySelectorAll('.animate-in').forEach((el) => observer.observe(el));
+if (observer) document.querySelectorAll('.animate-in').forEach((el) => observer.observe(el));
+else document.querySelectorAll('.animate-in').forEach((el) => el.classList.add('visible'));
 
 // ── INIT ─────────────────────────────────────────────────
 (function initShared() {
@@ -128,3 +129,24 @@ document.querySelectorAll('.animate-in').forEach((el) => observer.observe(el));
     b.classList.toggle('active', b.dataset.lang === currentLang);
   });
 })();
+
+
+// Keyboard affordances for overlays and menus.
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+
+  const dd = document.getElementById('lang-dropdown');
+  const langBtn = document.getElementById('lang-btn');
+  if (dd?.classList.contains('open')) {
+    dd.classList.remove('open');
+    langBtn?.setAttribute('aria-expanded', 'false');
+    langBtn?.focus();
+  }
+
+  const panel = document.getElementById('fullscreen-menu');
+  const menuBtn = document.getElementById('mobile-nav-toggle');
+  if (panel?.classList.contains('open') && typeof toggleMenu === 'function') {
+    toggleMenu();
+    menuBtn?.focus();
+  }
+});
