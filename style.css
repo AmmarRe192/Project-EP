@@ -2313,3 +2313,107 @@ html.lenis body {
   #gallery .gallery-arrow-left { right: 76px; }
   #gallery .gallery-arrow-right { right: 18px; }
 }
+/* ==========================================
+   MOBILE NAVBAR FIX
+   Prevents horizontal overflow and empty right space
+   ========================================== */
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+@media (max-width: 480px) {
+  /* Force navbar to strictly match viewport width */
+  #navbar {
+    width: 100vw;
+    max-width: 100vw;
+    left: 0;
+    right: 0;
+    margin: 0;
+  }
+
+  /* Reduce horizontal padding to prevent content squishing/overflow */
+  .nav-inner {
+    padding: 0 16px; /* Reduced from 32px */
+    height: 70px;    /* Slightly shorter for better mobile proportions */
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Compact the right-side elements */
+  .nav-right {
+    gap: 8px;        /* Reduced from 12px */
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  /* Make mobile toggle button more compact */
+  #mobile-nav-toggle {
+    padding: 0 12px; /* Reduced from 20px */
+    height: 36px;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  /* Ensure logo shrinks appropriately */
+  .nav-logo {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+  
+  .nav-logo img {
+    height: 24px;    /* Slightly smaller logo on mobile */
+    width: auto;
+  }
+
+  /* On very small screens (< 360px), hide theme/lang toggles to guarantee a perfect fit */
+  /* (They remain fully accessible on larger devices and inside the fullscreen menu) */
+  @media (max-width: 360px) {
+    #theme-toggle, 
+    #lang-dropdown {
+      display: none;
+    }
+  }
+}
+/* =========================================================
+   MOBILE SERVICES: CONSTANT HOVER GLOW (LARGER)
+   ========================================================= */
+@media (max-width: 768px) {
+  /* 1. Center the glow, force it to be visible, and INCREASE SIZE */
+  .service-card .service-glow {
+    left: 50% !important;
+    top: 50% !important;
+    width: 600px !important;   /* Increased from default 450px */
+    height: 600px !important;  /* Increased from default 450px */
+    opacity: 1 !important;
+  }
+
+  /* 2. Apply the exact hover border and shadow constantly, with a BIGGER shadow */
+  .service-card {
+    border-color: var(--service-color) !important;
+    /* Layered shadows for a massive, smooth glow */
+    box-shadow: 
+      0 0 0 0px color-mix(in srgb, var(--service-color) 45%, transparent),
+      0 0 0px color-mix(in srgb, var(--service-color) 25%, transparent),
+      0 0 0px color-mix(in srgb, var(--service-color) 15%, transparent) !important;
+    transform: scale(1.025); 
+  }
+
+  /* 3. Force the inner text elements to match the hovered state */
+  .service-card .service-number {
+    opacity: 0.85 !important;
+    color: var(--service-color) !important;
+  }
+
+  .service-card h3 {
+    color: var(--service-color) !important;
+  }
+
+  .service-card p {
+    opacity: 0.8 !important;
+  }
+
+  .service-card .service-icon {
+    opacity: 1 !important;
+  }
+}
