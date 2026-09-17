@@ -150,36 +150,15 @@ document.addEventListener('keydown', (e) => {
     menuBtn?.focus();
   }
 });
-let isScrolling = false;
-let velocity = 0;
-let lastY = 0;
-const friction = 0.9; // Adjust for slower/faster deceleration (0.8-0.95 typical)
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true,
+  wheelMultiplier: 1,
+});
 
-function animateScroll() {
-  if (Math.abs(velocity) > 0.1) {
-    window.scrollBy(0, velocity);
-    velocity *= friction; // Reduce velocity over time
-    requestAnimationFrame(animateScroll);
-  } else {
-    isScrolling = false;
-  }
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
 }
-
-window.addEventListener('wheel', (e) => {
-  e.preventDefault();
-  velocity = e.deltaY; // Set initial velocity based on scroll wheel
-  if (!isScrolling) {
-    isScrolling = true;
-    animateScroll();
-  }
-}, { passive: false });
-const MAX_VELOCITY = 50; // pixels per frame
-
-window.addEventListener('wheel', (e) => {
-  e.preventDefault();
-  velocity = Math.max(-MAX_VELOCITY, Math.min(MAX_VELOCITY, e.deltaY));
-  if (!isScrolling) {
-    isScrolling = true;
-    animateScroll();
-  }
-}, { passive: false });
+requestAnimationFrame(raf);   
