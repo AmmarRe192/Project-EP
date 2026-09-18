@@ -768,6 +768,13 @@ const T = {
     map_title:          "Vendndodhja",
     footer_rights:      "Të gjitha të drejtat të rezervuara.",
     footer_privacy:     "Politika e Privatësisë",
+      edit_photo_captions: "Redakto Përshkrimet e Fotos",
+    caption_albanian: "Përshkrim Shqip:",
+    caption_macedonian: "Përshkrim Maqedonisht:",
+    caption_english: "Përshkrim Anglisht:",
+    caption_turkish: "Përshkrim Turkisht:",
+    cancel: "Anulo",
+    save: "Ruaj"
   },
   mk: {
     hero_sub:           "Аптека Еликсир – оценета со 4.8 ⭐ од 16 задоволни клиенти. Стручност, брзина и грижа на едно место.",
@@ -835,6 +842,13 @@ const T = {
     map_title:          "Локација",
     footer_rights:      "Сите права задржани.",
     footer_privacy:     "Политика за приватност",
+    edit_photo_captions: "Уреди Описи на Фотографија",
+    caption_albanian: "Опис Албански:",
+    caption_macedonian: "Опис Македонски:",
+    caption_english: "Опис Англиски:",
+    caption_turkish: "Опис Турски:",
+    cancel: "Откажи",
+    save: "Зачувај"
   },
   en: {
     hero_sub:           "Elixir Pharmacy – rated 4.8 ⭐ by 16 satisfied customers. Expertise, speed and care all in one place.",
@@ -902,6 +916,13 @@ const T = {
     map_title:          "Location",
     footer_rights:      "All rights reserved.",
     footer_privacy:     "Privacy Policy",
+    edit_photo_captions: "Edit Photo Captions",
+    caption_albanian: "Albanian Caption:",
+    caption_macedonian: "Macedonian Caption:",
+    caption_english: "English Caption:",
+    caption_turkish: "Turkish Caption:",
+    cancel: "Cancel",
+    save: "Save"
   },
   tr: {
     hero_sub:           "Elixir Eczanesi – 16 memnun müşteri tarafından 4.8 ⭐ ile değerlendirildi. Uzmanlık, hız ve özen tek bir yerde.",
@@ -969,6 +990,13 @@ const T = {
     map_title:          "Konum",
     footer_rights:      "Tüm hakları saklıdır.",
     footer_privacy:     "Gizlilik Politikası",
+    edit_photo_captions: "Fotoğraf Açıklamalarını Düzenle",
+    caption_albanian: "Arnavutça Açıklama:",
+    caption_macedonian: "Makedonca Açıklama:",
+    caption_english: "İngilizce Açıklama:",
+    caption_turkish: "Türkçe Açıklama:",
+    cancel: "İptal",
+    save: "Kaydet"
   }
 };
 </script>
@@ -1098,7 +1126,190 @@ async function adminLogout() {
   await _supabase.auth.signOut();
   await applyAdminState();
 }
+// Global variable to track which photo is being edited
 
+
+// Open the edit modal for a photo
+function openEditPhotoModal(photo) {
+  editingPhoto = photo;
+  
+  // Get the modal element
+  const modal = document.getElementById('edit-photo-modal');
+  if (!modal) {
+    console.error('Edit photo modal element not found!');
+    return;
+  }
+   document.getElementById('edit-cap-sq').value = photo.caption_sq || '';
+  document.getElementById('edit-cap-mk').value = photo.caption_mk || '';
+  document.getElementById('edit-cap-en').value = photo.caption_en || '';
+  document.getElementById('edit-cap-tr').value = photo.caption_tr || '';
+  
+   applyTranslations()
+    modal.style.display = 'flex';
+  // Fill in the caption fields with current values
+  document.getElementById('edit-cap-sq').value = photo.caption_sq || '';
+  document.getElementById('edit-cap-mk').value = photo.caption_mk || '';
+  document.getElementById('edit-cap-en').value = photo.caption_en || '';
+  document.getElementById('edit-cap-tr').value = photo.caption_tr || '';
+  
+  // Show the modal
+  modal.style.display = 'flex'; // or 'block', depending on your CSS
+}
+
+// Close the edit modal
+function closeEditPhotoModal() {
+  const modal = document.getElementById('edit-photo-modal');
+  if (modal) {
+    modal.style.display = 'none';
+  }
+  editingPhoto = null;
+}
+
+// Save the edited photo captions
+async function saveEditPhoto() {
+  if (!editingPhoto) return;
+  
+  const saveBtn = document.querySelector('#edit-photo-modal .btn-primary');
+  const originalText = saveBtn.textContent;
+  saveBtn.textContent = 'Saving...';
+  saveBtn.disabled = true;
+
+  try {
+    // 1. Update Supabase
+    const { error } = await _supabase.from('gallery_photos').update({
+      caption_sq: document.getElementById('edit-cap-sq').value.trim() || null,
+      caption_mk: document.getElementById('edit-cap-mk').value.trim() || null,
+      caption_en: document.getElementById('edit-cap-en').value.trim() || null,
+      caption_tr: document.getElementById('edit-cap-tr').value.trim() || null,
+    }).eq('id', editingPhoto.id);
+
+    if (error) throw error;
+
+    // 2. Update local state immediately (so we don't wait for a re-fetch)
+    const photoIndex = slidePhotos.findIndex(p => p.id === editingPhoto.id);
+    if (photoIndex !== -1) {
+      slidePhotos[photoIndex].caption_sq = document.getElementById('edit-cap-sq').value.trim();
+      slidePhotos[photoIndex].caption_mk = document.getElementById('edit-cap-mk').value.trim();
+      slidePhotos[photoIndex].caption_en = document.getElementById('edit-cap-en').value.trim();
+      slidePhotos[photoIndex].caption_tr = document.getElementById('edit-cap-tr').value.trim();
+    }
+
+    // 3. Close modal IMMEDIATELY for fast UI response
+    closeEditPhotoModal();
+
+    // 4. Re-render in the background
+    renderGallery();
+    renderAdminGrid();
+
+  } catch (error) {
+    console.error('Error saving photo:', error);
+    alert('Failed to save changes. Please try again.');
+  } finally {
+    saveBtn.textContent = originalText;
+    saveBtn.disabled = false;
+  }
+}
+// Global variable
+
+// 1. Open Modal
+function openEditPhotoModal(photo) {
+  editingPhoto = photo;
+  
+  const modal = document.getElementById('edit-photo-modal');
+  if (!modal) return;
+
+  // Fill inputs
+  document.getElementById('edit-cap-sq').value = photo.caption_sq || '';
+  document.getElementById('edit-cap-mk').value = photo.caption_mk || '';
+  document.getElementById('edit-cap-en').value = photo.caption_en || '';
+  document.getElementById('edit-cap-tr').value = photo.caption_tr || '';
+
+  // Apply translations to the modal text
+  applyTranslations(); 
+
+  // Show modal
+  modal.style.display = 'flex';
+  // Small timeout to allow display:flex to apply before opacity transition
+  setTimeout(() => modal.classList.remove('closing'), 10);
+}
+
+// 2. Close Modal (with smooth fade)
+function closeEditPhotoModal() {
+  const modal = document.getElementById('edit-photo-modal');
+  if (!modal) return;
+
+  modal.classList.add('closing');
+  
+  // Wait for CSS transition (0.2s) before hiding
+  setTimeout(() => {
+    modal.style.display = 'none';
+    modal.classList.remove('closing');
+    editingPhoto = null;
+  }, 200);
+}
+
+// 3. Save Photo (Fast UI response)
+async function saveEditPhoto() {
+  if (!editingPhoto) return;
+
+  const saveBtn = document.querySelector('#edit-photo-modal .btn-primary');
+  const originalText = saveBtn.innerText;
+  saveBtn.innerText = '...'; // Simple loading indicator
+  saveBtn.disabled = true;
+
+  try {
+    // A. Update Database
+    const { error } = await _supabase.from('gallery_photos').update({
+      caption_sq: document.getElementById('edit-cap-sq').value.trim() || null,
+      caption_mk: document.getElementById('edit-cap-mk').value.trim() || null,
+      caption_en: document.getElementById('edit-cap-en').value.trim() || null,
+      caption_tr: document.getElementById('edit-cap-tr').value.trim() || null,
+    }).eq('id', editingPhoto.id);
+
+    if (error) throw error;
+
+    // B. Update Local Memory Immediately (No wait!)
+    const index = slidePhotos.findIndex(p => p.id === editingPhoto.id);
+    if (index !== -1) {
+      slidePhotos[index].caption_sq = document.getElementById('edit-cap-sq').value.trim();
+      slidePhotos[index].caption_mk = document.getElementById('edit-cap-mk').value.trim();
+      slidePhotos[index].caption_en = document.getElementById('edit-cap-en').value.trim();
+      slidePhotos[index].caption_tr = document.getElementById('edit-cap-tr').value.trim();
+    }
+
+    // C. Close Modal IMMEDIATELY
+    closeEditPhotoModal();
+
+    // D. Refresh Grids in background
+    renderGallery();
+    renderAdminGrid();
+
+  } catch (err) {
+    console.error(err);
+    alert('Error saving caption.');
+  } finally {
+    saveBtn.innerText = originalText;
+    saveBtn.disabled = false;
+  }
+}
+
+// 4. Helper: Apply Translations to Modal
+function applyTranslations() {
+  const lang = currentLang || 'sq';
+  // Make sure your 'translations' object exists globally
+  if (typeof translations === 'undefined') return; 
+  
+  const t = translations[lang];
+  if (!t) return;
+
+  // Update text for elements with data-i18n attribute
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) {
+      el.innerText = t[key];
+    }
+  });
+}
 // ── SUPABASE SETUP ────────────────────────────────────────
 // !! FILL THESE IN with your Supabase project details !!
 const SUPABASE_URL      = 'https://jxizbmdujdwnyzfzxspv.supabase.co';       // e.g. https://xxxx.supabase.co
@@ -1149,7 +1360,6 @@ function capitalize(str) {
 
 function renderAdminGrid() {
   const grid = document.getElementById('gallery-admin-grid');
-  if (!grid) return;
   grid.innerHTML = '';
 
   slidePhotos.forEach((photo, i) => {
@@ -1160,11 +1370,26 @@ function renderAdminGrid() {
 
     item.innerHTML = `
       <img src="${photo.url}" alt="${photo.alt || ''}">
+      <div class="admin-grid-order">${i + 1}</div>
       <div class="admin-grid-drag-handle">⠿</div>
+      <button class="admin-grid-remove" title="Remove photo">✕</button>
       <div class="admin-grid-caption">${photo['caption_' + (currentLang || 'sq')] || ''}</div>`;
 
-    item.addEventListener('click', () => { if (typeof openEditPhotoModal === 'function') openEditPhotoModal(photo); });
+    // click anywhere on the tile (except the remove button) opens the edit modal
+    item.addEventListener('click', (e) => {
+      if (e.target.closest('.admin-grid-remove')) return;
+      openEditPhotoModal(photo);
+      
+    });
 
+    // remove button: delete immediately, no need to open the modal
+    item.querySelector('.admin-grid-remove').addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (!confirm('Remove this photo?')) return;
+      await removeGalleryPhoto(photo.id, photo.storage_path);
+    });
+
+    // drag to reorder
     item.addEventListener('dragstart', () => {
       dragSrcIndex = i;
       setTimeout(() => item.classList.add('dragging'), 0);
@@ -1180,12 +1405,9 @@ function renderAdminGrid() {
       const [moved] = reordered.splice(dragSrcIndex, 1);
       reordered.splice(i, 0, moved);
       slidePhotos = reordered;
-      
-      if (typeof _supabase !== 'undefined') {
-        await Promise.all(reordered.map((p, idx) =>
-          _supabase.from('gallery_photos').update({ sort_order: idx }).eq('id', p.id)
-        ));
-      }
+      await Promise.all(reordered.map((p, idx) =>
+        _supabase.from('gallery_photos').update({ sort_order: idx }).eq('id', p.id)
+      ));
       renderAdminGrid();
       dragSrcIndex = null;
     });
@@ -1193,7 +1415,6 @@ function renderAdminGrid() {
     grid.appendChild(item);
   });
 }
-
 function buildSlide(photo, lang, loggedIn) {
   const slide = document.createElement('article');
   slide.className = 'gallery-slide';
@@ -1641,25 +1862,35 @@ window.addEventListener('scroll', () => {
     <p>Elixir Eczanesi, Tetova, Kuzey Makedonya.</p>
   </div>
 </noscript>
-<div id="edit-photo-modal" onclick="if(event.target===this)closeEditPhotoModal()">
-  <div class="edit-photo-box">
-    <img id="edit-photo-preview" class="edit-photo-preview" src="" alt="">
-    <label class="edit-photo-replace-label">
-      <button class="edit-replace-btn" onclick="document.getElementById('edit-replace-input').click()">🔄 Replace image</button>
-      <input id="edit-replace-input" type="file" accept="image/*" style="display:none" onchange="replaceGalleryImage(this)">
-    </label>
-    <p class="edit-photo-label">Albanian caption</p>
-    <input class="edit-photo-input" id="edit-cap-sq" placeholder="Albanian caption">
-    <p class="edit-photo-label">Macedonian caption</p>
-    <input class="edit-photo-input" id="edit-cap-mk" placeholder="Macedonian caption">
-    <p class="edit-photo-label">English caption</p>
-    <input class="edit-photo-input" id="edit-cap-en" placeholder="English caption">
-    <p class="edit-photo-label">Turkish caption</p>
-    <input class="edit-photo-input" id="edit-cap-tr" placeholder="Turkish caption">
-    <div class="edit-photo-actions">
-      <button class="edit-photo-cancel" onclick="closeEditPhotoModal()">Cancel</button>
-      <button class="edit-photo-delete" onclick="confirmDeletePhoto()">🗑 Delete</button>
-      <button class="edit-photo-save" onclick="saveEditPhoto()">Save</button>
+<!-- Edit Photo Modal -->
+<!-- Edit Photo Modal -->
+<div id="edit-photo-modal" class="modal-overlay">
+  <div class="modal-content edit-photo-box">
+    <h3 data-i18n="edit_photo_captions">Edit Captions</h3>
+    
+    <div class="form-group">
+      <label data-i18n="caption_albanian">Albanian</label>
+      <input type="text" id="edit-cap-sq" class="modal-input">
+    </div>
+    
+    <div class="form-group">
+      <label data-i18n="caption_macedonian">Macedonian</label>
+      <input type="text" id="edit-cap-mk" class="modal-input">
+    </div>
+    
+    <div class="form-group">
+      <label data-i18n="caption_english">English</label>
+      <input type="text" id="edit-cap-en" class="modal-input">
+    </div>
+    
+    <div class="form-group">
+      <label data-i18n="caption_turkish">Turkish</label>
+      <input type="text" id="edit-cap-tr" class="modal-input">
+    </div>
+    
+    <div class="modal-actions">
+      <button onclick="closeEditPhotoModal()" class="btn btn-secondary" data-i18n="cancel">Cancel</button>
+      <button onclick="saveEditPhoto()" class="btn btn-primary" data-i18n="save">Save</button>
     </div>
   </div>
 </div>

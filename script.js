@@ -299,3 +299,14 @@ document.querySelectorAll('.service-card').forEach((card) => {
     });
 
 });
+async function saveEditPhoto() {
+  if (!editingPhoto) return;
+  await _supabase.from('gallery_photos').update({
+    caption_sq: document.getElementById('edit-cap-sq').value.trim() || null,
+    caption_mk: document.getElementById('edit-cap-mk').value.trim() || null,
+    caption_en: document.getElementById('edit-cap-en').value.trim() || null,
+    caption_tr: document.getElementById('edit-cap-tr').value.trim() || null,
+  }).eq('id', editingPhoto.id);
+  closeEditPhotoModal();
+  renderGallery();
+}
