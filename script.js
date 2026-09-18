@@ -38,51 +38,67 @@ document.addEventListener('click', (e) => {
   }
 });
 
-function setLang(lang) {
-  // Each page must define its own `T` object before loading this script
-  if (typeof T === 'undefined') return;
+function setLang(lang, skipTransition = false) {
+  if (typeof T === 'undefined' || !T[lang] || (!skipTransition && lang === currentLang)) return;
 
-  currentLang = lang;
-  document.documentElement.lang = lang;
-  localStorage.setItem('elixir-lang', lang);
+  const transition = document.getElementById('lang-transition');
+  const applyLanguage = () => {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    localStorage.setItem('elixir-lang', lang);
 
-  // close dropdown
-  const dd = document.getElementById('lang-dropdown');
-  if (dd) dd.classList.remove('open');
-  const btn = document.getElementById('lang-btn');
-  if (btn) btn.setAttribute('aria-expanded', 'false');
+    const dd = document.getElementById('lang-dropdown');
+    if (dd) dd.classList.remove('open');
+    const btn = document.getElementById('lang-btn');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
 
-  // update dropdown display
-  const meta = LANG_META[lang];
-  const flagEl = document.getElementById('lang-flag');
-  const currentEl = document.getElementById('lang-current');
-  if (flagEl) flagEl.textContent = meta.flag;
-  if (currentEl) currentEl.textContent = meta.label;
+    const meta = LANG_META[lang];
+    const flagEl = document.getElementById('lang-flag');
+    const currentEl = document.getElementById('lang-current');
+    if (flagEl) flagEl.textContent = meta.flag;
+    if (currentEl) currentEl.textContent = meta.label;
 
-  // update active state in menu
-  document.querySelectorAll('#lang-menu button[data-lang]').forEach((b) => {
-    b.classList.toggle('active', b.dataset.lang === lang);
-  });
+    document.querySelectorAll('#lang-menu button[data-lang]').forEach((b) => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
 
-  const dict = T[lang];
-  if (!dict) return;
+    const dict = T[lang];
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
 
-  // text nodes
-  document.querySelectorAll('[data-i18n]').forEach((el) => {
-    const key = el.getAttribute('data-i18n');
-    if (dict[key] !== undefined) el.textContent = dict[key];
-  });
+    document.querySelectorAll('[data-placeholder-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-placeholder-i18n');
+      if (dict[key] !== undefined) el.placeholder = dict[key];
+    });
 
-  // placeholders
-  document.querySelectorAll('[data-placeholder-i18n]').forEach((el) => {
-    const key = el.getAttribute('data-placeholder-i18n');
-    if (dict[key] !== undefined) el.placeholder = dict[key];
-  });
+    // Keep dynamically-rendered gallery captions in sync with the selected language.
+    // Gallery photos are loaded from Supabase after this shared script initializes,
+    // so the caption update is handled separately when the gallery is present.
+    if (typeof onLangChanged === 'function') onLangChanged(lang);
+    if (typeof updateGalleryCaptions === 'function') updateGalleryCaptions(lang);
+  };
 
-  // page-specific hook
-  if (typeof onLangChanged === 'function') {
-    onLangChanged(lang);
+  // Initial page load: apply translations immediately without the language-change overlay.
+  if (skipTransition || !transition) {
+    applyLanguage();
+    return;
   }
+
+  transition.classList.remove('closing', 'opening', 'active');
+  void transition.offsetWidth;
+  transition.classList.add('active', 'closing');
+
+  window.setTimeout(() => {
+    applyLanguage();
+    transition.classList.remove('closing');
+    transition.classList.add('opening');
+
+    window.setTimeout(() => {
+      transition.classList.remove('active', 'opening');
+    }, 650);
+  }, 520);
 }
 
 // ── SCROLL ANIMATIONS ────────────────────────────────────
@@ -112,6 +128,9 @@ else document.querySelectorAll('.animate-in').forEach((el) => el.classList.add('
   // Restore language (default: 'sq')
   const savedLang = localStorage.getItem('elixir-lang') || 'sq';
   currentLang = savedLang;
+
+  // Apply the saved language immediately on first load. Do not run the language transition here.
+  setLang(savedLang, true);
 
   // Update theme label if element exists
   const themeLabel = document.getElementById('theme-label');
@@ -173,12 +192,6 @@ requestAnimationFrame(raf);
 
     if (!loader || !percent || !progress) return;
 
-    // Don't replay the loader when navigating back/forward.
-    if (sessionStorage.getItem('elixir-loader-seen')) {
-        loader.remove();
-        return;
-    }
-
     let current = 0;
     const target = 100;
 
@@ -198,12 +211,19 @@ requestAnimationFrame(raf);
             requestAnimationFrame(updateLoader);
         } else {
             setTimeout(() => {
-                loader.classList.add('is-loaded');
+                // The loader can temporarily cover the page while IntersectionObserver
+                // is deciding which elements are visible. Explicitly reveal elements
+                // that are already in the viewport so the first screen never stays
+                // invisible after the loader finishes. Elements further down the page
+                // keep their normal scroll-reveal animation.
+                document.querySelectorAll('.animate-in').forEach((el) => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        el.classList.add('visible');
+                    }
+                });
 
-                sessionStorage.setItem(
-                    'elixir-loader-seen',
-                    'true'
-                );
+                loader.classList.add('is-loaded');
 
                 setTimeout(() => {
                     loader.remove();
