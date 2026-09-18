@@ -1122,13 +1122,34 @@ function trackPorositClick() {
 }
 
 // ── GALLERY ──────────────────────────────────────────────
-// ── SLIDESHOW STATE ───────────────────────────────────────
 let slidePhotos = [];
 let editingPhoto = null;
 let dragSrcIndex = null;
+let marqueeTimer = null;
+let currentTrackIndex = 0;
+let isPlaying = true;
+const AUTO_ADVANCE_DELAY = 3000; // Pause duration on each image (ms)
+const SLIDE_TRANSITION_MS = 550; // Must match CSS transition duration below
+
+// Translations for "Click for more info"
+const GALLERY_HINT_I18N = {
+  sq: 'Kliko për më shumë info',
+  mk: 'Кликни за повеќе информации',
+  en: 'Click for more info',
+  tr: 'Daha fazla bilgi için tıklayın'
+};
+
+function getGalleryHintText(lang) {
+  return GALLERY_HINT_I18N[lang] || GALLERY_HINT_I18N.en;
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 function renderAdminGrid() {
   const grid = document.getElementById('gallery-admin-grid');
+  if (!grid) return;
   grid.innerHTML = '';
 
   slidePhotos.forEach((photo, i) => {
@@ -1142,10 +1163,8 @@ function renderAdminGrid() {
       <div class="admin-grid-drag-handle">⠿</div>
       <div class="admin-grid-caption">${photo['caption_' + (currentLang || 'sq')] || ''}</div>`;
 
-    // click to edit
-    item.addEventListener('click', () => openEditPhotoModal(photo));
+    item.addEventListener('click', () => { if (typeof openEditPhotoModal === 'function') openEditPhotoModal(photo); });
 
-    // drag to reorder
     item.addEventListener('dragstart', () => {
       dragSrcIndex = i;
       setTimeout(() => item.classList.add('dragging'), 0);
@@ -1161,10 +1180,12 @@ function renderAdminGrid() {
       const [moved] = reordered.splice(dragSrcIndex, 1);
       reordered.splice(i, 0, moved);
       slidePhotos = reordered;
-      // save new order to supabase
-      await Promise.all(reordered.map((p, idx) =>
-        _supabase.from('gallery_photos').update({ sort_order: idx }).eq('id', p.id)
-      ));
+      
+      if (typeof _supabase !== 'undefined') {
+        await Promise.all(reordered.map((p, idx) =>
+          _supabase.from('gallery_photos').update({ sort_order: idx }).eq('id', p.id)
+        ));
+      }
       renderAdminGrid();
       dragSrcIndex = null;
     });
@@ -1173,325 +1194,291 @@ function renderAdminGrid() {
   });
 }
 
-function openEditPhotoModal(photo) {
-  editingPhoto = photo;
-  document.getElementById('edit-photo-preview').src = photo.url;
-  document.getElementById('edit-cap-sq').value = photo.caption_sq || '';
-  document.getElementById('edit-cap-mk').value = photo.caption_mk || '';
-  document.getElementById('edit-cap-en').value = photo.caption_en || '';
-  document.getElementById('edit-cap-tr').value = photo.caption_tr || '';
-  document.getElementById('edit-photo-modal').classList.add('open');
+function buildSlide(photo, lang, loggedIn) {
+  const slide = document.createElement('article');
+  slide.className = 'gallery-slide';
+  slide.dataset.id = photo.id;
+
+  const media = document.createElement('div');
+  media.className = 'gallery-slide-media';
+
+  const img = document.createElement('img');
+  img.src = photo.url;
+  img.alt = photo.alt || 'Elixir Pharmacy';
+  img.loading = 'lazy';
+  img.decoding = 'async';
+  img.onerror = () => media.classList.add('gallery-image-error');
+
+  // Caption overlay
+  const captionOverlay = document.createElement('div');
+  captionOverlay.className = 'gallery-caption-overlay';
+
+  const captionText = document.createElement('div');
+  captionText.className = 'gallery-caption-text';
+  captionText.dataset.captionSq = photo.caption_sq || '';
+  captionText.dataset.captionMk = photo.caption_mk || '';
+  captionText.dataset.captionEn = photo.caption_en || '';
+  captionText.dataset.captionTr = photo.caption_tr || '';
+  captionText.textContent = photo['caption_' + lang] || '';
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'gallery-caption-close';
+  closeBtn.innerHTML = '&times;';
+  closeBtn.onclick = (e) => {
+    e.stopPropagation();
+    captionOverlay.classList.remove('active');
+    // Resume auto-advance when closing caption
+    startAutoAdvance();
+  };
+
+  captionOverlay.appendChild(captionText);
+  captionOverlay.appendChild(closeBtn);
+
+  // Hint only if caption exists
+  const currentCaption = (photo['caption_' + lang] || '').trim();
+  let clickHint = null;
+  if (currentCaption) {
+    clickHint = document.createElement('div');
+    clickHint.className = 'gallery-click-hint';
+    clickHint.dataset.hintI18n = 'true';
+    clickHint.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="16" x2="12" y2="12"/>
+        <line x1="12" y1="8" x2="12.01" y2="8"/>
+      </svg>
+      <span class="gallery-hint-text">${getGalleryHintText(lang)}</span>
+    `;
+  }
+
+  // CLICK HANDLER: Toggle caption OR toggle play/pause
+  slide.addEventListener('click', (e) => {
+    if (e.target.closest('.gallery-remove') || e.target.closest('.gallery-caption-close')) return;
+    
+    if (captionText.textContent.trim()) {
+      const isOpen = captionOverlay.classList.toggle('active');
+      if (isOpen) {
+        stopAutoAdvance();
+      } else {
+        startAutoAdvance();
+      }
+    } else {
+      // No caption: click just toggles play/pause
+      toggleAutoAdvance();
+    }
+  });
+
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'gallery-remove';
+  removeBtn.title = 'Remove photo';
+  removeBtn.innerHTML = '&times;';
+  removeBtn.style.display = loggedIn ? 'flex' : 'none';
+  removeBtn.onclick = (e) => {
+    e.stopPropagation();
+    if (typeof removeGalleryPhoto === 'function') removeGalleryPhoto(photo.id, photo.storage_path);
+  };
+
+  media.appendChild(img);
+  if (clickHint) media.appendChild(clickHint);
+  media.appendChild(captionOverlay);
+  media.appendChild(removeBtn);
+  slide.appendChild(media);
+
+  return slide;
 }
 
-function closeEditPhotoModal() {
-  editingPhoto = null;
-  document.getElementById('edit-photo-modal').classList.remove('open');
+// ── AUTO-ADVANCE ENGINE ──────────────────────────────────
+function getStepWidth() {
+  const slide = document.querySelector('.gallery-slide');
+  if (!slide) return 0;
+  const track = document.getElementById('gallery-track');
+  const styles = getComputedStyle(track);
+  const gap = parseFloat(styles.gap || '32');
+  return slide.getBoundingClientRect().width + gap;
 }
 
-async function saveEditPhoto() {
-  if (!editingPhoto) return;
-  await _supabase.from('gallery_photos').update({
-    caption_sq: document.getElementById('edit-cap-sq').value.trim() || null,
-    caption_mk: document.getElementById('edit-cap-mk').value.trim() || null,
-    caption_en: document.getElementById('edit-cap-en').value.trim() || null,
-    caption_tr: document.getElementById('edit-cap-tr').value.trim() || null,
-  }).eq('id', editingPhoto.id);
-  closeEditPhotoModal();
-  renderGallery();
+function setTrackPosition(animate = true) {
+  const track = document.getElementById('gallery-track');
+  if (!track) return;
+  track.style.transition = animate ? `transform ${SLIDE_TRANSITION_MS}ms cubic-bezier(.22,.61,.36,1)` : 'none';
+  track.style.transform = `translate3d(${-currentTrackIndex * getStepWidth()}px, 0, 0)`;
 }
 
-async function confirmDeletePhoto() {
-  if (!editingPhoto) return;
-  if (!confirm('Delete this photo?')) return;
-  await removeGalleryPhoto(editingPhoto.id, editingPhoto.storage_path);
-  closeEditPhotoModal();
+function advanceOneSlide() {
+  if (!slidePhotos.length) return;
+  
+  const total = slidePhotos.length;
+  // We rendered 2x photos. The "real" set is indices 0..total-1,
+  // the clone set is indices total..2*total-1.
+  currentTrackIndex++;
+  setTrackPosition(true);
+
+  // After transition completes, check if we've entered the clone zone
+  setTimeout(() => {
+    if (currentTrackIndex >= total) {
+      // Instantly jump back to the real equivalent position
+      currentTrackIndex -= total;
+      setTrackPosition(false);
+    }
+  }, SLIDE_TRANSITION_MS + 20);
 }
 
-async function replaceGalleryImage(input) {
-  if (!editingPhoto || !input.files[0]) return;
-  const file = input.files[0];
-  input.value = '';
-  const ext  = file.name.split('.').pop();
-  const path = `photo-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-
-  const { error: storageErr } = await _supabase.storage.from('gallery').upload(path, file, { contentType: file.type });
-  if (storageErr) { console.error(storageErr); return; }
-
-  const { data: { publicUrl } } = _supabase.storage.from('gallery').getPublicUrl(path);
-
-  // delete old file from storage
-  if (editingPhoto.storage_path) await _supabase.storage.from('gallery').remove([editingPhoto.storage_path]);
-
-  await _supabase.from('gallery_photos').update({ url: publicUrl, storage_path: path }).eq('id', editingPhoto.id);
-
-  document.getElementById('edit-photo-preview').src = publicUrl;
-  editingPhoto.url = publicUrl;
-  editingPhoto.storage_path = path;
-  renderGallery();
+function startAutoAdvance() {
+  if (marqueeTimer) clearInterval(marqueeTimer);
+  isPlaying = true;
+  marqueeTimer = setInterval(advanceOneSlide, AUTO_ADVANCE_DELAY);
 }
-let slideIndex  = 0;
-let slideTimer  = null;
 
+function stopAutoAdvance() {
+  if (marqueeTimer) clearInterval(marqueeTimer);
+  marqueeTimer = null;
+  isPlaying = false;
+}
+
+function toggleAutoAdvance() {
+  if (isPlaying) stopAutoAdvance();
+  else startAutoAdvance();
+}
+
+// ── RENDER ───────────────────────────────────────────────
 async function renderGalleryItems(photos) {
   slidePhotos = photos || [];
-  slideIndex = 0;
+  currentTrackIndex = 0;
+  stopAutoAdvance();
 
   const empty     = document.getElementById('gallery-empty');
   const slideshow = document.getElementById('gallery-slideshow');
   const track     = document.getElementById('gallery-track');
   const dotsEl    = document.getElementById('gallery-dots');
   const counterEl = document.getElementById('gallery-counter');
-  const loggedIn  = await isAdminLoggedIn();
+  const loggedIn  = typeof isAdminLoggedIn === 'function' ? await isAdminLoggedIn() : false;
 
   track.innerHTML = '';
-  dotsEl.innerHTML = '';
-  clearInterval(slideTimer);
+  if (dotsEl) dotsEl.innerHTML = '';
+  if (counterEl) counterEl.textContent = '';
 
   if (slidePhotos.length === 0) {
-    empty.style.display = loggedIn ? 'none' : '';
-    slideshow.style.display = 'none';
-    dotsEl.style.display = 'none';
-    counterEl.textContent = '';
+    if (empty) empty.style.display = loggedIn ? 'none' : '';
+    if (slideshow) slideshow.style.display = 'none';
+    if (dotsEl) dotsEl.style.display = 'none';
+    const prevBtn = document.getElementById('gallery-prev');
+    const nextBtn = document.getElementById('gallery-next');
+    if (prevBtn) prevBtn.style.display = 'none';
+    if (nextBtn) nextBtn.style.display = 'none';
     if (loggedIn) renderAdminGrid();
     return;
   }
 
-  empty.style.display = 'none';
-  slideshow.style.display = loggedIn ? 'none' : '';
-  dotsEl.style.display = 'none';
+  if (empty) empty.style.display = 'none';
+  if (slideshow) slideshow.style.display = loggedIn ? 'none' : '';
+  if (dotsEl) dotsEl.style.display = 'none';
+  if (counterEl) counterEl.style.display = 'none';
 
   const lang = localStorage.getItem('elixir-lang') || 'sq';
-  const displayPhotos = slidePhotos.length > 1
-    ? [...slidePhotos.slice(-Math.min(3, slidePhotos.length)), ...slidePhotos, ...slidePhotos.slice(0, Math.min(3, slidePhotos.length))]
-    : slidePhotos;
 
-  displayPhotos.forEach((photo, displayIndex) => {
-    const logicalIndex = slidePhotos.length > 1
-      ? (displayIndex - Math.min(3, slidePhotos.length) + slidePhotos.length) % slidePhotos.length
-      : 0;
+  // Render 2x for seamless infinite loop
+  slidePhotos.forEach(photo => track.appendChild(buildSlide(photo, lang, loggedIn)));
+  slidePhotos.forEach(photo => track.appendChild(buildSlide(photo, lang, loggedIn)));
 
-    const slide = document.createElement('article');
-    slide.className = 'gallery-slide' + (logicalIndex === 0 ? ' active' : '');
-    slide.dataset.id = photo.id;
-    slide.dataset.logicalIndex = logicalIndex;
+  setTrackPosition(false);
 
-    const media = document.createElement('div');
-    media.className = 'gallery-slide-media';
-
-    const img = document.createElement('img');
-    img.src = photo.url;
-    img.alt = photo.alt || 'Elixir Pharmacy';
-    img.loading = displayIndex < 6 ? 'eager' : 'lazy';
-    img.decoding = 'async';
-    img.onerror = () => {
-      console.error('Gallery image failed to load:', { id: photo.id, url: photo.url, storage_path: photo.storage_path });
-      media.classList.add('gallery-image-error');
+  // Arrows: manual advance + reset timer
+  const prevBtn = document.getElementById('gallery-prev');
+  const nextBtn = document.getElementById('gallery-next');
+  
+  if (prevBtn) {
+    prevBtn.style.display = 'flex';
+    prevBtn.onclick = () => {
+      // Move backward
+      currentTrackIndex--;
+      if (currentTrackIndex < 0) {
+        // Jump to end of clone set instantly, then animate
+        currentTrackIndex = slidePhotos.length * 2 - 1;
+        setTrackPosition(false);
+        requestAnimationFrame(() => {
+          currentTrackIndex = slidePhotos.length - 1;
+          setTrackPosition(true);
+        });
+      } else {
+        setTrackPosition(true);
+      }
+      // Reset auto-advance timer
+      if (isPlaying) startAutoAdvance();
     };
-
-    const shade = document.createElement('div');
-    shade.className = 'gallery-slide-overlay';
-
-    const quoteMark = document.createElement('div');
-    quoteMark.className = 'gallery-quote-mark';
-    quoteMark.setAttribute('aria-hidden', 'true');
-    quoteMark.innerHTML = '&ldquo;&ldquo;';
-
-    const content = document.createElement('div');
-    content.className = 'gallery-card-content';
-
-    const caption = document.createElement('p');
-    caption.className = 'gallery-slide-caption gallery-caption';
-    caption.dataset.captionSq = photo.caption_sq || '';
-    caption.dataset.captionMk = photo.caption_mk || '';
-    caption.dataset.captionEn = photo.caption_en || '';
-    caption.dataset.captionTr = photo.caption_tr || '';
-    // No placeholder/fallback text: photos without captions stay blank.
-    caption.textContent = photo['caption_' + lang] || '';
-    if (!caption.textContent.trim()) caption.style.display = 'none';
-    content.appendChild(caption);
-
-    const removeBtn = document.createElement('button');
-    removeBtn.className = 'gallery-remove';
-    removeBtn.title = 'Remove photo';
-    removeBtn.innerHTML = '&times;';
-    removeBtn.style.display = loggedIn ? 'flex' : 'none';
-    removeBtn.onclick = (e) => {
-      e.stopPropagation();
-      removeGalleryPhoto(photo.id, photo.storage_path);
+  }
+  
+  if (nextBtn) {
+    nextBtn.style.display = 'flex';
+    nextBtn.onclick = () => {
+      advanceOneSlide();
+      if (isPlaying) startAutoAdvance();
     };
+  }
 
-    media.appendChild(img);
-    media.appendChild(shade);
-    media.appendChild(quoteMark);
-    media.appendChild(content);
-    media.appendChild(removeBtn);
-    slide.appendChild(media);
-    track.appendChild(slide);
-  });
+  // Start auto-advancing
+  startAutoAdvance();
 
-  // Keep dots in the DOM for existing functionality, but the reference design hides them.
-  slidePhotos.forEach((photo, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', `Photo ${i + 1}`);
-    dot.onclick = () => goToSlide(i);
-    dotsEl.appendChild(dot);
-  });
-
-  updateCounter();
-  updateArrows();
-  attachSwipe(track);
-  updateGalleryTrackPosition(false);
-
-  slideTimer = setInterval(() => slideGallery(1), 5000);
   if (loggedIn) renderAdminGrid();
 }
 
-// Update captions already rendered in the gallery without rebuilding the slideshow.
-function updateGalleryCaptions(lang = currentLang) {
-  const safeLang = ['sq', 'mk', 'en', 'tr'].includes(lang) ? lang : 'sq';
-  document.querySelectorAll('.gallery-caption').forEach((caption) => {
-    const value = caption.dataset['caption' + safeLang.charAt(0).toUpperCase() + safeLang.slice(1)] || '';
-    caption.textContent = value;
-    caption.style.display = value.trim() ? '' : 'none';
-  });
+// Update captions + hints on language change
+function updateGalleryCaptions(lang) {
+  if (!slidePhotos.length) return;
 
-  // If the admin grid is visible, refresh its translated captions too.
-  if (typeof renderAdminGrid === 'function' && typeof isAdminLoggedIn === 'function') {
-    Promise.resolve(isAdminLoggedIn()).then((loggedIn) => {
-      if (loggedIn) renderAdminGrid();
-    });
-  }
-}
-
-function getGalleryStep() {
-  const slide = document.querySelector('.gallery-slide');
-  if (!slide) return 0;
-  const styles = getComputedStyle(document.getElementById('gallery-track'));
-  const gap = parseFloat(styles.columnGap || styles.gap || '16') || 16;
-  return slide.getBoundingClientRect().width + gap;
-}
-
-function getGalleryCloneCount() {
-  return slidePhotos.length > 1 ? Math.min(3, slidePhotos.length) : 0;
-}
-
-function getTrackIndex() {
-  return slidePhotos.length > 1 ? getGalleryCloneCount() + slideIndex : slideIndex;
-}
-
-function updateGalleryTrackPosition(animate = true, trackIndex = getTrackIndex()) {
-  const track = document.getElementById('gallery-track');
-  if (!track) return;
-  track.style.transition = animate ? 'transform .55s cubic-bezier(.22,.61,.36,1)' : 'none';
-  track.style.transform = `translate3d(${-trackIndex * getGalleryStep()}px,0,0)`;
-}
-
-function refreshGalleryState() {
   document.querySelectorAll('.gallery-slide').forEach((slide) => {
-    slide.classList.toggle('active', Number(slide.dataset.logicalIndex) === slideIndex);
+    const media = slide.querySelector('.gallery-slide-media');
+    if (!media) return;
+
+    const captionText = media.querySelector('.gallery-caption-text');
+    const existingHint = media.querySelector('.gallery-click-hint');
+    if (!captionText) return;
+
+    const caption = (captionText.dataset['caption' + capitalize(lang)] || '').trim();
+    captionText.textContent = caption;
+
+    if (caption && !existingHint) {
+      const newHint = document.createElement('div');
+      newHint.className = 'gallery-click-hint';
+      newHint.dataset.hintI18n = 'true';
+      newHint.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="16" x2="12" y2="12"/>
+          <line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>
+        <span class="gallery-hint-text">${getGalleryHintText(lang)}</span>
+      `;
+      const overlay = media.querySelector('.gallery-caption-overlay');
+      media.insertBefore(newHint, overlay);
+    } else if (!caption && existingHint) {
+      existingHint.remove();
+    } else if (caption && existingHint) {
+      const textSpan = existingHint.querySelector('.gallery-hint-text');
+      if (textSpan) textSpan.textContent = getGalleryHintText(lang);
+    }
   });
-  document.querySelectorAll('.gallery-dot').forEach((dot, i) => {
-    dot.classList.toggle('active', i === slideIndex);
-  });
-  updateCounter();
-  updateArrows();
 }
 
-function goToSlide(next, direction) {
-  if (!slidePhotos.length) return;
-
-  const total = slidePhotos.length;
-  const cloneCount = getGalleryCloneCount();
-  const normalized = ((next % total) + total) % total;
-  const wrappedForward = next >= total;
-  const wrappedBackward = next < 0;
-
-  slideIndex = normalized;
-  const targetTrackIndex = cloneCount + slideIndex;
-
-  refreshGalleryState();
-  updateGalleryTrackPosition(true, targetTrackIndex);
-
-  // Manual arrows/swipes reset the autoplay clock. This gives the user a full
-  // 5 seconds on the newly selected photo before the next automatic transition.
-  clearInterval(slideTimer);
-  slideTimer = setInterval(() => slideGallery(1), 5000);
-
-  // Seamlessly jump from a cloned edge back to the real slide after the animation.
-  if (total > 1 && (wrappedForward || wrappedBackward)) {
-    window.setTimeout(() => {
-      updateGalleryTrackPosition(false, targetTrackIndex);
-    }, 570);
-  }
-}
-
-function slideGallery(dir) {
-  if (!slidePhotos.length) return;
-  goToSlide(slideIndex + dir, dir);
-}
-
-window.addEventListener('resize', () => updateGalleryTrackPosition(false));
-
-function updateCounter() {
-  const el = document.getElementById('gallery-counter');
-  if (slidePhotos.length > 1) {
-    el.textContent = `${slideIndex + 1} / ${slidePhotos.length}`;
-  } else {
-    el.textContent = '';
-  }
-}
-
-function updateArrows() {
-  const hide = slidePhotos.length <= 1;
-  document.getElementById('gallery-prev').style.display = hide ? 'none' : '';
-  document.getElementById('gallery-next').style.display = hide ? 'none' : '';
-  document.getElementById('gallery-dots').style.display = 'none';
-}
-
-// keyboard navigation
+// Keyboard: left/right arrows manually advance
 document.addEventListener('keydown', (e) => {
-  if (slidePhotos.length < 2) return;
-  if (e.key === 'ArrowLeft')  slideGallery(-1);
-  if (e.key === 'ArrowRight') slideGallery(1);
+  if (!slidePhotos.length) return;
+  if (e.key === 'ArrowLeft') {
+    document.getElementById('gallery-prev')?.click();
+  }
+  if (e.key === 'ArrowRight') {
+    document.getElementById('gallery-next')?.click();
+  }
 });
 
-// touch swipe — reattached in renderGalleryItems after track is rebuilt
-function attachSwipe(track) {
-  let startX = 0, startY = 0, swiping = false, cancelled = false;
-
-  track.addEventListener('touchstart', (e) => {
-    startX    = e.touches[0].clientX;
-    startY    = e.touches[0].clientY;
-    swiping   = true;
-    cancelled = false;
-  }, { passive: true });
-
-  track.addEventListener('touchmove', (e) => {
-    if (!swiping || cancelled) return;
-    const dx = e.touches[0].clientX - startX;
-    const dy = e.touches[0].clientY - startY;
-    // if more vertical than horizontal, cancel the swipe so page can scroll
-    if (Math.abs(dy) > Math.abs(dx) + 5) {
-      cancelled = true;
-      return;
-    }
-    // prevent page scroll only when clearly horizontal
-    if (Math.abs(dx) > 8) e.preventDefault();
-  }, { passive: false });
-
-  track.addEventListener('touchend', (e) => {
-    if (!swiping || cancelled) { swiping = false; return; }
-    swiping = false;
-    const dx = startX - e.changedTouches[0].clientX;
-    if (Math.abs(dx) > 30) slideGallery(dx > 0 ? 1 : -1);
-  }, { passive: true });
-
-  track.addEventListener('touchcancel', () => { swiping = false; cancelled = false; }, { passive: true });
-}
+// Recalculate positions on resize
+window.addEventListener('resize', () => setTrackPosition(false));
 
 async function renderGallery() {
   const empty = document.getElementById('gallery-empty');
+  if (typeof _supabase === 'undefined') {
+    if (empty) empty.textContent = 'Supabase not initialized.';
+    return;
+  }
 
   const { data, error } = await _supabase
     .from('gallery_photos')
@@ -1501,15 +1488,13 @@ async function renderGallery() {
   if (error) {
     console.error('Gallery load error:', error);
     if (empty) {
-      empty.textContent = 'Gallery could not be loaded. Check the browser console for the Supabase error.';
+      empty.textContent = 'Gallery could not be loaded. Check the browser console.';
       empty.style.display = '';
     }
     return;
   }
 
   const photos = (data || []).map(photo => {
-    // Old rows may have storage_path but an empty/broken url.
-    // Rebuild the public Storage URL from the current bucket.
     if ((!photo.url || photo.url === 'null') && photo.storage_path) {
       const { data: publicData } = _supabase.storage
         .from('gallery')
@@ -1527,28 +1512,24 @@ async function addGalleryPhotos(input) {
   if (!files.length) return;
   if (input.value !== undefined) input.value = '';
 
-  // show uploading indicator
   const bar = document.getElementById('gallery-admin-bar');
   const uploadingEl = document.createElement('div');
   uploadingEl.className = 'gallery-uploading';
   uploadingEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Uploading...`;
-  bar.appendChild(uploadingEl);
+  if (bar) bar.appendChild(uploadingEl);
 
   for (const file of files) {
     const ext  = file.name.split('.').pop();
     const path = `photo-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 
-    // 1. Upload file to Supabase Storage
     const { error: storageErr } = await _supabase.storage
       .from('gallery')
       .upload(path, file, { contentType: file.type, upsert: false });
 
     if (storageErr) { console.error('Upload error:', storageErr); continue; }
 
-    // 2. Get the public URL
     const { data: { publicUrl } } = _supabase.storage.from('gallery').getPublicUrl(path);
 
-    // 3. Save URL to database table
     const { error: dbErr } = await _supabase
       .from('gallery_photos')
       .insert({ url: publicUrl, alt: file.name.replace(/\.[^.]+$/, ''), storage_path: path });
@@ -1556,16 +1537,13 @@ async function addGalleryPhotos(input) {
     if (dbErr) { console.error('DB insert error:', dbErr); }
   }
 
-  uploadingEl.remove();
+  if (uploadingEl.parentNode) uploadingEl.remove();
   renderGallery();
 }
 
 async function removeGalleryPhoto(id, storagePath) {
-  // 1. Delete from database
   await _supabase.from('gallery_photos').delete().eq('id', id);
-  // 2. Delete from storage
   if (storagePath) await _supabase.storage.from('gallery').remove([storagePath]);
-  // 3. Re-fetch and re-render
   renderGallery();
 }
 // Apply saved language (script.js already restored theme + scroll animations)
