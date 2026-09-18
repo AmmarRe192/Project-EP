@@ -38,8 +38,8 @@ document.addEventListener('click', (e) => {
   }
 });
 
-function setLang(lang) {
-  if (typeof T === 'undefined' || !T[lang] || lang === currentLang) return;
+function setLang(lang, skipTransition = false) {
+  if (typeof T === 'undefined' || !T[lang] || (!skipTransition && lang === currentLang)) return;
 
   const transition = document.getElementById('lang-transition');
   const applyLanguage = () => {
@@ -73,11 +73,15 @@ function setLang(lang) {
       if (dict[key] !== undefined) el.placeholder = dict[key];
     });
 
+    // Keep dynamically-rendered gallery captions in sync with the selected language.
+    // Gallery photos are loaded from Supabase after this shared script initializes,
+    // so the caption update is handled separately when the gallery is present.
     if (typeof onLangChanged === 'function') onLangChanged(lang);
+    if (typeof updateGalleryCaptions === 'function') updateGalleryCaptions(lang);
   };
 
-  // Animated language change: cover -> swap text -> reveal.
-  if (!transition) {
+  // Initial page load: apply translations immediately without the language-change overlay.
+  if (skipTransition || !transition) {
     applyLanguage();
     return;
   }
@@ -124,6 +128,9 @@ else document.querySelectorAll('.animate-in').forEach((el) => el.classList.add('
   // Restore language (default: 'sq')
   const savedLang = localStorage.getItem('elixir-lang') || 'sq';
   currentLang = savedLang;
+
+  // Apply the saved language immediately on first load. Do not run the language transition here.
+  setLang(savedLang, true);
 
   // Update theme label if element exists
   const themeLabel = document.getElementById('theme-label');
@@ -204,6 +211,18 @@ requestAnimationFrame(raf);
             requestAnimationFrame(updateLoader);
         } else {
             setTimeout(() => {
+                // The loader can temporarily cover the page while IntersectionObserver
+                // is deciding which elements are visible. Explicitly reveal elements
+                // that are already in the viewport so the first screen never stays
+                // invisible after the loader finishes. Elements further down the page
+                // keep their normal scroll-reveal animation.
+                document.querySelectorAll('.animate-in').forEach((el) => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        el.classList.add('visible');
+                    }
+                });
+
                 loader.classList.add('is-loaded');
 
                 setTimeout(() => {

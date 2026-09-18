@@ -277,8 +277,8 @@
 <section class="services" id="services">
 
     <div class="services-title">
-        <span>03 — SERVICES</span>
-        <h2>Our Services</h2>
+        <span>03 — <span data-i18n="services_title"></span></span>
+        <h2 data-i18n="services_title"></h2>
     </div>
 
     <div class="services-grid">
@@ -292,12 +292,9 @@
 
             <span class="service-number">01</span>
 
-            <h3>Prescription Services</h3>
+            <h3 data-i18n="svc1_title"></h3>
 
-            <p>
-                Convenient and reliable prescription support
-                from our pharmacy team.
-            </p>
+            <p data-i18n="svc1_desc"></p>
 
             <div class="service-icon">
                 <!-- Your prescription SVG -->
@@ -317,12 +314,9 @@
 
             <span class="service-number">02</span>
 
-            <h3>Health Consultation</h3>
+            <h3 data-i18n="svc2_title"></h3>
 
-            <p>
-                Professional guidance and support
-                for your everyday health needs.
-            </p>
+            <p data-i18n="svc2_desc"></p>
 
             <div class="service-icon">
                 <!-- Your consultation SVG -->
@@ -342,12 +336,9 @@
 
             <span class="service-number">03</span>
 
-            <h3>Vitamins &amp; Wellness</h3>
+            <h3 data-i18n="svc3_title"></h3>
 
-            <p>
-                Quality vitamins and wellness products
-                to support a healthier lifestyle.
-            </p>
+            <p data-i18n="svc3_desc"></p>
 
             <div class="service-icon">
                 <!-- Your vitamins SVG -->
@@ -367,12 +358,9 @@
 
             <span class="service-number">04</span>
 
-            <h3>Personal Care</h3>
+            <h3 data-i18n="svc4_title"></h3>
 
-            <p>
-                Everyday personal care products
-                selected with your wellbeing in mind.
-            </p>
+            <p data-i18n="svc4_desc"></p>
 
             <div class="service-icon">
                 <!-- Your personal care SVG -->
@@ -392,12 +380,9 @@
 
             <span class="service-number">05</span>
 
-            <h3>Blood Pressure Measurement</h3>
+            <h3 data-i18n="svc5_title"></h3>
 
-            <p>
-                Free blood pressure measurement and
-                on-the-spot health monitoring.
-            </p>
+            <p data-i18n="svc5_desc"></p>
 
            
 
@@ -415,12 +400,9 @@
 
             <span class="service-number">06</span>
 
-            <h3>Diabetic &amp; Special Products</h3>
+            <h3 data-i18n="svc6_title"></h3>
 
-            <p>
-                Specialised products for patients with
-                chronic conditions and special needs.
-            </p>
+            <p data-i18n="svc6_desc"></p>
 
             
 
@@ -1363,6 +1345,23 @@ async function renderGalleryItems(photos) {
 
   slideTimer = setInterval(() => slideGallery(1), 5000);
   if (loggedIn) renderAdminGrid();
+}
+
+// Update captions already rendered in the gallery without rebuilding the slideshow.
+function updateGalleryCaptions(lang = currentLang) {
+  const safeLang = ['sq', 'mk', 'en', 'tr'].includes(lang) ? lang : 'sq';
+  document.querySelectorAll('.gallery-caption').forEach((caption) => {
+    const value = caption.dataset['caption' + safeLang.charAt(0).toUpperCase() + safeLang.slice(1)] || '';
+    caption.textContent = value;
+    caption.style.display = value.trim() ? '' : 'none';
+  });
+
+  // If the admin grid is visible, refresh its translated captions too.
+  if (typeof renderAdminGrid === 'function' && typeof isAdminLoggedIn === 'function') {
+    Promise.resolve(isAdminLoggedIn()).then((loggedIn) => {
+      if (loggedIn) renderAdminGrid();
+    });
+  }
 }
 
 function getGalleryStep() {
