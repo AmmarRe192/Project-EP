@@ -39,50 +39,62 @@ document.addEventListener('click', (e) => {
 });
 
 function setLang(lang) {
-  // Each page must define its own `T` object before loading this script
-  if (typeof T === 'undefined') return;
+  if (typeof T === 'undefined' || !T[lang] || lang === currentLang) return;
 
-  currentLang = lang;
-  document.documentElement.lang = lang;
-  localStorage.setItem('elixir-lang', lang);
+  const transition = document.getElementById('lang-transition');
+  const applyLanguage = () => {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    localStorage.setItem('elixir-lang', lang);
 
-  // close dropdown
-  const dd = document.getElementById('lang-dropdown');
-  if (dd) dd.classList.remove('open');
-  const btn = document.getElementById('lang-btn');
-  if (btn) btn.setAttribute('aria-expanded', 'false');
+    const dd = document.getElementById('lang-dropdown');
+    if (dd) dd.classList.remove('open');
+    const btn = document.getElementById('lang-btn');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
 
-  // update dropdown display
-  const meta = LANG_META[lang];
-  const flagEl = document.getElementById('lang-flag');
-  const currentEl = document.getElementById('lang-current');
-  if (flagEl) flagEl.textContent = meta.flag;
-  if (currentEl) currentEl.textContent = meta.label;
+    const meta = LANG_META[lang];
+    const flagEl = document.getElementById('lang-flag');
+    const currentEl = document.getElementById('lang-current');
+    if (flagEl) flagEl.textContent = meta.flag;
+    if (currentEl) currentEl.textContent = meta.label;
 
-  // update active state in menu
-  document.querySelectorAll('#lang-menu button[data-lang]').forEach((b) => {
-    b.classList.toggle('active', b.dataset.lang === lang);
-  });
+    document.querySelectorAll('#lang-menu button[data-lang]').forEach((b) => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
 
-  const dict = T[lang];
-  if (!dict) return;
+    const dict = T[lang];
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
 
-  // text nodes
-  document.querySelectorAll('[data-i18n]').forEach((el) => {
-    const key = el.getAttribute('data-i18n');
-    if (dict[key] !== undefined) el.textContent = dict[key];
-  });
+    document.querySelectorAll('[data-placeholder-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-placeholder-i18n');
+      if (dict[key] !== undefined) el.placeholder = dict[key];
+    });
 
-  // placeholders
-  document.querySelectorAll('[data-placeholder-i18n]').forEach((el) => {
-    const key = el.getAttribute('data-placeholder-i18n');
-    if (dict[key] !== undefined) el.placeholder = dict[key];
-  });
+    if (typeof onLangChanged === 'function') onLangChanged(lang);
+  };
 
-  // page-specific hook
-  if (typeof onLangChanged === 'function') {
-    onLangChanged(lang);
+  // Animated language change: cover -> swap text -> reveal.
+  if (!transition) {
+    applyLanguage();
+    return;
   }
+
+  transition.classList.remove('closing', 'opening', 'active');
+  void transition.offsetWidth;
+  transition.classList.add('active', 'closing');
+
+  window.setTimeout(() => {
+    applyLanguage();
+    transition.classList.remove('closing');
+    transition.classList.add('opening');
+
+    window.setTimeout(() => {
+      transition.classList.remove('active', 'opening');
+    }, 650);
+  }, 520);
 }
 
 // ── SCROLL ANIMATIONS ────────────────────────────────────
@@ -173,12 +185,6 @@ requestAnimationFrame(raf);
 
     if (!loader || !percent || !progress) return;
 
-    // Don't replay the loader when navigating back/forward.
-    if (sessionStorage.getItem('elixir-loader-seen')) {
-        loader.remove();
-        return;
-    }
-
     let current = 0;
     const target = 100;
 
@@ -199,11 +205,6 @@ requestAnimationFrame(raf);
         } else {
             setTimeout(() => {
                 loader.classList.add('is-loaded');
-
-                sessionStorage.setItem(
-                    'elixir-loader-seen',
-                    'true'
-                );
 
                 setTimeout(() => {
                     loader.remove();
